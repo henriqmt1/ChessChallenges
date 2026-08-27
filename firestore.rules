@@ -1,0 +1,70 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    // O próprio jogador pode ler o perfil, mas só pode alterar campos de
+    // apresentação. Direitos PRO nunca são gravados diretamente pelo app.
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId)
+        && request.resource.data.keys().hasOnly([
+          'displayName',
+          'photoUrl',
+          'locale',
+          'lastSeenAt'
+        ]);
+      allow update: if isOwner(userId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'displayName',
+          'photoUrl',
+          'locale',
+          'lastSeenAt'
+        ]);
+      allow delete: if false;
+
+      // Apenas backend/Admin SDK valida recibos e grava este documento.
+      match /entitlements/{entitlementId} {
+        allow read: if isOwner(userId);
+        allow write: if false;
+      }
+
+      // Progresso e estatísticas são gravados pelo próprio app do jogador.
+      // PRO/compra continuam fora daqui para não permitir fraude pelo cliente.
+      match /progress/{progressId} {
+        allow read: if isOwner(userId) && progressId == 'main';
+        allow write: if isOwner(userId)
+          && progressId == 'main'
+          && request.resource.data.keys().hasOnly([
+              'schemaVersion',
+              'campaignCompletedLevelIndexes',
+              'offensiveCount',
+              'bestOffensiveCount',
+              'lastActivityDate',
+              'activeDayKeys',
+              'objectiveStarsByLevel',
+              'botGamesPlayed',
+              'botWins',
+              'botDraws',
+              'botLosses',
+              'botGamesByDifficulty',
+              'botWinsByDifficulty',
+              'localGamesPlayed',
+              'localWhiteWins',
+              'localBlackWins',
+              'localDraws',
+              'updatedAt',
+              'lastSyncedAt',
+              'serverUpdatedAt'
+            ]);
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

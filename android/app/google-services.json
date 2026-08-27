@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "62985876548",
+    "project_id": "chesschalenges",
+    "storage_bucket": "chesschalenges.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62985876548:android:79e996d36e4e6721f13811",
+        "android_client_info": {
+          "package_name": "com.henriquemarinhoteixeira.chesschalenges"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtc12a0JjgU6VYtTlDLER8xK3UGz44iv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

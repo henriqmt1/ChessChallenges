@@ -1,0 +1,4401 @@
+{
+  "schemaVersion": 3,
+  "id": "chess_chalenges_campaign_v1",
+  "moveFormat": "uci",
+  "totalWorlds": 10,
+  "levelsPerWorld": 10,
+  "totalLevels": 100,
+  "worlds": [
+    {
+      "index": 1,
+      "title": "Fundamentos em jogo",
+      "theme": "fundamentals",
+      "difficultyBand": "easy",
+      "firstGlobalLevel": 1,
+      "lastGlobalLevel": 10,
+      "playerMoveCountRange": {
+        "min": 4,
+        "max": 5
+      }
+    },
+    {
+      "index": 2,
+      "title": "Mate em 1",
+      "theme": "mateIn1",
+      "difficultyBand": "easy",
+      "firstGlobalLevel": 11,
+      "lastGlobalLevel": 20,
+      "playerMoveCountRange": {
+        "min": 1,
+        "max": 1
+      }
+    },
+    {
+      "index": 3,
+      "title": "Peças sem defesa",
+      "theme": "material",
+      "difficultyBand": "easy",
+      "firstGlobalLevel": 21,
+      "lastGlobalLevel": 30,
+      "playerMoveCountRange": {
+        "min": 1,
+        "max": 2
+      }
+    },
+    {
+      "index": 4,
+      "title": "Garfos",
+      "theme": "fork",
+      "difficultyBand": "medium",
+      "firstGlobalLevel": 31,
+      "lastGlobalLevel": 40,
+      "playerMoveCountRange": {
+        "min": 2,
+        "max": 3
+      }
+    },
+    {
+      "index": 5,
+      "title": "Cravadas",
+      "theme": "pin",
+      "difficultyBand": "medium",
+      "firstGlobalLevel": 41,
+      "lastGlobalLevel": 50,
+      "playerMoveCountRange": {
+        "min": 2,
+        "max": 3
+      }
+    },
+    {
+      "index": 6,
+      "title": "Ataques descobertos",
+      "theme": "discoveredAttack",
+      "difficultyBand": "medium",
+      "firstGlobalLevel": 51,
+      "lastGlobalLevel": 60,
+      "playerMoveCountRange": {
+        "min": 2,
+        "max": 3
+      }
+    },
+    {
+      "index": 7,
+      "title": "Defesa e contra-ataque",
+      "theme": "defense",
+      "difficultyBand": "medium",
+      "firstGlobalLevel": 61,
+      "lastGlobalLevel": 70,
+      "playerMoveCountRange": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    {
+      "index": 8,
+      "title": "Finais essenciais",
+      "theme": "endgame",
+      "difficultyBand": "advanced",
+      "firstGlobalLevel": 71,
+      "lastGlobalLevel": 80,
+      "playerMoveCountRange": {
+        "min": 2,
+        "max": 4
+      }
+    },
+    {
+      "index": 9,
+      "title": "Sacrifícios e combinações",
+      "theme": "combination",
+      "difficultyBand": "advanced",
+      "firstGlobalLevel": 81,
+      "lastGlobalLevel": 90,
+      "playerMoveCountRange": {
+        "min": 3,
+        "max": 4
+      }
+    },
+    {
+      "index": 10,
+      "title": "Cálculo avançado",
+      "theme": "mastery",
+      "difficultyBand": "advanced",
+      "firstGlobalLevel": 91,
+      "lastGlobalLevel": 100,
+      "playerMoveCountRange": {
+        "min": 4,
+        "max": 5
+      }
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "level-001",
+      "title": "Fase 1",
+      "objective": "Domine o centro e desenvolva as peças menores com propósito.",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e2e4",
+        "e7e5",
+        "g1f3",
+        "b8c6",
+        "f1c4",
+        "g8f6",
+        "d2d3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 1,
+      "hint": {
+        "text": "Comece ocupando o centro com o peão do rei.",
+        "from": "e2",
+        "to": "e4"
+      }
+    },
+    {
+      "id": "level-002",
+      "title": "Fase 2",
+      "objective": "Pressione o centro e desenvolva sem mover a mesma peça duas vezes.",
+      "fen": "rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR w KQkq d6 0 2",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c2c4",
+        "e7e6",
+        "b1c3",
+        "g8f6",
+        "c1g5",
+        "f8e7",
+        "e2e3",
+        "b8d7",
+        "g1f3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 2,
+      "hint": {
+        "text": "Abra espaço com o peão da dama antes de desenvolver.",
+        "from": "c2",
+        "to": "c4"
+      }
+    },
+    {
+      "id": "level-003",
+      "title": "Fase 3",
+      "objective": "Abra o centro, recapture com uma peça e complete o desenvolvimento.",
+      "fen": "rnbqkbnr/pp1ppppp/8/2p5/4P3/8/PPPP1PPP/RNBQKBNR w KQkq c6 0 2",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g1f3",
+        "d7d6",
+        "d2d4",
+        "c5d4",
+        "f3d4",
+        "g8f6",
+        "b1c3",
+        "a7a6",
+        "c1e3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 3,
+      "hint": {
+        "text": "O peão do rei disputa imediatamente as casas centrais.",
+        "from": "g1",
+        "to": "f3"
+      }
+    },
+    {
+      "id": "level-004",
+      "title": "Fase 4",
+      "objective": "Ganhe espaço e sustente a cadeia de peões antes de atacar.",
+      "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq d6 0 3",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "b1c3",
+        "g8f6",
+        "e4e5",
+        "f6d7",
+        "f2f4",
+        "c7c5",
+        "g1f3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 4,
+      "hint": {
+        "text": "Construa primeiro a dupla de peões no centro.",
+        "from": "b1",
+        "to": "c3"
+      }
+    },
+    {
+      "id": "level-005",
+      "title": "Fase 5",
+      "objective": "Recupere o peão central desenvolvendo e ganhe espaço na ala do rei.",
+      "fen": "rnbqkbnr/pp2pppp/2p5/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq d6 0 3",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "b1c3",
+        "d5e4",
+        "c3e4",
+        "c8f5",
+        "e4g3",
+        "f5g6",
+        "h2h4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 5,
+      "hint": {
+        "text": "Ocupe o centro antes de reagir à troca de peões.",
+        "from": "b1",
+        "to": "c3"
+      }
+    },
+    {
+      "id": "level-006",
+      "title": "Fase 6",
+      "objective": "Controle o centro pelo flanco e desenvolva o bispo na diagonal longa.",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/2P5/8/PP1PPPPP/RNBQKBNR w KQkq e6 0 2",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "b1c3",
+        "g8f6",
+        "g2g3",
+        "d7d5",
+        "c4d5",
+        "f6d5",
+        "f1g2",
+        "d5b6",
+        "g1f3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 6,
+      "hint": {
+        "text": "Use o peão da coluna c para atacar o centro à distância.",
+        "from": "b1",
+        "to": "c3"
+      }
+    },
+    {
+      "id": "level-007",
+      "title": "Fase 7",
+      "objective": "Com as pretas, ataque o centro e desenvolva com tempo.",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "c7c5",
+        "g1f3",
+        "d7d6",
+        "d2d4",
+        "c5d4",
+        "f3d4",
+        "g8f6",
+        "b1c3",
+        "a7a6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 7,
+      "hint": {
+        "text": "Responda ao peão do rei contestando a casa d4.",
+        "from": "c7",
+        "to": "c5"
+      }
+    },
+    {
+      "id": "level-008",
+      "title": "Fase 8",
+      "objective": "Desenvolva com uma cravada, prepare o roque e pressione o centro.",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq d3 0 1",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g8f6",
+        "c2c4",
+        "e7e6",
+        "b1c3",
+        "f8b4",
+        "e2e3",
+        "d7d5",
+        "f1d3",
+        "c7c5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 8,
+      "hint": {
+        "text": "Desenvolva o cavalo antes de comprometer os peões centrais.",
+        "from": "g8",
+        "to": "f6"
+      }
+    },
+    {
+      "id": "level-009",
+      "title": "Fase 9",
+      "objective": "Iguale o desenvolvimento, proteja o rei e só então prepare o centro.",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b8c6",
+        "f1c4",
+        "g8f6",
+        "d2d3",
+        "f8c5",
+        "c2c3",
+        "d7d6",
+        "b2b4",
+        "c5b6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 9,
+      "hint": {
+        "text": "Defenda o peão de e5 desenvolvendo o cavalo.",
+        "from": "b8",
+        "to": "c6"
+      }
+    },
+    {
+      "id": "level-010",
+      "title": "Fase 10",
+      "objective": "Faça o roque: o rei anda duas casas e a torre vai para o outro lado dele.",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/3P1N2/PPP2PPP/RNBQK2R w KQkq - 1 5",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e1g1",
+        "d7d6",
+        "c2c3",
+        "a7a6",
+        "b1d2",
+        "c8g4",
+        "h2h3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "fundamentals",
+      "difficulty": 1,
+      "difficultyBand": "easy",
+      "world": 1,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 10,
+      "hint": {
+        "text": "Mova o rei de e1 para g1; a torre irá automaticamente para f1.",
+        "from": "e1",
+        "to": "g1"
+      }
+    },
+    {
+      "id": "level-011",
+      "title": "Fase 1",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "2rq1rk1/pp3pp1/4p2p/3bb3/3P4/P1PQ4/2B2PPP/R3R1K1 w - - 0 20",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d3h7"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 11,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "d3",
+        "to": "h7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "SJYh9",
+        "rating": 1472,
+        "plays": 19,
+        "themes": [
+          "mateIn1",
+          "oneMove",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-012",
+      "title": "Fase 2",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "1r3rk1/1b1R1p2/4p2p/2p3p1/2P5/QPn1N1P1/P3PP1P/5RK1 b - - 4 26",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "c3e2"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 12,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "c3",
+        "to": "e2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "qMizr",
+        "rating": 1403,
+        "plays": 25,
+        "themes": [
+          "oneMove",
+          "master",
+          "middlegame",
+          "mateIn1",
+          "kingsideAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-013",
+      "title": "Fase 3",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "8/6p1/kpN4p/5B2/Ppn3P1/2b4P/5PK1/8 w - - 1 44",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f5c8"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 13,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "f5",
+        "to": "c8"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "yXUou",
+        "rating": 1365,
+        "plays": 4497,
+        "themes": [
+          "oneMove",
+          "mateIn1",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-014",
+      "title": "Fase 4",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "8/8/6p1/R7/5k2/7P/3N1PPK/qr6 w - - 0 41",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g2g3"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 14,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "g2",
+        "to": "g3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "4hpGD",
+        "rating": 1451,
+        "plays": 678,
+        "themes": [
+          "oneMove",
+          "mateIn1",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-015",
+      "title": "Fase 5",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "5rk1/4bppp/pp1ppn2/8/2P2P1r/1PN1Pq2/PB1R1P1P/3Q1RK1 b - - 8 24",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h4g4"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 15,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "h4",
+        "to": "g4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "1Irm1",
+        "rating": 1428,
+        "plays": 1692,
+        "themes": [
+          "oneMove",
+          "mateIn1",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-016",
+      "title": "Fase 6",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "8/p4R1p/1p2Q1p1/2p1p3/4k3/1PP2r1q/P3KP2/8 w - - 0 42",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e6c4"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 16,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "e6",
+        "to": "c4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "BoXtt",
+        "rating": 1373,
+        "plays": 7610,
+        "themes": [
+          "endgame",
+          "master",
+          "oneMove",
+          "mateIn1"
+        ]
+      }
+    },
+    {
+      "id": "level-017",
+      "title": "Fase 7",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "r1bqk2r/5pp1/3p3p/p3p3/1nQ1P3/NN2b3/PP2B1PP/R4R1K w kq - 0 19",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c4f7"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 17,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "c4",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "xsuOy",
+        "rating": 1363,
+        "plays": 7486,
+        "themes": [
+          "middlegame",
+          "oneMove",
+          "mateIn1",
+          "attackingF2F7"
+        ]
+      }
+    },
+    {
+      "id": "level-018",
+      "title": "Fase 8",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "r1bqk2r/p1pnn3/1p1p3p/3P2bN/2P2Q2/2NB4/PP3PPP/R3K2R w KQkq - 1 15",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h5g7"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 18,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "h5",
+        "to": "g7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "d4cxn",
+        "rating": 1396,
+        "plays": 757,
+        "themes": [
+          "oneMove",
+          "mateIn1",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-019",
+      "title": "Fase 9",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "3Q3r/6Rn/8/8/5P2/5k1K/P7/8 b - - 0 49",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h7g5"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 19,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "h7",
+        "to": "g5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "HoQ0Z",
+        "rating": 1421,
+        "plays": 1181,
+        "themes": [
+          "endgame",
+          "master",
+          "discoveredCheck",
+          "oneMove",
+          "mateIn1",
+          "doubleCheck"
+        ]
+      }
+    },
+    {
+      "id": "level-020",
+      "title": "Fase 10",
+      "objective": "Dê xeque-mate em um lance.",
+      "fen": "4r3/8/4Bb1p/1ppP1p1k/5R2/P4NP1/5P2/1b4K1 w - - 0 39",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e6f7"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "mateIn1",
+      "difficulty": 2,
+      "difficultyBand": "easy",
+      "world": 2,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 20,
+      "hint": {
+        "text": "Cheque todas as fugas do rei antes de jogar.",
+        "from": "e6",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "iTvhE",
+        "rating": 1490,
+        "plays": 3867,
+        "themes": [
+          "oneMove",
+          "mateIn1",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-021",
+      "title": "Fase 1",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "r1b2r1k/p1p4p/2p3p1/4bp2/2q1p3/2P1P2P/PP2BPPB/3R1RK1 w - - 0 19",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h2e5",
+        "h8g8",
+        "e2c4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 21,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "h2",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "aCYsR",
+        "rating": 1482,
+        "plays": 33237,
+        "themes": [
+          "short",
+          "crushing",
+          "intermezzo",
+          "kingsideAttack",
+          "hangingPiece",
+          "master",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-022",
+      "title": "Fase 2",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "3r1r2/1pp1nBpk/6p1/1PB5/p6P/P1P5/2K2P2/6R1 w - - 7 33",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c5e7",
+        "f8f7",
+        "e7d8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 22,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "c5",
+        "to": "e7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "moVPV",
+        "rating": 1415,
+        "plays": 4284,
+        "themes": [
+          "endgame",
+          "short",
+          "advantage",
+          "fork",
+          "hangingPiece"
+        ]
+      }
+    },
+    {
+      "id": "level-023",
+      "title": "Fase 3",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "6k1/5ppp/3bpn2/nB1p1b2/3P4/P3PNP1/1BrN1P1P/2R3K1 b - - 2 21",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "c2b2",
+        "c1c8",
+        "d6f8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 23,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "c2",
+        "to": "b2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "nMdVn",
+        "rating": 1478,
+        "plays": 7152,
+        "themes": [
+          "middlegame",
+          "short",
+          "hangingPiece",
+          "advantage"
+        ]
+      }
+    },
+    {
+      "id": "level-024",
+      "title": "Fase 4",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "r5k1/1pB1np1p/p2p2pQ/4p3/4P1q1/5NPn/PPP2P1P/3RR2K b - - 0 24",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g4f3"
+      ],
+      "playerMoveIndexes": [
+        0
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 24,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "g4",
+        "to": "f3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "H38pl",
+        "rating": 1436,
+        "plays": 615,
+        "themes": [
+          "middlegame",
+          "oneMove",
+          "hangingPiece",
+          "mateIn1",
+          "kingsideAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-025",
+      "title": "Fase 5",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "r1b1k2r/pp1pbppp/8/3nP3/q2n4/5N2/PP1B1PPP/R2QR1K1 w kq - 0 14",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d1a4",
+        "d4f3",
+        "g2f3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 25,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "d1",
+        "to": "a4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "LhXPb",
+        "rating": 1418,
+        "plays": 139,
+        "themes": [
+          "opening",
+          "short",
+          "hangingPiece",
+          "crushing"
+        ]
+      }
+    },
+    {
+      "id": "level-026",
+      "title": "Fase 6",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "4r1Rk/5p1p/5P2/8/8/8/7P/4rR1K b - - 4 33",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h8g8",
+        "f1e1",
+        "e8e1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 26,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "h8",
+        "to": "g8"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "pdImp",
+        "rating": 1474,
+        "plays": 7018,
+        "themes": [
+          "endgame",
+          "short",
+          "crushing",
+          "rookEndgame",
+          "hangingPiece"
+        ]
+      }
+    },
+    {
+      "id": "level-027",
+      "title": "Fase 7",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "r4r1k/pp6/6Pp/2pBnQ2/3p4/3P4/1qP2PK1/8 w - - 0 37",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f5e5",
+        "f8f6",
+        "e5f6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 27,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "f5",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "6IaOH",
+        "rating": 1422,
+        "plays": 2289,
+        "themes": [
+          "short",
+          "hangingPiece",
+          "endgame",
+          "mateIn2"
+        ]
+      }
+    },
+    {
+      "id": "level-028",
+      "title": "Fase 8",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "2r5/5pkp/4p1p1/1N1pP1P1/5Q1P/Pq3NK1/8/8 b - - 5 41",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b3b5",
+        "f4f6",
+        "g7g8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 28,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "b3",
+        "to": "b5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "FDAh5",
+        "rating": 1468,
+        "plays": 44,
+        "themes": [
+          "short",
+          "advantage",
+          "hangingPiece",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-029",
+      "title": "Fase 9",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "5k2/ppp2pp1/3r4/3P1B1q/2P5/5bQ1/P4P1P/R4RK1 b - - 5 23",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h5f5",
+        "a1e1",
+        "d6g6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 29,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "h5",
+        "to": "f5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "9MnSt",
+        "rating": 1454,
+        "plays": 3776,
+        "themes": [
+          "middlegame",
+          "short",
+          "advantage",
+          "pin",
+          "hangingPiece"
+        ]
+      }
+    },
+    {
+      "id": "level-030",
+      "title": "Fase 10",
+      "objective": "Aproveite a peça solta e conquiste vantagem material.",
+      "fen": "2k1rb1r/2p2ppp/p1pp4/8/5B2/2n5/P1P2PPP/3RR1K1 w - - 0 21",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e1e8",
+        "c8d7",
+        "d1e1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "material",
+      "difficulty": 3,
+      "difficultyBand": "easy",
+      "world": 3,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 30,
+      "hint": {
+        "text": "Compare atacantes e defensores antes de capturar.",
+        "from": "e1",
+        "to": "e8"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "mhlZH",
+        "rating": 1431,
+        "plays": 2246,
+        "themes": [
+          "middlegame",
+          "short",
+          "advantage",
+          "hangingPiece",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-031",
+      "title": "Fase 1",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "2k1qr2/b1p2pp1/1p6/4r2p/6n1/1R3Q2/PP4PP/3R3K w - - 2 22",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3a8",
+        "a7b8",
+        "a8a6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 31,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "f3",
+        "to": "a8"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "yNvwN",
+        "rating": 1329,
+        "plays": 5254,
+        "themes": [
+          "mateIn2",
+          "middlegame",
+          "short",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-032",
+      "title": "Fase 2",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "3r2k1/2r2p1p/1QP1p1p1/4b3/5P2/p5P1/P1R4P/6K1 b - f3 0 37",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "e5d4",
+        "b6d4",
+        "d8d4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 32,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "e5",
+        "to": "d4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "Zlx49",
+        "rating": 1297,
+        "plays": 675,
+        "themes": [
+          "endgame",
+          "short",
+          "crushing",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-033",
+      "title": "Fase 3",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "7k/p4Rp1/5r2/3B4/4P1Kp/2P1Pn1P/PP6/8 b - - 3 29",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f3e5",
+        "g4h4",
+        "e5f7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 33,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "f3",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "0GyJS",
+        "rating": 1309,
+        "plays": 4902,
+        "themes": [
+          "endgame",
+          "master",
+          "short",
+          "masterVsMaster",
+          "advantage",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-034",
+      "title": "Fase 4",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "1r3rk1/p4p1p/B2qp1pP/3p4/1n6/2Q2N2/PPP2PP1/2KR3R b - - 2 20",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b4a2",
+        "c1d2",
+        "a2c3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 34,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "b4",
+        "to": "a2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "h1sMk",
+        "rating": 1280,
+        "plays": 4132,
+        "themes": [
+          "middlegame",
+          "short",
+          "advantage",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-035",
+      "title": "Fase 5",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "4r1k1/p7/7p/1pb1Pq2/8/2P3P1/PP1Q3P/4R2K w - - 1 33",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d2d5",
+        "f5e6",
+        "d5c5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 35,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "d2",
+        "to": "d5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "tHyBl",
+        "rating": 1260,
+        "plays": 1001,
+        "themes": [
+          "endgame",
+          "short",
+          "advantage",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-036",
+      "title": "Fase 6",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "r4k2/3p3Q/1pp2P2/p5q1/8/2P5/P1P5/1K3R2 b - - 0 30",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g5b5",
+        "b1a1",
+        "b5f1",
+        "a1b2",
+        "f1f6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 36,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "g5",
+        "to": "b5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "AkHyJ",
+        "rating": 1293,
+        "plays": 16105,
+        "themes": [
+          "endgame",
+          "crushing",
+          "fork",
+          "long"
+        ]
+      }
+    },
+    {
+      "id": "level-037",
+      "title": "Fase 7",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "6k1/2R3pp/p3p3/6N1/1p2P3/1Pb4P/P2r1PPK/8 b - - 4 25",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "c3e5",
+        "g2g3",
+        "e5c7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 37,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "c3",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "75uNh",
+        "rating": 1249,
+        "plays": 4543,
+        "themes": [
+          "endgame",
+          "short",
+          "advantage",
+          "fork",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-038",
+      "title": "Fase 8",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "rn6/ppp2kpp/4bn2/8/4PP2/2Nr1N2/P5PP/R3K2R w KQ - 3 13",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3e5",
+        "f7e7",
+        "e5d3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 38,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "f3",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ZGgYK",
+        "rating": 1239,
+        "plays": 3209,
+        "themes": [
+          "short",
+          "advantage",
+          "fork",
+          "master",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-039",
+      "title": "Fase 9",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "r4q1k/ppp3pp/6n1/1B2n1B1/4Q3/2P5/PP4PP/R5K1 b - - 0 17",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f8c5",
+        "g5e3",
+        "c5b5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 39,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "f8",
+        "to": "c5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "girOW",
+        "rating": 1288,
+        "plays": 1055,
+        "themes": [
+          "middlegame",
+          "short",
+          "advantage",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-040",
+      "title": "Fase 10",
+      "objective": "Use uma ameaça dupla e converta o ganho de material.",
+      "fen": "3r3r/4Qppk/pq4p1/8/Ppn5/1P3P2/6PP/3R3K w - - 0 37",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e7h4",
+        "h7g8",
+        "d1d8",
+        "b6d8",
+        "h4d8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "fork",
+      "difficulty": 4,
+      "difficultyBand": "medium",
+      "world": 4,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 40,
+      "hint": {
+        "text": "Procure uma casa de onde uma peça ataque dois alvos.",
+        "from": "e7",
+        "to": "h4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "6LXV1",
+        "rating": 1317,
+        "plays": 32436,
+        "themes": [
+          "endgame",
+          "crushing",
+          "fork",
+          "long"
+        ]
+      }
+    },
+    {
+      "id": "level-041",
+      "title": "Fase 1",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "3r1rk1/pp3ppp/n1p2b1B/8/4N1R1/5Pq1/PPP3PP/R5K1 w - - 0 20",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e4f6",
+        "g8h8",
+        "h6g7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 41,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "e4",
+        "to": "f6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "UGriE",
+        "rating": 1380,
+        "plays": 5628,
+        "themes": [
+          "mateIn2",
+          "middlegame",
+          "short",
+          "kingsideAttack",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-042",
+      "title": "Fase 2",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "r3kb1r/1pp2ppp/p1n1p3/q4b2/3P1B2/P3PN2/1P1Q1PPP/R3KB1R b KQkq - 2 10",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f8b4",
+        "a3b4",
+        "a5a1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 42,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "f8",
+        "to": "b4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "PQAkR",
+        "rating": 1389,
+        "plays": 36912,
+        "themes": [
+          "opening",
+          "pin",
+          "advantage",
+          "short"
+        ]
+      }
+    },
+    {
+      "id": "level-043",
+      "title": "Fase 3",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "1b4k1/1p4p1/2p5/P3NP2/6P1/r5Rp/5P1K/4B3 b - - 3 42",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b8e5",
+        "h2h3",
+        "e5g3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 43,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "b8",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "wn8tP",
+        "rating": 1333,
+        "plays": 23022,
+        "themes": [
+          "endgame",
+          "master",
+          "short",
+          "crushing",
+          "pin",
+          "hangingPiece"
+        ]
+      }
+    },
+    {
+      "id": "level-044",
+      "title": "Fase 4",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "8/7k/2R5/p3p1p1/PpB1PbQp/5P1P/1PPr4/4qN1K b - - 3 36",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "d2h2",
+        "h1g1",
+        "e1f2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 44,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "d2",
+        "to": "h2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ARwHy",
+        "rating": 1395,
+        "plays": 6654,
+        "themes": [
+          "mateIn2",
+          "middlegame",
+          "short",
+          "triangleMate",
+          "kingsideAttack",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-045",
+      "title": "Fase 5",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "r4rk1/pbpp1pp1/1p5p/8/7q/1BN4P/PP1B1PP1/R2Q1R1K b - - 0 17",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h4h3",
+        "h1g1",
+        "h3g2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 45,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "h4",
+        "to": "h3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "G6gIe",
+        "rating": 1403,
+        "plays": 270,
+        "themes": [
+          "mateIn2",
+          "middlegame",
+          "short",
+          "kingsideAttack",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-046",
+      "title": "Fase 6",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "r1b2rk1/ppp2ppp/8/3Q1n2/3n3q/P7/BP3PPP/R3R1K1 w - - 2 19",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d5f7",
+        "f8f7",
+        "e1e8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 46,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "d5",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "3lR83",
+        "rating": 1409,
+        "plays": 12574,
+        "themes": [
+          "mateIn2",
+          "middlegame",
+          "short",
+          "sacrifice",
+          "kingsideAttack",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-047",
+      "title": "Fase 7",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "8/8/2K5/2pQ4/8/1P2q3/5k2/8 w - - 16 56",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d5c5",
+        "f2e2",
+        "c5e3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 47,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "d5",
+        "to": "c5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ckpF6",
+        "rating": 1316,
+        "plays": 1427,
+        "themes": [
+          "short",
+          "crushing",
+          "pin",
+          "endgame",
+          "queenEndgame"
+        ]
+      }
+    },
+    {
+      "id": "level-048",
+      "title": "Fase 8",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "2rr4/5p1R/1p3kp1/p1pPq3/P7/2Q5/1P4PP/6K1 w - - 4 40",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h7f7",
+        "f6f7",
+        "c3e5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 48,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "h7",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "lpylE",
+        "rating": 1331,
+        "plays": 7866,
+        "themes": [
+          "deflection",
+          "endgame",
+          "short",
+          "advantage",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-049",
+      "title": "Fase 9",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "2kr4/p5p1/1p1p1p2/3Qp2r/1P2P2p/2q1BP1P/P6P/4R1K1 w - - 0 27",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e1c1",
+        "c3c1",
+        "e3c1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 49,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "e1",
+        "to": "c1"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "yo4FM",
+        "rating": 1419,
+        "plays": 475,
+        "themes": [
+          "pin",
+          "crushing",
+          "short",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-050",
+      "title": "Fase 10",
+      "objective": "Explore uma peça cravada para ganhar material ou atacar o rei.",
+      "fen": "5k2/p1p1b2p/1p2P1p1/4Rp2/8/2P4P/P1P3PK/8 b - - 3 28",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "e7d6",
+        "e6e7",
+        "f8e8",
+        "h2g1",
+        "d6e5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "pin",
+      "difficulty": 5,
+      "difficultyBand": "medium",
+      "world": 5,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 50,
+      "hint": {
+        "text": "Observe peças alinhadas com o rei ou com uma peça mais valiosa.",
+        "from": "e7",
+        "to": "d6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "u4RlM",
+        "rating": 1383,
+        "plays": 9634,
+        "themes": [
+          "endgame",
+          "crushing",
+          "long",
+          "pin",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-051",
+      "title": "Fase 1",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "rnb2rk1/pp3ppp/2p5/6b1/3q4/1P1BBP2/P1PQ1KPP/R6R w - - 0 14",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d3h7",
+        "g8h7",
+        "d2d4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 51,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "d3",
+        "to": "h7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "BOLZw",
+        "rating": 1434,
+        "plays": 15902,
+        "themes": [
+          "middlegame",
+          "short",
+          "advantage",
+          "kingsideAttack",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-052",
+      "title": "Fase 2",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "r4rk1/1p3ppp/p1n5/q2p4/1b3Pb1/3Q1N2/PPP1B1PP/RN3R1K w - - 4 16",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3g5",
+        "g7g6",
+        "e2g4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 52,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "f3",
+        "to": "g5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "Lzyoh",
+        "rating": 1497,
+        "plays": 17488,
+        "themes": [
+          "middlegame",
+          "short",
+          "discoveredAttack",
+          "crushing"
+        ]
+      }
+    },
+    {
+      "id": "level-053",
+      "title": "Fase 3",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "2r4k/pb2q1pB/4p3/3n3Q/3P4/4P1B1/5PPP/b6K w - - 2 30",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h7g6",
+        "h8g8",
+        "h5h7",
+        "g8f8",
+        "h7h8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 53,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "h7",
+        "to": "g6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "LRSM2",
+        "rating": 1405,
+        "plays": 11648,
+        "themes": [
+          "middlegame",
+          "discoveredCheck",
+          "long",
+          "mateIn3",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-054",
+      "title": "Fase 4",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "7k/pppb4/7p/3Pn1q1/2P2rpN/1P2Q1P1/P3B3/3R2K1 b - - 0 26",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f4f1",
+        "g1f1",
+        "g5e3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 54,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "f4",
+        "to": "f1"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ItP9U",
+        "rating": 1414,
+        "plays": 13396,
+        "themes": [
+          "middlegame",
+          "short",
+          "crushing",
+          "kingsideAttack",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-055",
+      "title": "Fase 5",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "r3r1k1/4bpp1/p2q1n1p/2BbR3/8/1N1B1P2/PP4PP/R3Q1K1 b - - 6 21",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "d6e5",
+        "e1e5",
+        "e7c5",
+        "b3c5",
+        "e8e5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 55,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "d6",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "PDH0D",
+        "rating": 1562,
+        "plays": 3866,
+        "themes": [
+          "discoveredAttack",
+          "long",
+          "advantage",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-056",
+      "title": "Fase 6",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "8/5pk1/4q1p1/1p5p/p3pP1P/P1PrQ1P1/1P2RK2/8 w - - 6 38",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e3d3",
+        "e4d3",
+        "e2e6",
+        "f7e6",
+        "f2e3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 56,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "e3",
+        "to": "d3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "FTjE4",
+        "rating": 1592,
+        "plays": 698,
+        "themes": [
+          "long",
+          "crushing",
+          "discoveredAttack",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-057",
+      "title": "Fase 7",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "rnbq3r/3k1p2/2p1p3/ppb5/2pP4/5P2/PP1Q1P1P/1K1R1BR1 w - - 0 17",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d4c5",
+        "d7c7",
+        "d2f4",
+        "c7b7",
+        "d1d8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 57,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "d4",
+        "to": "c5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "T6psj",
+        "rating": 1545,
+        "plays": 9631,
+        "themes": [
+          "middlegame",
+          "discoveredCheck",
+          "advantage",
+          "long",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-058",
+      "title": "Fase 8",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "r3qr1k/ppp4p/n2P2p1/5bN1/4p3/1Q4P1/PP3KBP/R1B1R3 b - - 0 17",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f5e6",
+        "f2g1",
+        "e6b3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 58,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "f5",
+        "to": "e6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "CZhfZ",
+        "rating": 1508,
+        "plays": 19819,
+        "themes": [
+          "short",
+          "discoveredCheck",
+          "advantage",
+          "discoveredAttack",
+          "master",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-059",
+      "title": "Fase 9",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "4rq2/p4r1k/1p4p1/2p4p/2Pp2nP/P2PpNQ1/1PK3PR/5R2 w - - 6 34",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3g5",
+        "h7g8",
+        "f1f7",
+        "f8f7",
+        "g5f7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 59,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "f3",
+        "to": "g5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "lJazu",
+        "rating": 1489,
+        "plays": 2413,
+        "themes": [
+          "middlegame",
+          "advantage",
+          "fork",
+          "long",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-060",
+      "title": "Fase 10",
+      "objective": "Libere uma linha de ataque e calcule a continuação forçada.",
+      "fen": "2r2rk1/p4p2/4pPpp/8/2QP2R1/7P/Pq3P2/2R1K3 w - - 2 29",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g4g6",
+        "f7g6",
+        "c4e6",
+        "g8h8",
+        "c1c8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "discoveredAttack",
+      "difficulty": 6,
+      "difficultyBand": "medium",
+      "world": 6,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 60,
+      "hint": {
+        "text": "Uma peça está bloqueando a ação de outra peça sua.",
+        "from": "g4",
+        "to": "g6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "isWLD",
+        "rating": 1500,
+        "plays": 16969,
+        "themes": [
+          "deflection",
+          "endgame",
+          "crushing",
+          "long",
+          "sacrifice",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-061",
+      "title": "Fase 1",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "6k1/5pp1/p2P3p/8/1P5r/P4PQ1/4q1K1/5R2 w - - 1 38",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f1f2",
+        "e2c4",
+        "d6d7",
+        "h4d4",
+        "g3b8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 61,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "f1",
+        "to": "f2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ypR8B",
+        "rating": 1525,
+        "plays": 3434,
+        "themes": [
+          "clearance",
+          "endgame",
+          "advancedPawn",
+          "advantage",
+          "long",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-062",
+      "title": "Fase 2",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "6rk/2b2p2/6qp/P1B5/1P6/1P5P/4Q1P1/6RK b - - 0 43",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g6g3",
+        "c5d4",
+        "h8h7",
+        "e2c2",
+        "g8g6",
+        "c2c7",
+        "g3c7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 62,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "g6",
+        "to": "g3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "MkWYx",
+        "rating": 1585,
+        "plays": 5456,
+        "themes": [
+          "defensiveMove",
+          "veryLong",
+          "advantage",
+          "endgame"
+        ]
+      }
+    },
+    {
+      "id": "level-063",
+      "title": "Fase 3",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "7k/6p1/5p1p/1p6/1Pq5/6P1/5PP1/2Q3K1 w - - 3 41",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c1c4",
+        "b5c4",
+        "g1f1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 63,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "c1",
+        "to": "c4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "frstw",
+        "rating": 1578,
+        "plays": 7008,
+        "themes": [
+          "short",
+          "crushing",
+          "defensiveMove",
+          "endgame",
+          "queenEndgame"
+        ]
+      }
+    },
+    {
+      "id": "level-064",
+      "title": "Fase 4",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "2r2rk1/1p3p1p/p4PpQ/P1n1q3/2PNp3/1P6/6PP/R4RK1 b - - 1 25",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "e5d4",
+        "g1h1",
+        "c5e6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 64,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "e5",
+        "to": "d4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "eLgMW",
+        "rating": 1658,
+        "plays": 3605,
+        "themes": [
+          "short",
+          "advantage",
+          "hangingPiece",
+          "defensiveMove",
+          "master",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-065",
+      "title": "Fase 5",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "5r2/2p4k/1p1p2p1/pP1Pp3/2P1PbqR/4QR2/P3KP2/8 b - - 0 37",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g4h4",
+        "f3h3",
+        "f4e3",
+        "h3h4",
+        "e3h6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 65,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "g4",
+        "to": "h4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "Merz2",
+        "rating": 1654,
+        "plays": 24323,
+        "themes": [
+          "endgame",
+          "crushing",
+          "long",
+          "hangingPiece",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-066",
+      "title": "Fase 6",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "1nk4r/1pp5/p3Npp1/5r2/1P1Pp2q/P3P2p/3N2PQ/2R1K3 w - - 4 28",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g2g3",
+        "h4h7",
+        "c1c7",
+        "h7c7",
+        "e6c7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 66,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "g2",
+        "to": "g3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "kFD6g",
+        "rating": 1635,
+        "plays": 5578,
+        "themes": [
+          "middlegame",
+          "advantage",
+          "fork",
+          "long",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-067",
+      "title": "Fase 7",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "8/6pB/4k3/1p6/8/3p1PKP/rn3P2/1R6 w - - 0 31",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h7g8",
+        "e6d7",
+        "g8a2",
+        "d3d2",
+        "a2b3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 67,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "h7",
+        "to": "g8"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ZWJtS",
+        "rating": 1611,
+        "plays": 2676,
+        "themes": [
+          "endgame",
+          "crushing",
+          "skewer",
+          "long",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-068",
+      "title": "Fase 8",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "r1bq1rk1/pp2npp1/4p3/b1p1P2Q/5B1P/4PN2/Pp3PP1/R4RK1 w - - 0 16",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3g5",
+        "d8d3",
+        "e3e4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 68,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "f3",
+        "to": "g5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "qPlFP",
+        "rating": 1676,
+        "plays": 545,
+        "themes": [
+          "short",
+          "advantage",
+          "defensiveMove",
+          "middlegame"
+        ]
+      }
+    },
+    {
+      "id": "level-069",
+      "title": "Fase 9",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "8/3b4/5PP1/2p2K2/p7/1k6/7P/8 w - - 1 44",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f5e5",
+        "d7b5",
+        "f6f7",
+        "a4a3",
+        "f7f8q"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 69,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "f5",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ZQQ90",
+        "rating": 1627,
+        "plays": 3600,
+        "themes": [
+          "endgame",
+          "advancedPawn",
+          "crushing",
+          "long",
+          "promotion",
+          "bishopEndgame",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-070",
+      "title": "Fase 10",
+      "objective": "Encontre a defesa precisa e transforme-a em contra-ataque.",
+      "fen": "8/8/4p3/8/2rk4/5KP1/8/2R5 w - - 0 46",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c1c4",
+        "d4c4",
+        "f3e4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "defense",
+      "difficulty": 7,
+      "difficultyBand": "medium",
+      "world": 7,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 70,
+      "hint": {
+        "text": "Considere cheques, capturas e ameaças do adversário primeiro.",
+        "from": "c1",
+        "to": "c4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "59RW4",
+        "rating": 1672,
+        "plays": 19780,
+        "themes": [
+          "endgame",
+          "short",
+          "crushing",
+          "rookEndgame",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-071",
+      "title": "Fase 1",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "3r3k/1p4p1/2p2p1p/1p4nq/1P4Q1/P3PPP1/6KP/1R3R2 b - - 3 31",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "d8d2",
+        "f1f2",
+        "d2f2",
+        "g2f2",
+        "h5h2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 71,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "d8",
+        "to": "d2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "fjegd",
+        "rating": 1516,
+        "plays": 2741,
+        "themes": [
+          "endgame",
+          "crushing",
+          "attraction",
+          "long"
+        ]
+      }
+    },
+    {
+      "id": "level-072",
+      "title": "Fase 2",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/8/3P1p1p/8/1k2P1P1/1p6/p7/2K5 w - - 0 61",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c1b2",
+        "a2a1q",
+        "b2a1",
+        "b4c3",
+        "a1b1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 72,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "c1",
+        "to": "b2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "4kJk3",
+        "rating": 1484,
+        "plays": 1936,
+        "themes": [
+          "endgame",
+          "crushing",
+          "long",
+          "pawnEndgame",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-073",
+      "title": "Fase 3",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/1p3p1k/pB1P2pp/P4Q2/8/7P/5PPK/q3r3 w - - 0 37",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f5f7",
+        "a1g7",
+        "f7g7",
+        "h7g7",
+        "d6d7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 73,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "f5",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "6ARam",
+        "rating": 1499,
+        "plays": 2535,
+        "themes": [
+          "endgame",
+          "advancedPawn",
+          "crushing",
+          "long"
+        ]
+      }
+    },
+    {
+      "id": "level-074",
+      "title": "Fase 4",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/2p4R/3n1kBp/7P/3pP3/P2r4/8/6K1 w - - 0 48",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e4e5",
+        "f6e5",
+        "g6d3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 74,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "e4",
+        "to": "e5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "vrg47",
+        "rating": 1508,
+        "plays": 3517,
+        "themes": [
+          "endgame",
+          "short",
+          "crushing",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-075",
+      "title": "Fase 5",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/pppk4/2n3pR/4p3/1P1p2r1/P2P4/2P2PB1/2K5 w - - 0 41",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g2h3",
+        "d7d6",
+        "h3g4"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 75,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "g2",
+        "to": "h3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "qrPMV",
+        "rating": 1464,
+        "plays": 17531,
+        "themes": [
+          "endgame",
+          "crushing",
+          "pin",
+          "short"
+        ]
+      }
+    },
+    {
+      "id": "level-076",
+      "title": "Fase 6",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/8/p7/8/1k6/1P1K4/8/8 b - - 4 56",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b4b3",
+        "d3d2",
+        "b3b2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 76,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "b4",
+        "to": "b3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "VDDIf",
+        "rating": 1501,
+        "plays": 1297,
+        "themes": [
+          "endgame",
+          "short",
+          "crushing",
+          "pawnEndgame",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-077",
+      "title": "Fase 7",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "5rk1/pp6/2p2Qp1/4p3/2r5/6Pq/PPP2P2/4R1K1 w - - 0 32",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f6g6",
+        "g8h8",
+        "e1e5",
+        "c4d4",
+        "e5h5",
+        "h3h5",
+        "g6h5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 77,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "f6",
+        "to": "g6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "73xiM",
+        "rating": 1491,
+        "plays": 3911,
+        "themes": [
+          "exposedKing",
+          "veryLong",
+          "endgame",
+          "advantage",
+          "fork"
+        ]
+      }
+    },
+    {
+      "id": "level-078",
+      "title": "Fase 8",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/2p1r1pk/p3p2p/Pp6/4b3/1q3NQP/8/4R1K1 w - - 0 35",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f3g5",
+        "h6g5",
+        "g3b3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 78,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "f3",
+        "to": "g5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "jEeC9",
+        "rating": 1459,
+        "plays": 6204,
+        "themes": [
+          "endgame",
+          "short",
+          "advantage",
+          "discoveredAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-079",
+      "title": "Fase 9",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/5pkp/p1Q3p1/2ppb3/3N1qP1/1BP5/PP3PP1/6K1 b - - 0 26",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f4c1",
+        "b3d1",
+        "c1d1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 79,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "f4",
+        "to": "c1"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "xkaXn",
+        "rating": 1464,
+        "plays": 21886,
+        "themes": [
+          "short",
+          "endgame",
+          "mateIn2"
+        ]
+      }
+    },
+    {
+      "id": "level-080",
+      "title": "Fase 10",
+      "objective": "Calcule o final com precisão e melhore a atividade das peças.",
+      "fen": "8/3k4/R7/2PP4/P6b/r6P/6PK/8 b - - 0 40",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h4g3",
+        "h2g1",
+        "a3a1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2
+      ],
+      "theme": "endgame",
+      "difficulty": 8,
+      "difficultyBand": "advanced",
+      "world": 8,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 80,
+      "hint": {
+        "text": "No final, cada tempo e cada casa do rei importam.",
+        "from": "h4",
+        "to": "g3"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "5i4ms",
+        "rating": 1500,
+        "plays": 3,
+        "themes": [
+          "short",
+          "endgame",
+          "mateIn2"
+        ]
+      }
+    },
+    {
+      "id": "level-081",
+      "title": "Fase 1",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "r7/4nkbQ/b3p1p1/2qp1pP1/pp1N4/2P1P3/PP1B4/2KR3B w - - 4 26",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h7g7",
+        "f7g7",
+        "d4e6",
+        "g7f7",
+        "e6c5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 81,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "h7",
+        "to": "g7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "rhzDH",
+        "rating": 1583,
+        "plays": 363,
+        "themes": [
+          "deflection",
+          "middlegame",
+          "advantage",
+          "attraction",
+          "fork",
+          "long",
+          "sacrifice"
+        ]
+      }
+    },
+    {
+      "id": "level-082",
+      "title": "Fase 2",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "r3r1k1/p4ppp/1p6/2P1N1q1/8/PQP1P2P/4KPP1/3R4 w - - 1 22",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "b3f7",
+        "g8h8",
+        "f7e8",
+        "a8e8",
+        "e5f7",
+        "h8g8",
+        "f7g5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 82,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "b3",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "wsxsu",
+        "rating": 1631,
+        "plays": 179,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "crushing",
+          "fork",
+          "sacrifice"
+        ]
+      }
+    },
+    {
+      "id": "level-083",
+      "title": "Fase 3",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "5rk1/2R4p/6p1/1p6/p2q4/P2P3Q/1r3PPP/5RK1 b - - 5 32",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "d4f2",
+        "f1f2",
+        "b2b1",
+        "c7c1",
+        "b1c1",
+        "f2f1",
+        "c1f1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 83,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "d4",
+        "to": "f2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "EUMsP",
+        "rating": 1535,
+        "plays": 26887,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "sacrifice",
+          "mateIn4"
+        ]
+      }
+    },
+    {
+      "id": "level-084",
+      "title": "Fase 4",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "r2q2k1/pbp3p1/3bp2p/3n4/3P3N/2PB2P1/P1Q3PP/5RK1 w - - 1 23",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "d3h7",
+        "g8h8",
+        "h4g6",
+        "h8h7",
+        "g6f8",
+        "h7h8",
+        "c2h7"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 84,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "d3",
+        "to": "h7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "GifP7",
+        "rating": 1581,
+        "plays": 15958,
+        "themes": [
+          "veryLong",
+          "middlegame",
+          "discoveredCheck",
+          "sacrifice",
+          "kingsideAttack",
+          "mateIn4",
+          "doubleCheck"
+        ]
+      }
+    },
+    {
+      "id": "level-085",
+      "title": "Fase 5",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "1n3bnr/Q1Nk4/2p2p2/3ppqp1/8/1B1P1P1p/PPP1NBb1/R4RK1 b - - 1 21",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "h3h2",
+        "g1g2",
+        "f5h3",
+        "g2h1",
+        "h3f3"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 85,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "h3",
+        "to": "h2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "tS5pO",
+        "rating": 1536,
+        "plays": 1898,
+        "themes": [
+          "exposedKing",
+          "deflection",
+          "advancedPawn",
+          "middlegame",
+          "long",
+          "mateIn3",
+          "sacrifice",
+          "kingsideAttack"
+        ]
+      }
+    },
+    {
+      "id": "level-086",
+      "title": "Fase 6",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "rn1q4/pp2br2/2pp2kB/5p1n/4P2Q/P1NP3P/1PP3PN/5RK1 w - - 2 22",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e4f5",
+        "g6h6",
+        "h2g4",
+        "h6g7",
+        "h4h5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 86,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "e4",
+        "to": "f5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "lzJYM",
+        "rating": 1540,
+        "plays": 4074,
+        "themes": [
+          "deflection",
+          "middlegame",
+          "advantage",
+          "long",
+          "sacrifice"
+        ]
+      }
+    },
+    {
+      "id": "level-087",
+      "title": "Fase 7",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "8/7p/2N1k3/P5p1/8/7P/P4RP1/4qn1K w - - 5 51",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "f2e2",
+        "e1e2",
+        "c6d4",
+        "e6d6",
+        "d4e2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 87,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "f2",
+        "to": "e2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "vKFgF",
+        "rating": 1614,
+        "plays": 2294,
+        "themes": [
+          "exposedKing",
+          "endgame",
+          "advantage",
+          "attraction",
+          "fork",
+          "long",
+          "sacrifice"
+        ]
+      }
+    },
+    {
+      "id": "level-088",
+      "title": "Fase 8",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "2k4r/bpp3p1/p2p4/8/1P2Q1pB/2q3Pr/P3R1K1/R7 w - - 0 28",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "e4e6",
+        "c8b8",
+        "e6e8",
+        "h8e8",
+        "e2e8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 88,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "e4",
+        "to": "e6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "a78Od",
+        "rating": 1641,
+        "plays": 5047,
+        "themes": [
+          "middlegame",
+          "long",
+          "mateIn3",
+          "sacrifice",
+          "backRankMate"
+        ]
+      }
+    },
+    {
+      "id": "level-089",
+      "title": "Fase 9",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "r5k1/ppp2ppp/2nq1rN1/3p4/1P1Pn1P1/P2BP2P/5PK1/R1BQ1R2 b - - 0 17",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f6f2",
+        "f1f2",
+        "d6g3",
+        "g2f1",
+        "g3f2"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 89,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "f6",
+        "to": "f2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "ouU3Z",
+        "rating": 1533,
+        "plays": 3349,
+        "themes": [
+          "middlegame",
+          "attraction",
+          "long",
+          "mateIn3",
+          "sacrifice"
+        ]
+      }
+    },
+    {
+      "id": "level-090",
+      "title": "Fase 10",
+      "objective": "Calcule o sacrifício até recuperar o material ou decidir a partida.",
+      "fen": "r1b4k/pp1q2np/3p2n1/5rP1/2B1P3/8/P1PQ4/B3K2R w K - 0 24",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h1h7",
+        "h8h7",
+        "d2h2",
+        "g6h4",
+        "h2h4",
+        "h7g6",
+        "h4h6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "combination",
+      "difficulty": 9,
+      "difficultyBand": "advanced",
+      "world": 9,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 90,
+      "hint": {
+        "text": "Não pare na primeira captura: veja a resposta forçada e a continuação.",
+        "from": "h1",
+        "to": "h7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "7VYZ4",
+        "rating": 1544,
+        "plays": 25967,
+        "themes": [
+          "veryLong",
+          "middlegame",
+          "sacrifice",
+          "kingsideAttack",
+          "mateIn4",
+          "attraction",
+          "epauletteMate"
+        ]
+      }
+    },
+    {
+      "id": "level-091",
+      "title": "Fase 1",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "3r2r1/1p2qk1p/p3p3/5p2/Q2Np3/1B6/PPP1RPPK/3R4 b - - 0 24",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "e7h4",
+        "h2g1",
+        "g8g2",
+        "g1g2",
+        "d8g8",
+        "g2f1",
+        "h4h1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 1,
+      "globalLevel": 91,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "e7",
+        "to": "h4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "sedn1",
+        "rating": 1634,
+        "plays": 17427,
+        "themes": [
+          "veryLong",
+          "middlegame",
+          "attraction",
+          "sacrifice",
+          "mateIn4"
+        ]
+      }
+    },
+    {
+      "id": "level-092",
+      "title": "Fase 2",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "5r1k/p5p1/1q5p/3Rp3/2Q1P3/2P4P/P4PBP/6K1 b - - 0 33",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "b6f2",
+        "g1h1",
+        "f2e1",
+        "g2f1",
+        "f8f1",
+        "c4f1",
+        "e1f1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 2,
+      "globalLevel": 92,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "b6",
+        "to": "f2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "9QokG",
+        "rating": 1636,
+        "plays": 934,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "mateIn4"
+        ]
+      }
+    },
+    {
+      "id": "level-093",
+      "title": "Fase 3",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "8/8/5pk1/7p/5KP1/6P1/8/8 w - - 0 58",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "g4h5",
+        "g6h5",
+        "f4f5",
+        "h5h6",
+        "f5f6",
+        "h6h5",
+        "f6f5"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 3,
+      "globalLevel": 93,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "g4",
+        "to": "h5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "IC6DP",
+        "rating": 1612,
+        "plays": 5552,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "zugzwang",
+          "crushing",
+          "pawnEndgame",
+          "defensiveMove"
+        ]
+      }
+    },
+    {
+      "id": "level-094",
+      "title": "Fase 4",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "Bn2kb1r/2p2pp1/p3p2q/8/5PQ1/2N5/PPPP2P1/R1B2RK1 b k - 0 13",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "f8c5",
+        "d2d4",
+        "c5d4",
+        "c1e3",
+        "d4e3",
+        "f1f2",
+        "h6h1"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 4,
+      "globalLevel": 94,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "f8",
+        "to": "c5"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "bjO9N",
+        "rating": 1613,
+        "plays": 23797,
+        "themes": [
+          "veryLong",
+          "middlegame",
+          "kingsideAttack",
+          "mateIn4",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-095",
+      "title": "Fase 5",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "r1q2r1k/p4p1p/2p1pPp1/4B3/6NQ/8/P5PP/5bK1 w - - 0 27",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "h4h6",
+        "f8g8",
+        "h6g7",
+        "g8g7",
+        "f6g7",
+        "h8g8",
+        "g4h6"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 5,
+      "globalLevel": 95,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "h4",
+        "to": "h6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "xhytP",
+        "rating": 1616,
+        "plays": 21125,
+        "themes": [
+          "veryLong",
+          "advancedPawn",
+          "middlegame",
+          "sacrifice",
+          "mateIn4"
+        ]
+      }
+    },
+    {
+      "id": "level-096",
+      "title": "Fase 6",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "5rk1/Q4ppp/8/5bq1/P1B5/4p3/5PPP/1R4K1 w - - 0 21",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "a7f7",
+        "f8f7",
+        "b1b8",
+        "f5c8",
+        "b8c8",
+        "g5d8",
+        "c8d8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 6,
+      "globalLevel": 96,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "a7",
+        "to": "f7"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "7q8wH",
+        "rating": 1642,
+        "plays": 3758,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "sacrifice",
+          "mateIn4",
+          "pin"
+        ]
+      }
+    },
+    {
+      "id": "level-097",
+      "title": "Fase 7",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "8/1p6/8/1PPkB3/3p2p1/3K2P1/5b2/8 w - - 3 40",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c5c6",
+        "b7c6",
+        "b5b6",
+        "d5e5",
+        "b6b7",
+        "e5d5",
+        "b7b8q"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 7,
+      "globalLevel": 97,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "c5",
+        "to": "c6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "3Mtjj",
+        "rating": 1641,
+        "plays": 7801,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "advancedPawn",
+          "crushing",
+          "sacrifice",
+          "promotion",
+          "bishopEndgame"
+        ]
+      }
+    },
+    {
+      "id": "level-098",
+      "title": "Fase 8",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "1Q6/8/8/PR6/7k/5pp1/6r1/7K b - - 2 55",
+      "sideToMove": "b",
+      "orientation": "black",
+      "moves": [
+        "g2h2",
+        "h1g1",
+        "f3f2",
+        "g1f1",
+        "h2h1",
+        "f1e2",
+        "f2f1q"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 8,
+      "globalLevel": 98,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "g2",
+        "to": "h2"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "XUhtA",
+        "rating": 1638,
+        "plays": 12111,
+        "themes": [
+          "exposedKing",
+          "veryLong",
+          "endgame",
+          "advancedPawn",
+          "crushing",
+          "promotion",
+          "queenRookEndgame"
+        ]
+      }
+    },
+    {
+      "id": "level-099",
+      "title": "Fase 9",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "8/7p/pp6/8/2P5/1PK5/k7/8 w - - 0 51",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "b3b4",
+        "h7h5",
+        "c4c5",
+        "h5h4",
+        "c5c6",
+        "h4h3",
+        "c6c7",
+        "h3h2",
+        "c7c8q"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6,
+        8
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 9,
+      "globalLevel": 99,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "b3",
+        "to": "b4"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "nZUdF",
+        "rating": 1621,
+        "plays": 4468,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "advancedPawn",
+          "crushing",
+          "quietMove",
+          "promotion",
+          "pawnEndgame"
+        ]
+      }
+    },
+    {
+      "id": "level-100",
+      "title": "Fase 10",
+      "objective": "Encontre e execute toda a variante forçada.",
+      "fen": "r3r3/pppk1p2/3p2p1/2PP3p/1P3B2/2b3P1/P3RP1P/4R1K1 w - - 1 25",
+      "sideToMove": "w",
+      "orientation": "white",
+      "moves": [
+        "c5c6",
+        "b7c6",
+        "d5c6",
+        "d7c6",
+        "e2e8",
+        "a8e8",
+        "e1e8"
+      ],
+      "playerMoveIndexes": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "theme": "mastery",
+      "difficulty": 10,
+      "difficultyBand": "advanced",
+      "world": 10,
+      "chapter": 1,
+      "level": 10,
+      "globalLevel": 100,
+      "hint": {
+        "text": "Calcule cheques, capturas e ameaças até a posição se estabilizar.",
+        "from": "c5",
+        "to": "c6"
+      },
+      "source": {
+        "provider": "lichess",
+        "puzzleId": "hhH7Q",
+        "rating": 1631,
+        "plays": 7860,
+        "themes": [
+          "veryLong",
+          "endgame",
+          "master",
+          "crushing"
+        ]
+      }
+    }
+  ]
+}

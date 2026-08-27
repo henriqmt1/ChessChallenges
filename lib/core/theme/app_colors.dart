@@ -1,0 +1,46 @@
+import 'package:flutter/material.dart';
+
+abstract final class AppColors {
+  static const ink = Color(0xFF303247);
+  static const mutedInk = Color(0xFF747A96);
+  static const pageBackground = Color(0xFFF5F6FB);
+  static const surface = Color(0xFFFFFFFF);
+  static const darkPageBackground = Color(0xFF101118);
+  static const darkSurface = Color(0xFF191B25);
+  static const darkRaisedSurface = Color(0xFF252936);
+  static const darkInk = Color(0xFFF3F3FA);
+  static const darkMutedInk = Color(0xFFAFB4C8);
+  static const darkBorder = Color(0xFF373B4D);
+  static const primary = Color(0xFF7B61FF);
+  static const primaryDark = Color(0xFF5C42E8);
+  static const primarySoft = Color(0xFFE9E4FF);
+  static const primaryBorder = Color(0xFFE1D9FF);
+  static const primaryOnDark = Color(0xFFEFEAFF);
+  static const success = Color(0xFF2EB67D);
+  static const successDark = Color(0xFF189962);
+  static const successBorder = Color(0xFFBDF0D8);
+  static const danger = Color(0xFFE85D75);
+  static const border = Color(0xFFE3E7F2);
+  static const buttonBorder = Color(0xFFDDE2F0);
+  static const progressTrack = Color(0xFFE7EAF5);
+  static const toolbarTrack = Color(0xFFE1E6F3);
+  static const pathLocked = Color(0xFFDCE2F0);
+  static const disabledBackground = Color(0xFFE9ECF5);
+  static const disabledForeground = Color(0xFF9098B4);
+  static const disabledBorder = Color(0xFFF6F7FB);
+  static const disabledShadow = Color(0xFFD0D6E6);
+  static const disabledIcon = Color(0xFFA8AEC2);
+  static const boardFrame = Color(0xFFFFFFFF);
+  static const boardCoordinateDark = Color(0xFFF7F9FF);
+  static const boardCoordinateLight = Color(0xFF8795B8);
+  static const white = Color(0xFFFFFFFF);
+  static const transparent = Color(0x00000000);
+  static const whiteOverlay15 = Color(0x26FFFFFF);
+  static const whiteBorder20 = Color(0x33FFFFFF);
+  static const blackShadow8 = Color(0x14000000);
+  static const blackShadow40 = Color(0x66000000);
+  static const whiteShadow40 = Color(0x66FFFFFF);
+  static const successGlow = Color(0x332EB67D);
+  static const primaryGlow = Color(0x557B61FF);
+  static const fireActive = Color(0xFFFF8A34);
+}

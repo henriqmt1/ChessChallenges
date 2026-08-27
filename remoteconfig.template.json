@@ -1,0 +1,61 @@
+{
+  "conditions": [],
+  "parameters": {
+    "minimum_android_build": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Menor build Android permitido. Aumente para forçar atualização no Android.",
+      "valueType": "NUMBER"
+    },
+    "minimum_ios_build": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Menor build iOS permitido. Aumente para forçar atualização no iOS.",
+      "valueType": "NUMBER"
+    },
+    "android_store_url": {
+      "defaultValue": {
+        "value": "https://play.google.com/store/apps/details?id=com.henriquemarinhoteixeira.chesschalenges"
+      },
+      "description": "URL do app na Google Play usada no popup de atualização obrigatória.",
+      "valueType": "STRING"
+    },
+    "ios_store_url": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "URL do app na App Store usada no popup de atualização obrigatória. Preencher depois do App Store ID.",
+      "valueType": "STRING"
+    },
+    "force_update_message_pt": {
+      "defaultValue": {
+        "value": "Esta versão precisa ser atualizada para continuar funcionando corretamente."
+      },
+      "description": "Mensagem de atualização obrigatória em português.",
+      "valueType": "STRING"
+    },
+    "force_update_message_en": {
+      "defaultValue": {
+        "value": "This version must be updated to keep working correctly."
+      },
+      "description": "Mensagem de atualização obrigatória em inglês.",
+      "valueType": "STRING"
+    },
+    "force_update_message_es": {
+      "defaultValue": {
+        "value": "Esta versión debe actualizarse para seguir funcionando correctamente."
+      },
+      "description": "Mensagem de atualização obrigatória em espanhol.",
+      "valueType": "STRING"
+    },
+    "ads_enabled": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Liga/desliga anúncios remotamente sem publicar nova versão.",
+      "valueType": "BOOLEAN"
+    }
+  }
+}

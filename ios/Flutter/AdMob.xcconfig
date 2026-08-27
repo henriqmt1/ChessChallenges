@@ -1,0 +1,4 @@
+// App ID real do Google AdMob para iOS.
+// As unidades de anúncio ainda são controladas por --dart-define. Em builds de
+// desenvolvimento, mantenha USE_TEST_ADS=true para usar unidades oficiais de teste.
+ADMOB_APP_ID_IOS=ca-app-pub-1922989446248337~8830403163
