@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppColors {
+  static const objectiveAccent = Color(0xFFF59E0B);
+  static const botAccent = Color(0xFF0EA5E9);
+  static const localGameAccent = Color(0xFF22C55E);
+
   static const ink = Color(0xFF303247);
   static const mutedInk = Color(0xFF747A96);
   static const pageBackground = Color(0xFFF5F6FB);

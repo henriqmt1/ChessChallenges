@@ -10,7 +10,7 @@ class ChessChalengesApp extends ConsumerWidget {
   const ChessChalengesApp({
     super.key,
     this.locale,
-    this.startupMinimumDuration = const Duration(milliseconds: 1800),
+    this.startupMinimumDuration = Duration.zero,
   });
 
   final Locale? locale;

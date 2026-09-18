@@ -13,7 +13,7 @@ import '../../../progress/presentation/viewmodels/player_progress_view_model.dar
 import '../../domain/objective_challenge_level.dart';
 import '../viewmodels/objective_challenge_game_view_model.dart';
 import '../viewmodels/objective_challenge_game_state.dart';
-import '../../../puzzles/presentation/widgets/chess_board.dart';
+import '../../../../shared/chess/chess_board.dart';
 import '../../../../shared/widgets/app_design_system.dart';
 
 class ObjectiveChallengeGamePage extends ConsumerStatefulWidget {
@@ -81,7 +81,6 @@ class _ObjectiveChallengeGamePageState
                 objective: widget.level.objective,
                 goalLabel: _goalLabel,
                 moveLabel: _progressLabel(state),
-                starLabel: _starRuleLabel,
               ),
             ),
           ),
@@ -124,12 +123,7 @@ class _ObjectiveChallengeGamePageState
               AppSpacing.xl,
             ),
             sliver: SliverToBoxAdapter(
-              child: _ObjectiveTipCard(
-                playerColor: widget.level.playerColor,
-                minimumMoves: widget.level.minimumPlayerMoves,
-                maximumMoves: widget.level.maximumPlayerMoves,
-                usesMateAttempts: widget.level.isMateInOne,
-              ),
+              child: _ObjectiveTipCard(playerColor: widget.level.playerColor),
             ),
           ),
         ],
@@ -151,18 +145,10 @@ class _ObjectiveChallengeGamePageState
 
   String _progressLabel(ObjectiveChallengeGameState state) {
     if (widget.level.isMateInOne) {
-      return 'Tentativas: ${state.playerMoveCount}/${widget.level.maximumPlayerMoves}';
+      return 'Tentativas: ${state.playerMoveCount}/${widget.level.oneStarLimit}';
     }
 
-    return 'Jogadas: ${state.playerMoveCount}/${widget.level.maximumPlayerMoves}';
-  }
-
-  String get _starRuleLabel {
-    if (widget.level.isMateInOne) {
-      return '3 estrelas de primeira';
-    }
-
-    return '3 estrelas em ${widget.level.minimumPlayerMoves}';
+    return 'Jogadas: ${state.playerMoveCount}/${widget.level.oneStarLimit}';
   }
 
   String _statusTitle(ObjectiveChallengeGameState state) {
@@ -190,8 +176,8 @@ class _ObjectiveChallengeGamePageState
             : 'Você terminou em ${state.playerMoveCount} jogadas e ganhou ${state.earnedStars} estrelas.',
       ObjectiveChallengeSessionStatus.failed =>
         widget.level.isMateInOne
-            ? 'As ${widget.level.maximumPlayerMoves} tentativas acabaram. Reinicie e procure outro lance.'
-            : 'O limite era ${widget.level.maximumPlayerMoves} jogadas. Reinicie e tente uma linha melhor.',
+            ? 'As ${widget.level.oneStarLimit} tentativas acabaram. Reinicie e procure outro lance.'
+            : 'O limite era ${widget.level.oneStarLimit} jogadas. Reinicie e tente uma linha melhor.',
       ObjectiveChallengeSessionStatus.playing =>
         state.botThinking
             ? 'O bot vai tentar defender como se fosse o avançado.'
@@ -211,7 +197,7 @@ class _ObjectiveChallengeGamePageState
         state.botThinking
             ? Icons.psychology_rounded
             : state.lastMateAttemptMissed
-            ? Icons.replay_rounded
+            ? Icons.close_rounded
             : state.inCheck
             ? Icons.warning_rounded
             : Icons.flag_rounded,
@@ -232,9 +218,9 @@ class _ObjectiveChallengeGamePageState
   }
 
   int _remainingAttempts(ObjectiveChallengeGameState state) {
-    return (widget.level.maximumPlayerMoves - state.playerMoveCount).clamp(
+    return (widget.level.oneStarLimit - state.playerMoveCount).clamp(
       0,
-      widget.level.maximumPlayerMoves,
+      widget.level.oneStarLimit,
     );
   }
 
@@ -319,6 +305,7 @@ class _ObjectiveChallengeGamePageState
             ? 'Você encontrou o mate em ${_attemptText(state.playerMoveCount)} e ganhou $stars estrelas.'
             : 'Você finalizou em ${state.playerMoveCount} jogadas e ganhou $stars estrelas.',
         stars: stars,
+        scoring: widget.level.scoring,
         primaryLabel: 'Continuar',
         onPrimary: () {
           Navigator.of(context).pop();
@@ -343,9 +330,10 @@ class _ObjectiveChallengeGamePageState
         success: false,
         title: 'Falha no objetivo',
         description: widget.level.isMateInOne
-            ? 'As ${widget.level.maximumPlayerMoves} tentativas acabaram. Revise as fugas do rei e tente encontrar o mate.'
-            : 'Você passou do limite de ${widget.level.maximumPlayerMoves} jogadas ou deixou o bot escapar. Tente outra linha.',
+            ? 'As ${widget.level.oneStarLimit} tentativas acabaram. Revise as fugas do rei e tente encontrar o mate.'
+            : 'Você passou do limite de ${widget.level.oneStarLimit} jogadas ou deixou o bot escapar. Tente outra linha.',
         stars: 0,
+        scoring: widget.level.scoring,
         primaryLabel: 'Tentar de novo',
         secondaryLabel: 'Sair',
         onPrimary: () {
@@ -375,7 +363,6 @@ class _ObjectiveStatusCard extends StatelessWidget {
     required this.objective,
     required this.goalLabel,
     required this.moveLabel,
-    required this.starLabel,
   });
 
   final String title;
@@ -385,7 +372,6 @@ class _ObjectiveStatusCard extends StatelessWidget {
   final String objective;
   final String goalLabel;
   final String moveLabel;
-  final String starLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -450,7 +436,6 @@ class _ObjectiveStatusCard extends StatelessWidget {
               children: [
                 _ObjectiveChip(label: goalLabel, icon: Icons.flag_rounded),
                 _ObjectiveChip(label: moveLabel, icon: Icons.touch_app_rounded),
-                _ObjectiveChip(label: starLabel, icon: Icons.stars_rounded),
               ],
             ),
           ],
@@ -500,17 +485,9 @@ class _ObjectiveChip extends StatelessWidget {
 }
 
 class _ObjectiveTipCard extends StatelessWidget {
-  const _ObjectiveTipCard({
-    required this.playerColor,
-    required this.minimumMoves,
-    required this.maximumMoves,
-    required this.usesMateAttempts,
-  });
+  const _ObjectiveTipCard({required this.playerColor});
 
   final ChessPieceColor playerColor;
-  final int minimumMoves;
-  final int maximumMoves;
-  final bool usesMateAttempts;
 
   @override
   Widget build(BuildContext context) {
@@ -528,11 +505,8 @@ class _ObjectiveTipCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Text(
-          usesMateAttempts
-              ? 'Você joga de $colorLabel. Mate em 1: acerte de primeira para 3 estrelas. '
-                    'Você tem até $maximumMoves tentativas.'
-              : 'Você joga de $colorLabel. Faça em $minimumMoves jogadas para 3 estrelas; '
-                    'se passar de $maximumMoves, o desafio falha.',
+          'Você joga de $colorLabel. Complete o objetivo com o menor número de '
+          'jogadas possível para ganhar mais estrelas.',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: colorScheme.onSurfaceVariant,
@@ -550,6 +524,7 @@ class _ObjectiveResultSheet extends StatelessWidget {
     required this.title,
     required this.description,
     required this.stars,
+    required this.scoring,
     required this.primaryLabel,
     required this.onPrimary,
     this.secondaryLabel,
@@ -560,6 +535,7 @@ class _ObjectiveResultSheet extends StatelessWidget {
   final String title;
   final String description;
   final int stars;
+  final ObjectiveChallengeScoring scoring;
   final String primaryLabel;
   final VoidCallback onPrimary;
   final String? secondaryLabel;
@@ -629,6 +605,17 @@ class _ObjectiveResultSheet extends StatelessWidget {
                   ),
               ],
             ),
+            if (!success) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                _starRule,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
             const SizedBox(height: AppSpacing.lg),
             FilledButton(
               onPressed: onPrimary,
@@ -643,5 +630,17 @@ class _ObjectiveResultSheet extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String get _starRule {
+    if (scoring.countsAttempts) {
+      return '1ª tentativa — 3 estrelas\n'
+          '2ª tentativa — 2 estrelas\n'
+          '3ª tentativa — 1 estrela';
+    }
+
+    return 'Até ${scoring.threeStarLimit} jogadas — 3 estrelas\n'
+        'Até ${scoring.twoStarLimit} jogadas — 2 estrelas\n'
+        'Até ${scoring.oneStarLimit} jogadas — 1 estrela';
   }
 }

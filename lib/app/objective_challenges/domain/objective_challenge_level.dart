@@ -2,6 +2,61 @@ import '../../../shared/chess/chess_asset_paths.dart';
 
 enum ObjectiveChallengeGoalType { checkmate, materialGain }
 
+enum ObjectiveChallengeScoreMetric { playerMoves, attempts }
+
+class ObjectiveChallengeScoring {
+  const ObjectiveChallengeScoring({
+    required this.metric,
+    required this.threeStarLimit,
+    required this.twoStarLimit,
+    required this.oneStarLimit,
+  }) : assert(threeStarLimit > 0),
+       assert(threeStarLimit < twoStarLimit),
+       assert(twoStarLimit < oneStarLimit);
+
+  const ObjectiveChallengeScoring.moves({
+    required int threeStarLimit,
+    required int twoStarLimit,
+    required int oneStarLimit,
+  }) : this(
+         metric: ObjectiveChallengeScoreMetric.playerMoves,
+         threeStarLimit: threeStarLimit,
+         twoStarLimit: twoStarLimit,
+         oneStarLimit: oneStarLimit,
+       );
+
+  const ObjectiveChallengeScoring.attempts({required int oneStarLimit})
+    : this(
+        metric: ObjectiveChallengeScoreMetric.attempts,
+        threeStarLimit: 1,
+        twoStarLimit: 2,
+        oneStarLimit: oneStarLimit,
+      );
+
+  final ObjectiveChallengeScoreMetric metric;
+  final int threeStarLimit;
+  final int twoStarLimit;
+  final int oneStarLimit;
+
+  bool get countsAttempts => metric == ObjectiveChallengeScoreMetric.attempts;
+
+  int starsFor(int score) {
+    if (score <= 0) {
+      return 0;
+    }
+    if (score <= threeStarLimit) {
+      return 3;
+    }
+    if (score <= twoStarLimit) {
+      return 2;
+    }
+    if (score <= oneStarLimit) {
+      return 1;
+    }
+    return 0;
+  }
+}
+
 class ObjectiveChallengeGoal {
   const ObjectiveChallengeGoal.checkmate()
     : type = ObjectiveChallengeGoalType.checkmate,
@@ -24,8 +79,7 @@ class ObjectiveChallengeLevel {
     required this.playerColor,
     required this.solutionMoves,
     required this.playerMoveIndexes,
-    required this.minimumPlayerMoves,
-    required this.maximumPlayerMoves,
+    required this.scoring,
     required this.startMaterialBalance,
     required this.goal,
   });
@@ -38,14 +92,19 @@ class ObjectiveChallengeLevel {
   final ChessPieceColor playerColor;
   final List<String> solutionMoves;
   final Set<int> playerMoveIndexes;
-  final int minimumPlayerMoves;
-  final int maximumPlayerMoves;
+  final ObjectiveChallengeScoring scoring;
   final int startMaterialBalance;
   final ObjectiveChallengeGoal goal;
 
+  int get threeStarLimit => scoring.threeStarLimit;
+
+  int get oneStarLimit => scoring.oneStarLimit;
+
+  int starsFor(int score) => scoring.starsFor(score);
+
   bool get isMateInOne {
     return goal.type == ObjectiveChallengeGoalType.checkmate &&
-        minimumPlayerMoves == 1 &&
+        scoring.threeStarLimit == 1 &&
         playerMoveIndexes.length == 1 &&
         solutionMoves.length == 1;
   }

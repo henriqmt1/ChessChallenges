@@ -8,19 +8,20 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
+import '../../../../shared/chess/game_exit_guard.dart';
 import '../../../../shared/chess/promotion_choice_sheet.dart';
 import '../../../../shared/feedback/app_feedback.dart';
 import '../../../../shared/monetization/ads_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
 import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
 import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
-import '../../../puzzles/presentation/widgets/chess_board.dart';
+import '../../../../shared/chess/chess_board.dart';
 import '../../../../shared/widgets/app_design_system.dart';
 import '../viewmodels/local_game_view_model.dart';
 import '../viewmodels/local_game_state.dart';
 
 const _localLastMoveAccent = AppColors.primary;
-const _localFlipBoardAccent = Color(0xFF0EA5E9);
+const _localFlipBoardAccent = AppColors.botAccent;
 
 class LocalGamePage extends ConsumerStatefulWidget {
   const LocalGamePage({super.key});
@@ -98,57 +99,60 @@ class _LocalGamePageState extends ConsumerState<LocalGamePage> {
     final state = ref.watch(localGameViewModelProvider);
     final viewModel = ref.read(localGameViewModelProvider.notifier);
 
-    return Scaffold(
-      body: AppPageFrame(
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              AppSpacing.md,
-              AppSpacing.lg,
-              AppSpacing.sm,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: _LocalGameTopBar(
-                canShowLastMove: state.lastMove != null,
-                onReset: () {
-                  unawaited(_confirmResetGame(viewModel.resetGame));
-                },
-                onFlipBoard: viewModel.toggleBoard,
-                onShowLastMove: viewModel.showLastMovePreview,
+    return GameExitGuard(
+      needsConfirmation: state.canInteract && state.moveCount > 0,
+      builder: (_) => Scaffold(
+        body: AppPageFrame(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.sm,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _LocalGameTopBar(
+                  canShowLastMove: state.lastMove != null,
+                  onReset: () {
+                    unawaited(_confirmResetGame(viewModel.resetGame));
+                  },
+                  onFlipBoard: viewModel.toggleBoard,
+                  onShowLastMove: viewModel.showLastMovePreview,
+                ),
               ),
             ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.lg,
-              0,
-              AppSpacing.lg,
-              AppSpacing.md,
-            ),
-            sliver: SliverToBoxAdapter(
-              child: _LocalGameStatusCard(state: state),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            sliver: SliverToBoxAdapter(
-              child: ChessBoard(
-                pieces: state.pieces,
-                selectedSquare: state.selectedSquare,
-                legalTargets: state.legalTargets,
-                orientation: state.boardFlipped
-                    ? ChessBoardOrientation.black
-                    : ChessBoardOrientation.white,
-                highlightedMove: state.showLastMove ? state.lastMove : null,
-                onSquareTap: (square) {
-                  unawaited(_onSquareTapped(viewModel, square));
-                },
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                0,
+                AppSpacing.lg,
+                AppSpacing.md,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _LocalGameStatusCard(state: state),
               ),
             ),
-          ),
-          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
-        ],
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              sliver: SliverToBoxAdapter(
+                child: ChessBoard(
+                  pieces: state.pieces,
+                  selectedSquare: state.selectedSquare,
+                  legalTargets: state.legalTargets,
+                  orientation: state.boardFlipped
+                      ? ChessBoardOrientation.black
+                      : ChessBoardOrientation.white,
+                  highlightedMove: state.showLastMove ? state.lastMove : null,
+                  onSquareTap: (square) {
+                    unawaited(_onSquareTapped(viewModel, square));
+                  },
+                ),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+          ],
+        ),
       ),
     );
   }

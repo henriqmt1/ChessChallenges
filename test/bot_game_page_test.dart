@@ -42,6 +42,43 @@ void main() {
     expect(find.byKey(const ValueKey('chess-square-e2')), findsOneWidget);
   });
 
+  testWidgets('canceling exit preserves the active bot game', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    SharedPreferences.setMockInitialValues({});
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          botMoveCalculatorProvider.overrideWithValue(
+            _DeterministicBotMoveCalculator(),
+          ),
+        ],
+        child: localizedTestApp(home: const BotGamePage()),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('bot-difficulty-beginner')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('chess-square-e2')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('chess-square-e4')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('bot-game-back-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Sair da partida?'), findsOneWidget);
+    await tester.tap(find.text('Continuar jogando'));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('chess-square-e4')), findsOneWidget);
+    expect(find.text('Escolha o nível do bot'), findsNothing);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sair da partida'));
+    await tester.pumpAndSettle();
+    expect(find.text('Escolha o nível do bot'), findsOneWidget);
+  });
+
   testWidgets('back returns from a bot match to difficulty selection', (
     tester,
   ) async {

@@ -1576,6 +1576,72 @@ abstract class AppLocalizations {
   /// In pt_BR, this message translates to:
   /// **'Em breve'**
   String get themeComingSoon;
+
+  /// No description provided for @leaveGameTitle.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Sair da partida?'**
+  String get leaveGameTitle;
+
+  /// No description provided for @leaveGameMessage.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'A partida atual será perdida. Deseja sair?'**
+  String get leaveGameMessage;
+
+  /// No description provided for @keepPlayingAction.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Continuar jogando'**
+  String get keepPlayingAction;
+
+  /// No description provided for @leaveGameAction.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Sair da partida'**
+  String get leaveGameAction;
+
+  /// No description provided for @boardEmptySquare.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Casa vazia'**
+  String get boardEmptySquare;
+
+  /// No description provided for @boardWhitePieces.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Peças brancas'**
+  String get boardWhitePieces;
+
+  /// No description provided for @boardBlackPieces.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Peças pretas'**
+  String get boardBlackPieces;
+
+  /// No description provided for @boardPawn.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Peão'**
+  String get boardPawn;
+
+  /// No description provided for @boardKing.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Rei'**
+  String get boardKing;
+
+  /// No description provided for @boardLegalTarget.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Destino disponível'**
+  String get boardLegalTarget;
+
+  /// No description provided for @homeContinueLevel.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Continuar: fase {level}'**
+  String homeContinueLevel(int level);
 }
 
 class _AppLocalizationsDelegate

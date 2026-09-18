@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_dimensions.dart';
-import '../../../../shared/chess/board_move.dart';
-import '../../../../shared/chess/board_piece.dart';
-import '../../../../shared/chess/chess_asset_paths.dart';
+import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
+import '../../core/theme/app_dimensions.dart';
+import 'board_move.dart';
+import 'board_piece.dart';
+import 'chess_asset_paths.dart';
 
 enum ChessBoardOrientation { white, black }
 
@@ -129,40 +130,62 @@ class _BoardCell extends StatelessWidget {
         ? ChessBoardSquareState.moveHint
         : ChessBoardSquareState.normal;
 
-    return GestureDetector(
-      key: ValueKey('chess-square-$square'),
-      behavior: HitTestBehavior.opaque,
+    final l10n =
+        AppLocalizations.of(context) ??
+        lookupAppLocalizations(const Locale('en'));
+    final currentPiece = piece;
+    final description = currentPiece == null
+        ? l10n.boardEmptySquare
+        : '${currentPiece.color == ChessPieceColor.white ? l10n.boardWhitePieces : l10n.boardBlackPieces}, ${switch (currentPiece.kind) {
+            ChessPieceKind.pawn => l10n.boardPawn,
+            ChessPieceKind.king => l10n.boardKing,
+            ChessPieceKind.queen => l10n.promotionQueen,
+            ChessPieceKind.rook => l10n.promotionRook,
+            ChessPieceKind.bishop => l10n.promotionBishop,
+            ChessPieceKind.knight => l10n.promotionKnight,
+          }}';
+    return Semantics(
+      label: '${square.toUpperCase()}, $description',
+      selected: isSelected,
+      button: true,
+      hint: isMoveHint ? l10n.boardLegalTarget : null,
       onTap: onTap,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          SvgPicture.asset(
-            ChessAssetPaths.square(color: squareColor, state: squareState),
-            fit: BoxFit.cover,
-          ),
-          if (isLastMove) const _LastMoveHighlightOverlay(),
-          if (piece != null)
-            Padding(
-              padding: const EdgeInsets.all(AppSizes.chessPiecePadding),
-              child: SvgPicture.asset(piece!.assetPath, fit: BoxFit.contain),
+      excludeSemantics: true,
+      child: GestureDetector(
+        key: ValueKey('chess-square-$square'),
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            SvgPicture.asset(
+              ChessAssetPaths.square(color: squareColor, state: squareState),
+              fit: BoxFit.cover,
             ),
-          if (isMoveHint && piece != null) const _CaptureHintOverlay(),
-          if (column == 0)
-            Positioned(
-              left: 5,
-              top: 3,
-              child: Text(square[1], style: _coordinateStyle(squareColor)),
-            ),
-          if (row == 7)
-            Positioned(
-              right: 5,
-              bottom: 2,
-              child: Text(
-                square[0].toUpperCase(),
-                style: _coordinateStyle(squareColor),
+            if (isLastMove) const _LastMoveHighlightOverlay(),
+            if (piece != null)
+              Padding(
+                padding: const EdgeInsets.all(AppSizes.chessPiecePadding),
+                child: SvgPicture.asset(piece!.assetPath, fit: BoxFit.contain),
               ),
-            ),
-        ],
+            if (isMoveHint && piece != null) const _CaptureHintOverlay(),
+            if (column == 0)
+              Positioned(
+                left: 5,
+                top: 3,
+                child: Text(square[1], style: _coordinateStyle(squareColor)),
+              ),
+            if (row == 7)
+              Positioned(
+                right: 5,
+                bottom: 2,
+                child: Text(
+                  square[0].toUpperCase(),
+                  style: _coordinateStyle(squareColor),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

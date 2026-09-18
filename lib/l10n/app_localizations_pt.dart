@@ -868,6 +868,41 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get themeComingSoon => 'Em breve';
+
+  @override
+  String get leaveGameTitle => 'Sair da partida?';
+
+  @override
+  String get leaveGameMessage => 'A partida atual será perdida. Deseja sair?';
+
+  @override
+  String get keepPlayingAction => 'Continuar jogando';
+
+  @override
+  String get leaveGameAction => 'Sair da partida';
+
+  @override
+  String get boardEmptySquare => 'Casa vazia';
+
+  @override
+  String get boardWhitePieces => 'Peças brancas';
+
+  @override
+  String get boardBlackPieces => 'Peças pretas';
+
+  @override
+  String get boardPawn => 'Peão';
+
+  @override
+  String get boardKing => 'Rei';
+
+  @override
+  String get boardLegalTarget => 'Destino disponível';
+
+  @override
+  String homeContinueLevel(int level) {
+    return 'Continuar: fase $level';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1734,4 +1769,39 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get themeComingSoon => 'Em breve';
+
+  @override
+  String get leaveGameTitle => 'Sair da partida?';
+
+  @override
+  String get leaveGameMessage => 'A partida atual será perdida. Deseja sair?';
+
+  @override
+  String get keepPlayingAction => 'Continuar jogando';
+
+  @override
+  String get leaveGameAction => 'Sair da partida';
+
+  @override
+  String get boardEmptySquare => 'Casa vazia';
+
+  @override
+  String get boardWhitePieces => 'Peças brancas';
+
+  @override
+  String get boardBlackPieces => 'Peças pretas';
+
+  @override
+  String get boardPawn => 'Peão';
+
+  @override
+  String get boardKing => 'Rei';
+
+  @override
+  String get boardLegalTarget => 'Destino disponível';
+
+  @override
+  String homeContinueLevel(int level) {
+    return 'Continuar: fase $level';
+  }
 }

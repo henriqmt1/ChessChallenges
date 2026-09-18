@@ -11,6 +11,8 @@ import '../../../../core/theme/theme_mode_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
 import '../../../bot_game/presentation/pages/bot_game_page.dart';
 import '../../../campaign/presentation/pages/campaign_page.dart';
+import '../../../campaign/presentation/viewmodels/campaign_map_view_model.dart';
+import '../../../puzzles/presentation/pages/puzzle_page.dart';
 import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
 import '../../../faq/presentation/pages/faq_page.dart';
 import '../../../local_game/presentation/pages/local_game_page.dart';
@@ -19,9 +21,9 @@ import '../../../progress/presentation/pages/progress_page.dart';
 import '../../../../shared/widgets/app_design_system.dart';
 
 const _guidedLessonsAccent = AppColors.primary;
-const _objectiveChallengesAccent = Color(0xFFF59E0B);
-const _botGameAccent = Color(0xFF0EA5E9);
-const _localPlayersAccent = Color(0xFF22C55E);
+const _objectiveChallengesAccent = AppColors.objectiveAccent;
+const _botGameAccent = AppColors.botAccent;
+const _localPlayersAccent = AppColors.localGameAccent;
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -34,8 +36,10 @@ class HomePage extends ConsumerWidget {
           data: (progress) => progress.isCompleted(0),
           orElse: () => false,
         );
-    final guidedLessonsActionLabel = firstGuidedLevelCompleted
-        ? context.l10n.continueButton
+    final nextLevel = ref.watch(nextCampaignLevelProvider).value;
+    final resumeLevel = firstGuidedLevelCompleted ? nextLevel : null;
+    final guidedLessonsActionLabel = resumeLevel != null
+        ? context.l10n.homeContinueLevel(resumeLevel + 1)
         : context.l10n.homePlayAction;
 
     return Scaffold(
@@ -61,6 +65,14 @@ class HomePage extends ConsumerWidget {
             sliver: SliverToBoxAdapter(
               child: _HomeModeList(
                 guidedLessonsActionLabel: guidedLessonsActionLabel,
+                resumeLevel: resumeLevel,
+                onCompleted: (index) {
+                  unawaited(
+                    ref
+                        .read(campaignProgressViewModelProvider.notifier)
+                        .completeLevel(index),
+                  );
+                },
               ),
             ),
           ),
@@ -71,9 +83,15 @@ class HomePage extends ConsumerWidget {
 }
 
 class _HomeModeList extends StatelessWidget {
-  const _HomeModeList({required this.guidedLessonsActionLabel});
+  const _HomeModeList({
+    required this.guidedLessonsActionLabel,
+    required this.resumeLevel,
+    required this.onCompleted,
+  });
 
   final String guidedLessonsActionLabel;
+  final int? resumeLevel;
+  final ValueChanged<int> onCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -104,10 +122,30 @@ class _HomeModeList extends StatelessWidget {
           enabled: true,
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => const CampaignPage(showBackButton: true),
+              builder: (_) => resumeLevel == null
+                  ? const CampaignPage(showBackButton: true)
+                  : PuzzlePage(
+                      initialPuzzleIndex: resumeLevel!,
+                      showSelector: false,
+                      onCompleted: onCompleted,
+                    ),
             ),
           ),
         ),
+        if (resumeLevel != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              key: const ValueKey('home-campaign-map'),
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) => const CampaignPage(showBackButton: true),
+                ),
+              ),
+              icon: const Icon(Icons.map_outlined),
+              label: Text(context.l10n.mapButton),
+            ),
+          ),
         const SizedBox(height: AppSpacing.sm),
         _ModeCard(
           key: const ValueKey('mode-objectives-card'),

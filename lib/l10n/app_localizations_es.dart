@@ -870,4 +870,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get themeComingSoon => 'Próximamente';
+
+  @override
+  String get leaveGameTitle => '¿Salir de la partida?';
+
+  @override
+  String get leaveGameMessage =>
+      'Se perderá la partida actual. ¿Quieres salir?';
+
+  @override
+  String get keepPlayingAction => 'Seguir jugando';
+
+  @override
+  String get leaveGameAction => 'Salir de la partida';
+
+  @override
+  String get boardEmptySquare => 'Casilla vacía';
+
+  @override
+  String get boardWhitePieces => 'Piezas blancas';
+
+  @override
+  String get boardBlackPieces => 'Piezas negras';
+
+  @override
+  String get boardPawn => 'Peón';
+
+  @override
+  String get boardKing => 'Rey';
+
+  @override
+  String get boardLegalTarget => 'Destino disponible';
+
+  @override
+  String homeContinueLevel(int level) {
+    return 'Continuar: nivel $level';
+  }
 }

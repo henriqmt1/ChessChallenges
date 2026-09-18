@@ -8,22 +8,23 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
+import '../../../../shared/chess/game_exit_guard.dart';
 import '../../../../shared/chess/promotion_choice_sheet.dart';
 import '../../../../shared/feedback/app_feedback.dart';
 import '../../../../shared/monetization/ads_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
 import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
 import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
-import '../../../puzzles/presentation/widgets/chess_board.dart';
+import '../../../../shared/chess/chess_board.dart';
 import '../../domain/bot_difficulty.dart';
 import '../viewmodels/bot_game_view_model.dart';
 import '../viewmodels/bot_game_state.dart';
 import '../../../../shared/widgets/app_design_system.dart';
 
-const _botBeginnerAccent = Color(0xFF22C55E);
-const _botIntermediateAccent = Color(0xFFF59E0B);
-const _botAdvancedAccent = Color(0xFF0EA5E9);
-const _botChooserAccent = Color(0xFF0EA5E9);
+const _botBeginnerAccent = AppColors.localGameAccent;
+const _botIntermediateAccent = AppColors.objectiveAccent;
+const _botAdvancedAccent = AppColors.botAccent;
+const _botChooserAccent = AppColors.botAccent;
 
 class BotGamePage extends ConsumerStatefulWidget {
   const BotGamePage({super.key});
@@ -111,16 +112,13 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
     final state = ref.watch(botGameViewModelProvider);
     final viewModel = ref.read(botGameViewModelProvider.notifier);
 
-    return PopScope<Object?>(
-      canPop: !state.isPlayingGame,
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop || !state.isPlayingGame) {
-          return;
-        }
-
-        viewModel.returnToDifficultySelection();
-      },
-      child: Scaffold(
+    return GameExitGuard(
+      needsConfirmation:
+          state.status == BotGameStatus.playing && state.moveCount > 0,
+      onExit: state.isPlayingGame
+          ? viewModel.returnToDifficultySelection
+          : null,
+      builder: (requestExit) => Scaffold(
         body: AppPageFrame(
           slivers: [
             SliverPadding(
@@ -133,9 +131,7 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
               sliver: SliverToBoxAdapter(
                 child: _BotGameTopBar(
                   state: state,
-                  onBack: state.isPlayingGame
-                      ? viewModel.returnToDifficultySelection
-                      : null,
+                  onBack: state.isPlayingGame ? requestExit : null,
                   onReset: state.isPlayingGame
                       ? () {
                           unawaited(_confirmResetGame(viewModel.resetGame));

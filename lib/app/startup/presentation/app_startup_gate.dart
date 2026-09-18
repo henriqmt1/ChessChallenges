@@ -16,7 +16,7 @@ import '../app_startup.dart';
 class AppStartupGate extends ConsumerStatefulWidget {
   const AppStartupGate({
     super.key,
-    this.minimumDisplayDuration = const Duration(milliseconds: 1800),
+    this.minimumDisplayDuration = Duration.zero,
   });
 
   static const logoAsset = 'assets/branding/app_logo.png';

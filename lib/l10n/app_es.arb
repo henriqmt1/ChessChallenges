@@ -253,5 +253,23 @@
   "difficultyEasy": "Fácil",
   "difficultyMedium": "Medio",
   "difficultyAdvanced": "Avanzado",
-  "themeComingSoon": "Próximamente"
+  "themeComingSoon": "Próximamente",
+  "leaveGameTitle": "¿Salir de la partida?",
+  "leaveGameMessage": "Se perderá la partida actual. ¿Quieres salir?",
+  "keepPlayingAction": "Seguir jugando",
+  "leaveGameAction": "Salir de la partida",
+  "boardEmptySquare": "Casilla vacía",
+  "boardWhitePieces": "Piezas blancas",
+  "boardBlackPieces": "Piezas negras",
+  "boardPawn": "Peón",
+  "boardKing": "Rey",
+  "boardLegalTarget": "Destino disponible",
+  "homeContinueLevel": "Continuar: nivel {level}",
+  "@homeContinueLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  }
 }

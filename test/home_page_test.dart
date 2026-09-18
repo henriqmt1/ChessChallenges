@@ -1,3 +1,7 @@
+import 'package:chess_chalenges/app/puzzles/data/datasources/local_puzzle_data_source.dart';
+import 'package:chess_chalenges/app/objective_challenges/data/objective_challenge_data_source.dart';
+import 'package:chess_chalenges/app/puzzles/presentation/pages/puzzle_page.dart';
+import 'package:chess_chalenges/core/config/app_edition.dart';
 import 'package:chess_chalenges/app/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,13 +11,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'support/localized_test_app.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(() async {
+    // Resolve real asset IO outside the widget tests' fake async clock.
+    await const LocalPuzzleDataSource().loadDemoPuzzles();
+    await const ObjectiveChallengeDataSource().loadLevels();
+  });
   testWidgets('shows play on guided lessons before the first level is done', (
     tester,
   ) async {
     SharedPreferences.setMockInitialValues({});
 
     await tester.pumpWidget(
-      ProviderScope(child: localizedTestApp(home: const HomePage())),
+      ProviderScope(
+        overrides: [appEditionProvider.overrideWithValue(AppEdition.free)],
+        child: localizedTestApp(home: const HomePage()),
+      ),
     );
     await tester.pumpAndSettle();
 
@@ -29,11 +42,28 @@ void main() {
       });
 
       await tester.pumpWidget(
-        ProviderScope(child: localizedTestApp(home: const HomePage())),
+        ProviderScope(
+          overrides: [appEditionProvider.overrideWithValue(AppEdition.free)],
+          child: localizedTestApp(home: const HomePage()),
+        ),
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Continuar'), findsOneWidget);
+      await _scrollUntilFound(tester, find.text('Continuar: fase 2'));
+      expect(find.text('Continuar: fase 2'), findsOneWidget);
+      expect(find.byKey(const ValueKey('home-campaign-map')), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('mode-guided-lessons-card')));
+      for (var attempt = 0; attempt < 50; attempt++) {
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 10)),
+        );
+        await tester.pump(const Duration(milliseconds: 100));
+        if (find.text('Fase 2').evaluate().isNotEmpty) break;
+      }
+      expect(find.text('Fase 2'), findsOneWidget);
+      final puzzlePage = tester.widget<PuzzlePage>(find.byType(PuzzlePage));
+      expect(puzzlePage.initialPuzzleIndex, 1);
+      expect(puzzlePage.showSelector, isFalse);
     },
   );
 
@@ -47,7 +77,10 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      ProviderScope(child: localizedTestApp(home: const HomePage())),
+      ProviderScope(
+        overrides: [appEditionProvider.overrideWithValue(AppEdition.free)],
+        child: localizedTestApp(home: const HomePage()),
+      ),
     );
     await tester.pumpAndSettle();
 
@@ -66,7 +99,10 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(
-      ProviderScope(child: localizedTestApp(home: const HomePage())),
+      ProviderScope(
+        overrides: [appEditionProvider.overrideWithValue(AppEdition.free)],
+        child: localizedTestApp(home: const HomePage()),
+      ),
     );
     await tester.pumpAndSettle();
 
@@ -91,7 +127,10 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     await tester.pumpWidget(
-      ProviderScope(child: localizedTestApp(home: const HomePage())),
+      ProviderScope(
+        overrides: [appEditionProvider.overrideWithValue(AppEdition.free)],
+        child: localizedTestApp(home: const HomePage()),
+      ),
     );
     await tester.pumpAndSettle();
 

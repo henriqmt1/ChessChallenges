@@ -1,11 +1,54 @@
-import 'package:chess_chalenges/app/puzzles/presentation/widgets/chess_board.dart';
+import 'package:chess_chalenges/shared/chess/chess_board.dart';
 import 'package:chess_chalenges/shared/chess/board_move.dart';
 import 'package:chess_chalenges/shared/chess/board_piece.dart';
 import 'package:chess_chalenges/shared/chess/chess_asset_paths.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' show SemanticsAction, Tristate;
+import 'support/localized_test_app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('announces piece, square, selection and legal destination', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    String? tapped;
+    await tester.pumpWidget(
+      localizedTestApp(
+        home: Scaffold(
+          body: SizedBox.square(
+            dimension: 320,
+            child: ChessBoard(
+              pieces: const {
+                'e4': BoardPiece(
+                  color: ChessPieceColor.white,
+                  kind: ChessPieceKind.pawn,
+                ),
+              },
+              selectedSquare: 'e4',
+              legalTargets: const {'e5'},
+              onSquareTap: (square) => tapped = square,
+            ),
+          ),
+        ),
+      ),
+    );
+    final selected = tester.getSemantics(
+      find.bySemanticsLabel('E4, Peças brancas, Peão'),
+    );
+    expect(
+      selected.getSemanticsData().flagsCollection.isSelected,
+      Tristate.isTrue,
+    );
+    final destination = tester.getSemantics(
+      find.bySemanticsLabel('E5, Casa vazia'),
+    );
+    expect(destination.hint, 'Destino disponível');
+    destination.owner!.performAction(destination.id, SemanticsAction.tap);
+    expect(tapped, 'e5');
+    semantics.dispose();
+  });
+
   testWidgets('shows a visible capture hint over occupied legal targets', (
     tester,
   ) async {

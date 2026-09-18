@@ -65,14 +65,20 @@ widgets. Para desafios por objetivo, cada fase deve definir pelo menos:
   "level": 1,
   "fen": "posição inicial",
   "objective": "objetivo que o jogador precisa cumprir",
-  "minimumPlayerMoves": 1,
-  "maximumPlayerMoves": 3,
+  "scoring": {
+    "threeStarLimit": 2,
+    "twoStarLimit": 3,
+    "oneStarLimit": 4
+  },
   "playerColor": "white"
 }
 ```
 
 O controlador calcula estrelas a partir das jogadas do jogador e só grava a
-melhor pontuação obtida para a fase.
+melhor pontuação obtida para a fase. Cada desafio tem três limites: atingir o
+primeiro dá 3 estrelas, o segundo dá 2 e o terceiro dá 1. Fases de mate em 1
+usam tentativas como métrica, porque a posição volta ao início depois de um
+lance incorreto.
 
 ## Fora do escopo atual
 

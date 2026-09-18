@@ -30,7 +30,9 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
       }
 
       unawaited(
-        ref.read(playerProgressViewModelProvider.notifier).refreshRemote(),
+        ref
+            .read(playerProgressViewModelProvider.notifier)
+            .refreshInBackground(),
       );
     });
   }
@@ -406,7 +408,7 @@ class _ProgressSyncCard extends StatelessWidget {
               )
             else if (connected)
               _SyncConnectedPill(
-                label: context.l10n.progressSynced,
+                label: context.l10n.progressSyncConnectedBadge,
                 color: accent,
               )
             else

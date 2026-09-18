@@ -21,7 +21,6 @@ class PlayerProgressViewModel extends AsyncNotifier<PlayerProgress> {
   late RemotePlayerProgressRepository _remoteRepository;
   final _updateQueue = AsyncTaskQueue();
   late LatestValueQueue<PlayerProgress> _remoteSaveQueue;
-  int _localRevision = 0;
 
   @override
   Future<PlayerProgress> build() async {
@@ -33,14 +32,16 @@ class PlayerProgressViewModel extends AsyncNotifier<PlayerProgress> {
     final campaignProgress = await ref
         .read(localCampaignProgressStorageProvider)
         .load();
-    final migratedProgress = localProgress.recordCampaignSnapshot(
-      completedLevelIndexes: campaignProgress.completedLevelIndexes,
-      currentOffensiveCount: campaignProgress.offensiveCount,
-      lastActivityDate: campaignProgress.lastActivityDate,
-    );
+    final migratedProgress = localProgress
+        .recordCampaignSnapshot(
+          completedLevelIndexes: campaignProgress.completedLevelIndexes,
+          currentOffensiveCount: campaignProgress.offensiveCount,
+          lastActivityDate: campaignProgress.lastActivityDate,
+        )
+        .copyWith(lastSyncedAt: null);
 
     await _localStorage.save(migratedProgress);
-    unawaited(_mergeRemoteProgress(migratedProgress));
+    unawaited(refreshInBackground());
 
     return migratedProgress;
   }
@@ -91,9 +92,14 @@ class PlayerProgressViewModel extends AsyncNotifier<PlayerProgress> {
   }
 
   Future<void> refreshRemote() async {
-    await _updateQueue.idle;
+    await _mergeRemoteProgress();
+    await _remoteSaveQueue.idle;
     final current = await _currentProgress();
-    await _mergeRemoteProgress(current);
+    if (current.lastSyncedAt == null) {
+      throw StateError(
+        'Progress is saved locally, but remote sync is pending.',
+      );
+    }
   }
 
   Future<PlayerProgress> _currentProgress() async {
@@ -108,32 +114,37 @@ class PlayerProgressViewModel extends AsyncNotifier<PlayerProgress> {
       final current = await _currentProgress();
       final next = update(current).normalizeForToday(DateTime.now());
 
-      _localRevision++;
-      state = AsyncValue.data(next);
-      await _localStorage.save(next);
-      _enqueueRemoteSave(next);
+      final pending = next.copyWith(lastSyncedAt: null);
+      await _localStorage.save(pending);
+      if (!ref.mounted) return;
+      state = AsyncValue.data(pending);
+      _enqueueRemoteSave(pending);
     });
   }
 
-  Future<void> _mergeRemoteProgress(PlayerProgress localProgress) async {
-    await _updateQueue.idle;
-    final revisionAtStart = _localRevision;
-    final remoteProgress = await _remoteRepository.load();
-    final latestLocalProgress = _localRevision == revisionAtStart
-        ? localProgress
-        : await _currentProgress();
-    final mergedProgress = remoteProgress == null
-        ? latestLocalProgress
-        : latestLocalProgress
-              .mergeWith(remoteProgress)
-              .normalizeForToday(DateTime.now());
-
-    await _localStorage.save(mergedProgress);
-    if (ref.mounted) {
-      state = AsyncValue.data(mergedProgress);
+  Future<void> refreshInBackground() async {
+    try {
+      await _mergeRemoteProgress();
+    } on Object {
+      // Local play remains available; explicit sync reports the failure.
     }
+  }
 
-    _enqueueRemoteSave(mergedProgress);
+  Future<void> _mergeRemoteProgress() async {
+    final remoteProgress = await _remoteRepository.load();
+    if (!ref.mounted) return;
+    await _updateQueue.add<void>(() async {
+      if (!ref.mounted) return;
+      final current = await _currentProgress();
+      final merged =
+          (remoteProgress == null ? current : current.mergeWith(remoteProgress))
+              .normalizeForToday(DateTime.now())
+              .copyWith(lastSyncedAt: null);
+      await _localStorage.save(merged);
+      if (!ref.mounted) return;
+      state = AsyncValue.data(merged);
+      _enqueueRemoteSave(merged);
+    });
   }
 
   void _enqueueRemoteSave(PlayerProgress progress) {
@@ -146,19 +157,15 @@ class PlayerProgressViewModel extends AsyncNotifier<PlayerProgress> {
       return;
     }
 
-    final current = switch (state) {
-      AsyncData(:final value) => value,
-      _ => null,
-    };
-    if (current?.updatedAt == progress.updatedAt) {
-      final syncedProgress = progress.markSynced(DateTime.now());
+    if (!ref.mounted) return;
+    await _updateQueue.add<void>(() async {
+      if (!ref.mounted) return;
+      final current = await _currentProgress();
+      // Identity checks the exact snapshot, even when timestamps coincide.
+      if (!identical(current, progress)) return;
+      final syncedProgress = current.markSynced(DateTime.now());
       await _localStorage.save(syncedProgress);
-
-      if (!ref.mounted) {
-        return;
-      }
-
-      state = AsyncValue.data(syncedProgress);
-    }
+      if (ref.mounted) state = AsyncValue.data(syncedProgress);
+    });
   }
 }

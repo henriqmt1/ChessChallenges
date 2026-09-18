@@ -869,4 +869,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeComingSoon => 'Coming soon';
+
+  @override
+  String get leaveGameTitle => 'Leave this game?';
+
+  @override
+  String get leaveGameMessage =>
+      'Your current game will be lost. Do you want to leave?';
+
+  @override
+  String get keepPlayingAction => 'Keep playing';
+
+  @override
+  String get leaveGameAction => 'Leave game';
+
+  @override
+  String get boardEmptySquare => 'Empty square';
+
+  @override
+  String get boardWhitePieces => 'White pieces';
+
+  @override
+  String get boardBlackPieces => 'Black pieces';
+
+  @override
+  String get boardPawn => 'Pawn';
+
+  @override
+  String get boardKing => 'King';
+
+  @override
+  String get boardLegalTarget => 'Available destination';
+
+  @override
+  String homeContinueLevel(int level) {
+    return 'Continue: level $level';
+  }
 }

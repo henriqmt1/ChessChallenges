@@ -17,22 +17,53 @@ class ObjectiveChallengeDataSource {
   const ObjectiveChallengeDataSource();
 
   static const _assetPath = 'assets/puzzles/campaign_v1.json';
-  static const _firstSourceIndex = 10;
-  static const _levelCount = 30;
+  // The objective mode has its own progression. It intentionally samples
+  // different campaign themes instead of exposing ten consecutive mate-in-one
+  // positions at the beginning of the map.
+  static const _sourceGlobalLevels = <int>[
+    11,
+    12,
+    13,
+    21,
+    22,
+    23,
+    24,
+    25,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    41,
+    42,
+    43,
+    44,
+    45,
+    50,
+    51,
+    53,
+    55,
+    58,
+    61,
+    63,
+    65,
+    71,
+    82,
+    91,
+  ];
 
   Future<List<ObjectiveChallengeLevel>> loadLevels() async {
     final payload = await rootBundle.loadString(_assetPath);
     final json = jsonDecode(payload) as Map<String, dynamic>;
-    final puzzles = json['puzzles'] as List;
-    final selectedPuzzles = puzzles
-        .skip(_firstSourceIndex)
-        .take(_levelCount)
-        .cast<Map<String, dynamic>>()
-        .toList(growable: false);
+    final puzzles = (json['puzzles'] as List).cast<Map<String, dynamic>>();
+    final puzzlesByGlobalLevel = <int, Map<String, dynamic>>{
+      for (final puzzle in puzzles) puzzle['globalLevel'] as int: puzzle,
+    };
 
     return [
-      for (final entry in selectedPuzzles.indexed)
-        _levelFromJson(entry.$2, level: entry.$1 + 1),
+      for (final entry in _sourceGlobalLevels.indexed)
+        _levelFromJson(puzzlesByGlobalLevel[entry.$2]!, level: entry.$1 + 1),
     ];
   }
 
@@ -58,6 +89,10 @@ class ObjectiveChallengeDataSource {
       playerColor: playerColor,
       startMaterialBalance: startMaterialBalance,
     );
+    final isMateInOne =
+        goal.type == ObjectiveChallengeGoalType.checkmate &&
+        playerMoveIndexes.length == 1 &&
+        solutionMoves.length == 1;
 
     return ObjectiveChallengeLevel(
       id: json['id'] as String,
@@ -68,8 +103,13 @@ class ObjectiveChallengeDataSource {
       playerColor: playerColor,
       solutionMoves: solutionMoves,
       playerMoveIndexes: playerMoveIndexes,
-      minimumPlayerMoves: minimumPlayerMoves,
-      maximumPlayerMoves: minimumPlayerMoves + 2,
+      scoring: isMateInOne
+          ? const ObjectiveChallengeScoring.attempts(oneStarLimit: 3)
+          : ObjectiveChallengeScoring.moves(
+              threeStarLimit: minimumPlayerMoves,
+              twoStarLimit: minimumPlayerMoves + 1,
+              oneStarLimit: minimumPlayerMoves + 2,
+            ),
       startMaterialBalance: startMaterialBalance,
       goal: goal,
     );

@@ -253,5 +253,23 @@
   "difficultyEasy": "Easy",
   "difficultyMedium": "Medium",
   "difficultyAdvanced": "Advanced",
-  "themeComingSoon": "Coming soon"
+  "themeComingSoon": "Coming soon",
+  "leaveGameTitle": "Leave this game?",
+  "leaveGameMessage": "Your current game will be lost. Do you want to leave?",
+  "keepPlayingAction": "Keep playing",
+  "leaveGameAction": "Leave game",
+  "boardEmptySquare": "Empty square",
+  "boardWhitePieces": "White pieces",
+  "boardBlackPieces": "Black pieces",
+  "boardPawn": "Pawn",
+  "boardKing": "King",
+  "boardLegalTarget": "Available destination",
+  "homeContinueLevel": "Continue: level {level}",
+  "@homeContinueLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -170,7 +170,7 @@ class ObjectiveChallengeGameViewModel
     _rules = ChessRulesService.fromFen(level.fen);
     _plyCount = 0;
 
-    if (playerMoveCount >= level.maximumPlayerMoves) {
+    if (playerMoveCount >= level.oneStarLimit) {
       state = _stateFromRules(
         status: ObjectiveChallengeSessionStatus.failed,
         playerMoveCount: playerMoveCount,
@@ -208,7 +208,7 @@ class ObjectiveChallengeGameViewModel
       return;
     }
 
-    if (playerMoveCount >= level.maximumPlayerMoves ||
+    if (playerMoveCount >= level.oneStarLimit ||
         _rules.inCheckmate ||
         _rules.inDraw ||
         _rules.gameOver) {
@@ -382,17 +382,7 @@ class ObjectiveChallengeGameViewModel
   }
 
   int _starsFor(int playerMoves) {
-    if (playerMoves <= level.minimumPlayerMoves) {
-      return 3;
-    }
-    if (playerMoves == level.minimumPlayerMoves + 1) {
-      return 2;
-    }
-    if (playerMoves <= level.maximumPlayerMoves) {
-      return 1;
-    }
-
-    return 0;
+    return level.starsFor(playerMoves);
   }
 
   ObjectiveChallengeGameState _stateFromRules({

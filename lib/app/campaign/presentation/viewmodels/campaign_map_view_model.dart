@@ -7,6 +7,15 @@ import 'campaign_map_state.dart';
 import 'campaign_progress_view_model.dart';
 import 'campaign_progress_state.dart';
 
+/// Null when all available lessons are complete; never opens a missing level.
+final nextCampaignLevelProvider = FutureProvider<int?>((ref) async {
+  final progress = await ref.watch(campaignProgressViewModelProvider.future);
+  final puzzles = await ref.watch(getDemoPuzzlesUseCaseProvider).call();
+  return progress.currentLevelIndex < puzzles.length
+      ? progress.currentLevelIndex
+      : null;
+});
+
 final selectedWorldViewModelProvider =
     NotifierProvider<SelectedWorldViewModel, int>(SelectedWorldViewModel.new);
 

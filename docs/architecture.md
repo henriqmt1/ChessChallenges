@@ -70,6 +70,11 @@ pensa, o resultado antigo é descartado.
 O progresso é salvo primeiro localmente. Atualizações locais entram em uma
 fila serializada e o envio remoto é agrupado pelo snapshot mais recente. Isso
 evita duas gravações concorrentes sobrescreverem uma ação mais nova.
+O merge remoto e a confirmação de upload também passam pela fila local. Uma
+confirmação só marca como sincronizado o mesmo snapshot enviado; novas ações
+voltam ao estado local até que o upload correspondente termine. A sincronização
+explícita aguarda os uploads e informa falha, enquanto a tentativa em segundo
+plano mantém o jogo offline disponível.
 
 O Firebase é opcional para a experiência principal: sem conexão, campanha,
 partidas e estatísticas locais continuam funcionando. Quando há usuário
@@ -88,6 +93,20 @@ Componentes compartilhados ficam em `shared/widgets/`:
 
 Novos componentes devem receber tokens do tema e evitar tamanhos ou cores
 recorrentes definidos diretamente na página.
+
+### Navegação e acessibilidade
+
+`GameExitGuard`, em `shared/chess`, confirma o abandono de partidas locais e
+contra o bot depois da primeira jogada. Voltar pelo sistema e pela toolbar
+seguem a mesma regra; cancelar mantém a partida atual.
+
+`ChessBoard` pertence a `shared/chess` e expõe uma descrição traduzida por casa,
+com posição, peça, seleção e indicação de destino disponível. Todos os modos
+consomem esse mesmo componente.
+
+A home permite retomar diretamente a próxima lição disponível e mantém um
+atalho separado para o mapa. A abertura aguarda as dependências necessárias,
+sem impor uma duração mínima à splash por padrão.
 
 ## Testes
 

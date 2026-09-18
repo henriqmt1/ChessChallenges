@@ -10,9 +10,21 @@ void main() {
 
     expect(levels, hasLength(30));
     expect(levels.first.goal.type, ObjectiveChallengeGoalType.checkmate);
-    expect(levels.take(10).every((level) => level.isMateInOne), isTrue);
-    expect(levels.first.minimumPlayerMoves, 1);
-    expect(levels.first.maximumPlayerMoves, 3);
-    expect(levels[10].isMateInOne, isFalse);
+    expect(levels.take(3).every((level) => level.isMateInOne), isTrue);
+    expect(levels.skip(3).any((level) => !level.isMateInOne), isTrue);
+    expect(levels.first.scoring.metric, ObjectiveChallengeScoreMetric.attempts);
+    expect(levels.first.threeStarLimit, 1);
+    expect(levels.first.scoring.twoStarLimit, 2);
+    expect(levels.first.oneStarLimit, 3);
+
+    final moveScoredLevel = levels[3];
+    expect(
+      moveScoredLevel.scoring.metric,
+      ObjectiveChallengeScoreMetric.playerMoves,
+    );
+    expect(moveScoredLevel.starsFor(moveScoredLevel.threeStarLimit), 3);
+    expect(moveScoredLevel.starsFor(moveScoredLevel.scoring.twoStarLimit), 2);
+    expect(moveScoredLevel.starsFor(moveScoredLevel.oneStarLimit), 1);
+    expect(moveScoredLevel.starsFor(moveScoredLevel.oneStarLimit + 1), 0);
   });
 }

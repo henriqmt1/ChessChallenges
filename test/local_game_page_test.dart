@@ -95,6 +95,14 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('local-game-back-button')));
     await tester.pumpAndSettle();
+    expect(find.text('Sair da partida?'), findsOneWidget);
+    await tester.tap(find.text('Continuar jogando'));
+    await tester.pumpAndSettle();
+    expect(find.text('Vez: Pretas'), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Sair da partida'));
+    await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const ValueKey('open-local-game-button')));
     await tester.pumpAndSettle();

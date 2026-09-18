@@ -15,7 +15,7 @@ import '../../../../shared/widgets/app_design_system.dart';
 import '../l10n/puzzle_localizations.dart';
 import '../viewmodels/puzzle_state.dart';
 import '../viewmodels/puzzle_view_model.dart';
-import '../widgets/chess_board.dart';
+import '../../../../shared/chess/chess_board.dart';
 
 class PuzzlePage extends ConsumerStatefulWidget {
   const PuzzlePage({

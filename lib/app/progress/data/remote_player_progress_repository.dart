@@ -40,26 +40,22 @@ class RemotePlayerProgressRepository {
   final FirebaseFirestore? _firestore;
 
   Future<PlayerProgress?> load() async {
-    try {
-      final user = await _ensureUser();
-      final firestore = _firestore;
-      if (user == null || firestore == null) {
-        return null;
-      }
-
-      final snapshot = await _progressDocument(
-        firestore: firestore,
-        userId: user.uid,
-      ).get();
-      final data = snapshot.data();
-      if (data == null) {
-        return null;
-      }
-
-      return PlayerProgress.fromJson(data);
-    } on Object {
+    final user = await _ensureUser();
+    final firestore = _firestore;
+    if (user == null || firestore == null) {
       return null;
     }
+
+    final snapshot = await _progressDocument(
+      firestore: firestore,
+      userId: user.uid,
+    ).get();
+    final data = snapshot.data();
+    if (data == null) {
+      return null;
+    }
+
+    return PlayerProgress.fromJson(data);
   }
 
   Future<bool> save(PlayerProgress progress) async {
