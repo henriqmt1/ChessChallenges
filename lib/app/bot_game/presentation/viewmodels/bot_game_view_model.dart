@@ -6,17 +6,18 @@ import '../../../../shared/chess/board_move.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/chess_rules_service.dart';
 import '../../domain/bot_difficulty.dart';
-import '../../domain/chess_bot_service.dart';
+import '../../domain/bot_move_calculator.dart';
+import '../../data/isolate_bot_move_calculator.dart';
 import 'bot_game_state.dart';
 
-final botGameControllerProvider =
-    NotifierProvider.autoDispose<BotGameController, BotGameState>(
-      BotGameController.new,
+final botGameViewModelProvider =
+    NotifierProvider.autoDispose<BotGameViewModel, BotGameState>(
+      BotGameViewModel.new,
     );
 
-class BotGameController extends Notifier<BotGameState> {
+class BotGameViewModel extends Notifier<BotGameState> {
   late ChessRulesService _rules;
-  late ChessBotService _botService;
+  late BotMoveCalculator _botMoveCalculator;
   Timer? _lastMovePreviewTimer;
   int _gameGeneration = 0;
 
@@ -24,7 +25,7 @@ class BotGameController extends Notifier<BotGameState> {
   BotGameState build() {
     _gameGeneration++;
     _rules = ChessRulesService.standard();
-    _botService = ref.watch(chessBotServiceProvider);
+    _botMoveCalculator = ref.watch(botMoveCalculatorProvider);
     ref.onDispose(() => _lastMovePreviewTimer?.cancel());
 
     return _stateFromRules(
@@ -219,7 +220,30 @@ class BotGameController extends Notifier<BotGameState> {
       return;
     }
 
-    final move = _botService.chooseMove(_rules, difficulty);
+    ChessMove? move;
+    try {
+      move = await _botMoveCalculator.chooseMove(
+        fen: fenBeforeThinking,
+        difficulty: difficulty,
+      );
+    } on Object {
+      // A failed worker must not leave the game stuck on "thinking".
+    }
+
+    if (!ref.mounted ||
+        playGeneration != _gameGeneration ||
+        state.status != BotGameStatus.playing ||
+        state.difficulty != difficulty ||
+        state.turn != ChessPieceColor.black ||
+        _rules.fen != fenBeforeThinking) {
+      return;
+    }
+
+    if (move == null || !_rules.isLegalUciMove(move.uci)) {
+      final fallbackMoves = _rules.legalMoves();
+      move = fallbackMoves.isEmpty ? null : fallbackMoves.first;
+    }
+
     if (move == null) {
       state = _stateFromRules(
         status: _statusFromRules(),

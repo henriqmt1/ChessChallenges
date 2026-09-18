@@ -58,7 +58,7 @@ class _AppStartupGateState extends ConsumerState<AppStartupGate> {
       ]);
       if (mounted) {
         setState(() => _ready = true);
-        _scheduleForceUpdate(ref.read(appRuntimeConfigProvider));
+        _scheduleForceUpdate(ref.read(appRuntimeConfigViewModelProvider));
       }
     } on Object catch (error) {
       await minimumDisplay;
@@ -141,7 +141,7 @@ class _AppStartupGateState extends ConsumerState<AppStartupGate> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<AppRuntimeConfig>(appRuntimeConfigProvider, (_, next) {
+    ref.listen<AppRuntimeConfig>(appRuntimeConfigViewModelProvider, (_, next) {
       _scheduleForceUpdate(next);
     });
 

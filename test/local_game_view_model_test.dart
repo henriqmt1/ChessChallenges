@@ -1,4 +1,4 @@
-import 'package:chess_chalenges/app/local_game/presentation/viewmodels/local_game_controller.dart';
+import 'package:chess_chalenges/app/local_game/presentation/viewmodels/local_game_view_model.dart';
 import 'package:chess_chalenges/app/local_game/presentation/viewmodels/local_game_state.dart';
 import 'package:chess_chalenges/shared/chess/chess_asset_paths.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,27 +9,27 @@ void main() {
     final container = ProviderContainer();
     addTearDown(container.dispose);
     final subscription = container.listen(
-      localGameControllerProvider,
+      localGameViewModelProvider,
       (_, _) {},
       fireImmediately: true,
     );
     addTearDown(subscription.close);
 
-    final controller = container.read(localGameControllerProvider.notifier);
-    var state = container.read(localGameControllerProvider);
+    final viewModel = container.read(localGameViewModelProvider.notifier);
+    var state = container.read(localGameViewModelProvider);
 
     expect(state.turn, ChessPieceColor.white);
     expect(state.moveCount, 0);
     expect(state.status, LocalGameStatus.playing);
 
-    controller.onSquareTapped('e2');
-    state = container.read(localGameControllerProvider);
+    viewModel.onSquareTapped('e2');
+    state = container.read(localGameViewModelProvider);
 
     expect(state.selectedSquare, 'e2');
     expect(state.legalTargets, containsAll(<String>['e3', 'e4']));
 
-    controller.onSquareTapped('e4');
-    state = container.read(localGameControllerProvider);
+    viewModel.onSquareTapped('e4');
+    state = container.read(localGameViewModelProvider);
 
     expect(state.moveCount, 1);
     expect(state.turn, ChessPieceColor.black);
@@ -38,13 +38,13 @@ void main() {
     expect(state.pieces['e4']?.color, ChessPieceColor.white);
     expect(state.pieces['e4']?.kind, ChessPieceKind.pawn);
 
-    controller.onSquareTapped('d2');
-    state = container.read(localGameControllerProvider);
+    viewModel.onSquareTapped('d2');
+    state = container.read(localGameViewModelProvider);
 
     expect(state.selectedSquare, isNull);
 
-    controller.onSquareTapped('e7');
-    state = container.read(localGameControllerProvider);
+    viewModel.onSquareTapped('e7');
+    state = container.read(localGameViewModelProvider);
 
     expect(state.selectedSquare, 'e7');
     expect(state.legalTargets, containsAll(<String>['e6', 'e5']));
@@ -54,23 +54,23 @@ void main() {
     final container = ProviderContainer();
     addTearDown(container.dispose);
     final subscription = container.listen(
-      localGameControllerProvider,
+      localGameViewModelProvider,
       (_, _) {},
       fireImmediately: true,
     );
     addTearDown(subscription.close);
 
-    final controller = container.read(localGameControllerProvider.notifier);
+    final viewModel = container.read(localGameViewModelProvider.notifier);
 
-    controller.toggleBoard();
-    expect(container.read(localGameControllerProvider).boardFlipped, isTrue);
+    viewModel.toggleBoard();
+    expect(container.read(localGameViewModelProvider).boardFlipped, isTrue);
 
-    controller.onSquareTapped('e2');
-    controller.onSquareTapped('e4');
-    expect(container.read(localGameControllerProvider).moveCount, 1);
+    viewModel.onSquareTapped('e2');
+    viewModel.onSquareTapped('e4');
+    expect(container.read(localGameViewModelProvider).moveCount, 1);
 
-    controller.resetGame();
-    final state = container.read(localGameControllerProvider);
+    viewModel.resetGame();
+    final state = container.read(localGameViewModelProvider);
 
     expect(state.boardFlipped, isTrue);
     expect(state.moveCount, 0);
@@ -83,29 +83,29 @@ void main() {
     final container = ProviderContainer();
     addTearDown(container.dispose);
     final subscription = container.listen(
-      localGameControllerProvider,
+      localGameViewModelProvider,
       (_, _) {},
       fireImmediately: true,
     );
     addTearDown(subscription.close);
 
-    final controller = container.read(localGameControllerProvider.notifier);
+    final viewModel = container.read(localGameViewModelProvider.notifier);
 
-    controller.onSquareTapped('e2');
-    controller.onSquareTapped('e4');
+    viewModel.onSquareTapped('e2');
+    viewModel.onSquareTapped('e4');
 
-    var state = container.read(localGameControllerProvider);
+    var state = container.read(localGameViewModelProvider);
     expect(state.lastMove?.from, 'e2');
     expect(state.lastMove?.to, 'e4');
     expect(state.showLastMove, isFalse);
 
-    controller.showLastMovePreview();
-    state = container.read(localGameControllerProvider);
+    viewModel.showLastMovePreview();
+    state = container.read(localGameViewModelProvider);
     expect(state.showLastMove, isTrue);
 
     await Future<void>.delayed(const Duration(milliseconds: 1600));
 
-    state = container.read(localGameControllerProvider);
+    state = container.read(localGameViewModelProvider);
     expect(state.showLastMove, isFalse);
   });
 }

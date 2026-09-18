@@ -51,10 +51,10 @@ class PurchaseState {
   }
 }
 
-final purchaseControllerProvider =
-    NotifierProvider<PurchaseController, PurchaseState>(PurchaseController.new);
+final purchaseViewModelProvider =
+    NotifierProvider<PurchaseViewModel, PurchaseState>(PurchaseViewModel.new);
 
-class PurchaseController extends Notifier<PurchaseState> {
+class PurchaseViewModel extends Notifier<PurchaseState> {
   static const _premiumPreferenceKey = 'premium_entitlement_v1';
 
   final InAppPurchase _store = InAppPurchase.instance;

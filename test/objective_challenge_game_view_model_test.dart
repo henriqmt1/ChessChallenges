@@ -1,5 +1,5 @@
 import 'package:chess_chalenges/app/objective_challenges/data/objective_challenge_data_source.dart';
-import 'package:chess_chalenges/app/objective_challenges/presentation/viewmodels/objective_challenge_game_controller.dart';
+import 'package:chess_chalenges/app/objective_challenges/presentation/viewmodels/objective_challenge_game_view_model.dart';
 import 'package:chess_chalenges/app/objective_challenges/presentation/viewmodels/objective_challenge_game_state.dart';
 import 'package:chess_chalenges/shared/chess/chess_asset_paths.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,18 +14,18 @@ void main() {
     final container = ProviderContainer();
     addTearDown(container.dispose);
 
-    final provider = objectiveChallengeGameControllerProvider(level);
-    final controller = container.read(provider.notifier);
+    final provider = objectiveChallengeGameViewModelProvider(level);
+    final viewModel = container.read(provider.notifier);
     final initialPieces = container.read(provider).pieces;
 
     final wrongMove = _findLegalNonSolutionMove(
-      controller: controller,
+      viewModel: viewModel,
       readState: () => container.read(provider),
       playerColor: level.playerColor,
       solutionMove: level.solutionMoves.first,
     );
 
-    controller.onSquareTapped(wrongMove.to);
+    viewModel.onSquareTapped(wrongMove.to);
 
     final afterMiss = container.read(provider);
     expect(afterMiss.status, ObjectiveChallengeSessionStatus.playing);
@@ -39,8 +39,8 @@ void main() {
       expect(afterMiss.pieces[entry.key]?.kind, entry.value.kind);
     }
 
-    controller.onSquareTapped('d3');
-    controller.onSquareTapped('h7');
+    viewModel.onSquareTapped('d3');
+    viewModel.onSquareTapped('h7');
 
     final completed = container.read(provider);
     expect(completed.status, ObjectiveChallengeSessionStatus.completed);
@@ -51,7 +51,7 @@ void main() {
 }
 
 ({String from, String to}) _findLegalNonSolutionMove({
-  required ObjectiveChallengeGameController controller,
+  required ObjectiveChallengeGameViewModel viewModel,
   required ObjectiveChallengeGameState Function() readState,
   required ChessPieceColor playerColor,
   required String solutionMove,
@@ -63,7 +63,7 @@ void main() {
       continue;
     }
 
-    controller.onSquareTapped(entry.key);
+    viewModel.onSquareTapped(entry.key);
     final state = readState();
     for (final target in state.legalTargets) {
       if ('${entry.key}$target' != solutionMove) {

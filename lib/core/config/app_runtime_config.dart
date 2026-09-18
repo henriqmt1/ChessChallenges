@@ -42,12 +42,12 @@ class AppRuntimeConfig {
   }
 }
 
-final appRuntimeConfigProvider =
-    NotifierProvider<AppRuntimeConfigController, AppRuntimeConfig>(
-      AppRuntimeConfigController.new,
+final appRuntimeConfigViewModelProvider =
+    NotifierProvider<AppRuntimeConfigViewModel, AppRuntimeConfig>(
+      AppRuntimeConfigViewModel.new,
     );
 
-class AppRuntimeConfigController extends Notifier<AppRuntimeConfig> {
+class AppRuntimeConfigViewModel extends Notifier<AppRuntimeConfig> {
   static const _fetchTimeout = Duration(seconds: 4);
   static const _forceUpdatePreview = bool.fromEnvironment(
     'FORCE_UPDATE_PREVIEW',

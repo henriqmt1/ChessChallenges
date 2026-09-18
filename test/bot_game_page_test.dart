@@ -1,5 +1,6 @@
 import 'package:chess_chalenges/app/bot_game/domain/bot_difficulty.dart';
-import 'package:chess_chalenges/app/bot_game/domain/chess_bot_service.dart';
+import 'package:chess_chalenges/app/bot_game/domain/bot_move_calculator.dart';
+import 'package:chess_chalenges/app/bot_game/data/isolate_bot_move_calculator.dart';
 import 'package:chess_chalenges/app/bot_game/presentation/pages/bot_game_page.dart';
 import 'package:chess_chalenges/shared/chess/chess_rules_service.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          chessBotServiceProvider.overrideWithValue(_DeterministicBotService()),
+          botMoveCalculatorProvider.overrideWithValue(
+            _DeterministicBotMoveCalculator(),
+          ),
         ],
         child: localizedTestApp(home: const BotGamePage()),
       ),
@@ -51,7 +54,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          chessBotServiceProvider.overrideWithValue(_DeterministicBotService()),
+          botMoveCalculatorProvider.overrideWithValue(
+            _DeterministicBotMoveCalculator(),
+          ),
         ],
         child: localizedTestApp(home: const BotGamePage()),
       ),
@@ -62,7 +67,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sua vez'), findsOneWidget);
 
-    await tester.tap(find.byType(BackButton));
+    await tester.tap(find.byKey(const ValueKey('bot-game-back-button')));
     await tester.pumpAndSettle();
 
     expect(find.text('Escolha o nível do bot'), findsOneWidget);
@@ -71,9 +76,13 @@ void main() {
   });
 }
 
-class _DeterministicBotService extends ChessBotService {
+class _DeterministicBotMoveCalculator implements BotMoveCalculator {
   @override
-  ChessMove? chooseMove(ChessRulesService rules, BotDifficulty difficulty) {
+  Future<ChessMove?> chooseMove({
+    required String fen,
+    required BotDifficulty difficulty,
+  }) async {
+    final rules = ChessRulesService.fromFen(fen);
     final legalMoves = rules.legalMoves();
     return legalMoves.firstWhere(
       (move) => move.uci == 'e7e5',

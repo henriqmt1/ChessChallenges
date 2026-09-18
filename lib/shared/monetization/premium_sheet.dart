@@ -5,8 +5,8 @@ import '../../core/l10n/l10n.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_dimensions.dart';
 import '../feedback/app_toast.dart';
-import 'ads_controller.dart';
-import 'purchase_controller.dart';
+import 'ads_view_model.dart';
+import 'purchase_view_model.dart';
 
 enum PremiumSheetVariant { standard, afterAd }
 
@@ -29,14 +29,14 @@ class _PremiumSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final purchase = ref.watch(purchaseControllerProvider);
-    final ads = ref.watch(adsControllerProvider);
+    final purchase = ref.watch(purchaseViewModelProvider);
+    final ads = ref.watch(adsViewModelProvider);
     final colorScheme = Theme.of(context).colorScheme;
     final premium = purchase.isPremium;
     final afterAd = variant == PremiumSheetVariant.afterAd && !premium;
 
     ref.listen<Object?>(
-      purchaseControllerProvider.select((value) => value.lastError),
+      purchaseViewModelProvider.select((value) => value.lastError),
       (previous, next) {
         if (next != null && next != previous && context.mounted) {
           AppToast.showError(context, context.l10n.premiumPurchaseFailed);
@@ -197,7 +197,7 @@ class _PremiumSheet extends ConsumerWidget {
                   key: const ValueKey('privacy-options-button'),
                   onPressed: () {
                     ref
-                        .read(adsControllerProvider.notifier)
+                        .read(adsViewModelProvider.notifier)
                         .showPrivacyOptions();
                   },
                   icon: const Icon(Icons.privacy_tip_outlined),
@@ -223,7 +223,7 @@ class _PremiumSheet extends ConsumerWidget {
 
   Future<void> _purchase(BuildContext context, WidgetRef ref) async {
     final result = await ref
-        .read(purchaseControllerProvider.notifier)
+        .read(purchaseViewModelProvider.notifier)
         .purchasePremium();
     if (!context.mounted) {
       return;
@@ -233,7 +233,7 @@ class _PremiumSheet extends ConsumerWidget {
 
   Future<void> _restore(BuildContext context, WidgetRef ref) async {
     final result = await ref
-        .read(purchaseControllerProvider.notifier)
+        .read(purchaseViewModelProvider.notifier)
         .restorePurchases();
     if (!context.mounted) {
       return;

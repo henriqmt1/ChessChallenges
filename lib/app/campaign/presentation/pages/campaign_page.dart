@@ -14,7 +14,7 @@ import '../../domain/entities/campaign_level_node.dart';
 import '../../domain/entities/campaign_world.dart';
 import '../viewmodels/campaign_map_state.dart';
 import '../viewmodels/campaign_map_view_model.dart';
-import '../viewmodels/campaign_progress_notifier.dart';
+import '../viewmodels/campaign_progress_view_model.dart';
 import '../viewmodels/campaign_progress_state.dart';
 import '../widgets/campaign_path.dart';
 import '../widgets/next_world_button.dart';
@@ -37,17 +37,18 @@ class _CampaignPageState extends ConsumerState<CampaignPage> {
   void initState() {
     super.initState();
 
-    _progressSubscription = ref.listenManual(campaignProgressProvider, (
-      _,
-      next,
-    ) {
-      final progress = next.value;
-      if (_initialWorldSynced || progress == null) {
-        return;
-      }
+    _progressSubscription = ref.listenManual(
+      campaignProgressViewModelProvider,
+      (_, next) {
+        final progress = next.value;
+        if (_initialWorldSynced || progress == null) {
+          return;
+        }
 
-      _syncInitialWorld(progress.currentLevelIndex);
-    }, fireImmediately: true);
+        _syncInitialWorld(progress.currentLevelIndex);
+      },
+      fireImmediately: true,
+    );
   }
 
   @override
@@ -64,7 +65,7 @@ class _CampaignPageState extends ConsumerState<CampaignPage> {
 
       _initialWorldSynced = true;
       ref
-          .read(selectedWorldProvider.notifier)
+          .read(selectedWorldViewModelProvider.notifier)
           .selectCurrentLevelWorld(currentLevelIndex);
     });
   }
@@ -213,7 +214,9 @@ class _CampaignContentState extends ConsumerState<_CampaignContent> {
     CampaignMapState state,
   ) {
     if (state.canGoToNextWorld) {
-      ref.read(selectedWorldProvider.notifier).select(state.worldIndex + 1);
+      ref
+          .read(selectedWorldViewModelProvider.notifier)
+          .select(state.worldIndex + 1);
       unawaited(
         _scrollController.animateTo(
           0,
@@ -271,7 +274,7 @@ class _CampaignContentState extends ConsumerState<_CampaignContent> {
           onCompleted: (levelIndex) {
             unawaited(
               ref
-                  .read(campaignProgressProvider.notifier)
+                  .read(campaignProgressViewModelProvider.notifier)
                   .completeLevel(levelIndex),
             );
           },
@@ -464,7 +467,9 @@ Future<void> _showWorldSelector(
                 color: unlocked ? null : colorScheme.onSurfaceVariant,
               ),
               onTap: () {
-                ref.read(selectedWorldProvider.notifier).select(world.index);
+                ref
+                    .read(selectedWorldViewModelProvider.notifier)
+                    .select(world.index);
                 Navigator.of(sheetContext).pop();
               },
             );

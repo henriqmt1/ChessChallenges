@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../progress/presentation/viewmodels/player_progress_controller.dart';
+import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
 import '../../data/datasources/local_campaign_progress_storage.dart';
 import 'campaign_progress_state.dart';
 
-final campaignProgressProvider =
-    AsyncNotifierProvider<CampaignProgressNotifier, CampaignProgressState>(
-      CampaignProgressNotifier.new,
+final campaignProgressViewModelProvider =
+    AsyncNotifierProvider<CampaignProgressViewModel, CampaignProgressState>(
+      CampaignProgressViewModel.new,
     );
 
-class CampaignProgressNotifier extends AsyncNotifier<CampaignProgressState> {
+class CampaignProgressViewModel extends AsyncNotifier<CampaignProgressState> {
   @override
   Future<CampaignProgressState> build() {
     return ref.watch(localCampaignProgressStorageProvider).load();
@@ -36,7 +36,7 @@ class CampaignProgressNotifier extends AsyncNotifier<CampaignProgressState> {
     await ref.read(localCampaignProgressStorageProvider).save(next);
     unawaited(
       ref
-          .read(playerProgressControllerProvider.notifier)
+          .read(playerProgressViewModelProvider.notifier)
           .syncCampaignProgress(next),
     );
   }
@@ -57,7 +57,7 @@ class CampaignProgressNotifier extends AsyncNotifier<CampaignProgressState> {
     await ref.read(localCampaignProgressStorageProvider).save(next);
     unawaited(
       ref
-          .read(playerProgressControllerProvider.notifier)
+          .read(playerProgressViewModelProvider.notifier)
           .syncCampaignProgress(next),
     );
   }

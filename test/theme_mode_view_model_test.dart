@@ -1,4 +1,4 @@
-import 'package:chess_chalenges/core/theme/theme_mode_notifier.dart';
+import 'package:chess_chalenges/core/theme/theme_mode_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,14 +9,22 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     final firstSession = ProviderContainer();
-    expect(await firstSession.read(themeModeProvider.future), ThemeMode.light);
+    expect(
+      await firstSession.read(themeModeViewModelProvider.future),
+      ThemeMode.light,
+    );
 
-    await firstSession.read(themeModeProvider.notifier).setMode(ThemeMode.dark);
+    await firstSession
+        .read(themeModeViewModelProvider.notifier)
+        .setMode(ThemeMode.dark);
     firstSession.dispose();
 
     final nextSession = ProviderContainer();
     addTearDown(nextSession.dispose);
 
-    expect(await nextSession.read(themeModeProvider.future), ThemeMode.dark);
+    expect(
+      await nextSession.read(themeModeViewModelProvider.future),
+      ThemeMode.dark,
+    );
   });
 }

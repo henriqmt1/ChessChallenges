@@ -4,14 +4,13 @@ import '../../../puzzles/presentation/viewmodels/puzzle_dependencies.dart';
 import '../../domain/entities/campaign_level_node.dart';
 import '../../domain/entities/campaign_world.dart';
 import 'campaign_map_state.dart';
-import 'campaign_progress_notifier.dart';
+import 'campaign_progress_view_model.dart';
 import 'campaign_progress_state.dart';
 
-final selectedWorldProvider = NotifierProvider<SelectedWorldNotifier, int>(
-  SelectedWorldNotifier.new,
-);
+final selectedWorldViewModelProvider =
+    NotifierProvider<SelectedWorldViewModel, int>(SelectedWorldViewModel.new);
 
-class SelectedWorldNotifier extends Notifier<int> {
+class SelectedWorldViewModel extends Notifier<int> {
   @override
   int build() => 1;
 
@@ -29,8 +28,8 @@ final campaignMapViewModelProvider = FutureProvider<CampaignMapState>((
   ref,
 ) async {
   final puzzles = await ref.watch(getDemoPuzzlesUseCaseProvider).call();
-  final selectedWorld = ref.watch(selectedWorldProvider);
-  final progressAsync = ref.watch(campaignProgressProvider);
+  final selectedWorld = ref.watch(selectedWorldViewModelProvider);
+  final progressAsync = ref.watch(campaignProgressViewModelProvider);
   final progress = switch (progressAsync) {
     AsyncData(:final value) => value,
     _ => CampaignProgressState.empty(),

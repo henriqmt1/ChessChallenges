@@ -9,8 +9,9 @@ import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/feedback/app_toast.dart';
 import '../../../bot_game/domain/bot_difficulty.dart';
 import '../../domain/player_progress.dart';
-import '../viewmodels/account_sync_controller.dart';
-import '../viewmodels/player_progress_controller.dart';
+import '../viewmodels/account_sync_view_model.dart';
+import '../viewmodels/player_progress_view_model.dart';
+import '../../../../shared/widgets/app_design_system.dart';
 
 class ProgressPage extends ConsumerStatefulWidget {
   const ProgressPage({super.key});
@@ -29,97 +30,88 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
       }
 
       unawaited(
-        ref.read(playerProgressControllerProvider.notifier).refreshRemote(),
+        ref.read(playerProgressViewModelProvider.notifier).refreshRemote(),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final progressAsync = ref.watch(playerProgressControllerProvider);
-    final syncState = ref.watch(accountSyncControllerProvider);
+    final progressAsync = ref.watch(playerProgressViewModelProvider);
+    final syncState = ref.watch(accountSyncViewModelProvider);
     final progress = progressAsync.maybeWhen(
       data: (value) => value,
       orElse: PlayerProgress.empty,
     );
 
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final maxWidth = constraints.maxWidth
-                .clamp(0, AppSizes.contentMaxWidth)
-                .toDouble();
-
-            return Center(
-              child: SizedBox(
-                width: maxWidth,
-                child: CustomScrollView(
-                  key: const ValueKey('progress-page'),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: [
-                    const SliverPadding(
-                      padding: EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                        AppSpacing.lg,
-                        AppSpacing.sm,
-                      ),
-                      sliver: SliverToBoxAdapter(child: _ProgressTopBar()),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        AppSpacing.xs,
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _ProgressHeroCard(progress: progress),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        0,
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _ProgressSyncCard(
-                          state: syncState,
-                          onGoogle: () => _runSyncAction(
-                            context,
-                            () => ref
-                                .read(accountSyncControllerProvider.notifier)
-                                .linkGoogle(),
-                          ),
-                          onApple: () => _runSyncAction(
-                            context,
-                            () => ref
-                                .read(accountSyncControllerProvider.notifier)
-                                .linkApple(),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        0,
-                        AppSpacing.lg,
-                        AppSpacing.xl,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _ProgressStatsGrid(progress: progress),
-                      ),
-                    ),
-                  ],
+      body: AppPageFrame(
+        scrollKey: const ValueKey('progress-page'),
+        slivers: [
+          SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: AppPageHeader(
+                title: context.l10n.progressTitle,
+                subtitle: context.l10n.progressSubtitle,
+                onBack: () => Navigator.of(context).pop(),
+                titleMaxLines: 1,
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.xs,
+              AppSpacing.lg,
+              AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _ProgressHeroCard(progress: progress),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _ProgressSyncCard(
+                state: syncState,
+                onGoogle: () => _runSyncAction(
+                  context,
+                  () => ref
+                      .read(accountSyncViewModelProvider.notifier)
+                      .linkGoogle(),
+                ),
+                onApple: () => _runSyncAction(
+                  context,
+                  () => ref
+                      .read(accountSyncViewModelProvider.notifier)
+                      .linkApple(),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.xl,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _ProgressStatsGrid(progress: progress),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -155,84 +147,6 @@ class _ProgressPageState extends ConsumerState<ProgressPage> {
       AccountSyncError.canceled => context.l10n.progressSyncCanceled,
       AccountSyncError.generic => context.l10n.progressSyncErrorGeneric,
     };
-  }
-}
-
-class _ProgressTopBar extends StatelessWidget {
-  const _ProgressTopBar();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.standard * 2),
-        border: Border.all(color: colorScheme.outlineVariant),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Row(
-          children: [
-            IconButton(
-              tooltip: context.l10n.backTooltip,
-              onPressed: () => Navigator.of(context).pop(),
-              color: colorScheme.onSurface,
-              style: IconButton.styleFrom(
-                minimumSize: const Size.square(44),
-                maximumSize: const Size.square(44),
-                padding: EdgeInsets.zero,
-                backgroundColor: colorScheme.surfaceContainerHighest.withValues(
-                  alpha: 0.55,
-                ),
-                side: BorderSide(color: colorScheme.outlineVariant),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppRadii.standard),
-                ),
-              ),
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: AppIconSizes.status,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.sm),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.l10n.progressTitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.xxs),
-                  Text(
-                    context.l10n.progressSubtitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
 

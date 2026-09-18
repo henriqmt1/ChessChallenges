@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:chess_chalenges/app/bot_game/domain/bot_difficulty.dart';
+import 'package:chess_chalenges/app/bot_game/domain/bot_move_calculator.dart';
+import 'package:chess_chalenges/app/bot_game/data/isolate_bot_move_calculator.dart';
 import 'package:chess_chalenges/app/bot_game/domain/chess_bot_service.dart';
-import 'package:chess_chalenges/app/bot_game/presentation/viewmodels/bot_game_controller.dart';
+import 'package:chess_chalenges/app/bot_game/presentation/viewmodels/bot_game_view_model.dart';
 import 'package:chess_chalenges/app/bot_game/presentation/viewmodels/bot_game_state.dart';
 import 'package:chess_chalenges/shared/chess/chess_asset_paths.dart';
 import 'package:chess_chalenges/shared/chess/chess_rules_service.dart';
@@ -58,28 +60,30 @@ void main() {
   test('player moves as white and bot replies as black', () async {
     final container = ProviderContainer(
       overrides: [
-        chessBotServiceProvider.overrideWithValue(_DeterministicBotService()),
+        botMoveCalculatorProvider.overrideWithValue(
+          _DeterministicBotMoveCalculator(),
+        ),
       ],
     );
     addTearDown(container.dispose);
     final subscription = container.listen(
-      botGameControllerProvider,
+      botGameViewModelProvider,
       (_, _) {},
       fireImmediately: true,
     );
     addTearDown(subscription.close);
 
-    final controller = container.read(botGameControllerProvider.notifier);
+    final viewModel = container.read(botGameViewModelProvider.notifier);
 
-    controller.startGame(BotDifficulty.beginner);
-    var state = container.read(botGameControllerProvider);
+    viewModel.startGame(BotDifficulty.beginner);
+    var state = container.read(botGameViewModelProvider);
     expect(state.status, BotGameStatus.playing);
     expect(state.turn, ChessPieceColor.white);
 
-    controller.onSquareTapped('e2');
-    controller.onSquareTapped('e4');
+    viewModel.onSquareTapped('e2');
+    viewModel.onSquareTapped('e4');
 
-    state = container.read(botGameControllerProvider);
+    state = container.read(botGameViewModelProvider);
     expect(state.moveCount, 1);
     expect(state.turn, ChessPieceColor.black);
     expect(state.botThinking, isTrue);
@@ -89,7 +93,7 @@ void main() {
 
     await Future<void>.delayed(const Duration(milliseconds: 700));
 
-    state = container.read(botGameControllerProvider);
+    state = container.read(botGameViewModelProvider);
     expect(state.moveCount, 2);
     expect(state.turn, ChessPieceColor.white);
     expect(state.botThinking, isFalse);
@@ -104,45 +108,90 @@ void main() {
     () async {
       final container = ProviderContainer(
         overrides: [
-          chessBotServiceProvider.overrideWithValue(_DeterministicBotService()),
+          botMoveCalculatorProvider.overrideWithValue(
+            _DeterministicBotMoveCalculator(),
+          ),
         ],
       );
       addTearDown(container.dispose);
       final subscription = container.listen(
-        botGameControllerProvider,
+        botGameViewModelProvider,
         (_, _) {},
         fireImmediately: true,
       );
       addTearDown(subscription.close);
 
-      container.invalidate(botGameControllerProvider);
+      container.invalidate(botGameViewModelProvider);
 
-      final controller = container.read(botGameControllerProvider.notifier);
-      controller.startGame(BotDifficulty.beginner);
-      controller.onSquareTapped('e2');
-      controller.onSquareTapped('e4');
+      final viewModel = container.read(botGameViewModelProvider.notifier);
+      viewModel.startGame(BotDifficulty.beginner);
+      viewModel.onSquareTapped('e2');
+      viewModel.onSquareTapped('e4');
 
-      var state = container.read(botGameControllerProvider);
+      var state = container.read(botGameViewModelProvider);
       expect(state.turn, ChessPieceColor.black);
       expect(state.botThinking, isTrue);
 
       await Future<void>.delayed(const Duration(milliseconds: 700));
 
-      state = container.read(botGameControllerProvider);
+      state = container.read(botGameViewModelProvider);
       expect(state.moveCount, 2);
       expect(state.turn, ChessPieceColor.white);
       expect(state.pieces['e5']?.color, ChessPieceColor.black);
     },
   );
+
+  test('bot falls back to a legal move when the worker fails', () async {
+    final container = ProviderContainer(
+      overrides: [
+        botMoveCalculatorProvider.overrideWithValue(
+          _FailingBotMoveCalculator(),
+        ),
+      ],
+    );
+    addTearDown(container.dispose);
+    final subscription = container.listen(
+      botGameViewModelProvider,
+      (_, _) {},
+      fireImmediately: true,
+    );
+    addTearDown(subscription.close);
+
+    final viewModel = container.read(botGameViewModelProvider.notifier);
+    viewModel.startGame(BotDifficulty.beginner);
+    viewModel.onSquareTapped('e2');
+    viewModel.onSquareTapped('e4');
+
+    await Future<void>.delayed(const Duration(milliseconds: 700));
+
+    final state = container.read(botGameViewModelProvider);
+    expect(state.moveCount, 2);
+    expect(state.botThinking, isFalse);
+    expect(state.turn, ChessPieceColor.white);
+  });
 }
 
-class _DeterministicBotService extends ChessBotService {
+class _DeterministicBotMoveCalculator implements BotMoveCalculator {
   @override
-  ChessMove? chooseMove(ChessRulesService rules, BotDifficulty difficulty) {
+  Future<ChessMove?> chooseMove({
+    required String fen,
+    required BotDifficulty difficulty,
+  }) async {
+    final rules = ChessRulesService.fromFen(fen);
     final legalMoves = rules.legalMoves();
     return legalMoves.firstWhere(
       (move) => move.uci == 'e7e5',
       orElse: () => legalMoves.first,
     );
+  }
+}
+
+class _FailingBotMoveCalculator implements BotMoveCalculator {
+  @override
+  Future<ChessMove?> chooseMove({
+    required String fen,
+    required BotDifficulty difficulty,
+  }) async {
+    throw StateError('simulated worker failure');
   }
 }

@@ -8,9 +8,10 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/feedback/app_feedback.dart';
-import '../../../../shared/monetization/ads_controller.dart';
+import '../../../../shared/monetization/ads_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
 import '../../domain/entities/puzzle.dart';
+import '../../../../shared/widgets/app_design_system.dart';
 import '../l10n/puzzle_localizations.dart';
 import '../viewmodels/puzzle_state.dart';
 import '../viewmodels/puzzle_view_model.dart';
@@ -314,7 +315,7 @@ class _PuzzleTopBar extends StatelessWidget {
 
     return Row(
       children: [
-        _ToolbarIconButton(
+        AppToolbarIconButton(
           tooltip: context.l10n.backTooltip,
           icon: Icons.arrow_back_rounded,
           onPressed: () => Navigator.of(context).pop(),
@@ -344,7 +345,7 @@ class _PuzzleTopBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: AppSpacing.sm),
-        _ToolbarIconButton(
+        AppToolbarIconButton(
           tooltip: state.hintUsed
               ? context.l10n.hintUsedTooltip
               : context.l10n.hintTooltip,
@@ -411,54 +412,6 @@ class _PuzzleMeta extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _ToolbarIconButton extends StatelessWidget {
-  const _ToolbarIconButton({
-    required this.tooltip,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final String tooltip;
-  final IconData icon;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final enabled = onPressed != null;
-    final colorScheme = Theme.of(context).colorScheme;
-    final foregroundColor = enabled
-        ? colorScheme.onSurface
-        : colorScheme.onSurfaceVariant.withValues(alpha: 0.46);
-    final backgroundColor = colorScheme.surface;
-
-    return Tooltip(
-      message: tooltip,
-      child: Material(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(AppRadii.standard),
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(AppRadii.standard),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppRadii.standard),
-              border: Border.all(color: colorScheme.outlineVariant),
-            ),
-            child: SizedBox.square(
-              dimension: AppSizes.toolbarButton,
-              child: Icon(
-                icon,
-                color: foregroundColor,
-                size: AppIconSizes.standard,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -701,7 +654,7 @@ class _SuccessBottomSheetState extends ConsumerState<_SuccessBottomSheet> {
   Future<void> _continueToMap() async {
     setState(() => _continuing = true);
     final premium = ref.read(appEditionProvider) == AppEdition.premium;
-    final ads = ref.read(adsControllerProvider.notifier);
+    final ads = ref.read(adsViewModelProvider.notifier);
     final adWasShown = await ads.showAfterLevelIfEligible(
       isNewCompletion: widget.awardsXp,
       isPremium: premium,

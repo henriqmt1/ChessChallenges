@@ -1,6 +1,6 @@
 import 'package:chess_chalenges/app/local_game/presentation/pages/local_game_page.dart';
-import 'package:chess_chalenges/app/local_game/presentation/viewmodels/local_game_controller.dart';
-import 'package:chess_chalenges/shared/monetization/ads_controller.dart';
+import 'package:chess_chalenges/app/local_game/presentation/viewmodels/local_game_view_model.dart';
+import 'package:chess_chalenges/shared/monetization/ads_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -93,7 +93,7 @@ void main() {
     await _playMove(tester, from: 'f2', to: 'f3');
     expect(find.text('Vez: Pretas'), findsOneWidget);
 
-    await tester.tap(find.byType(BackButton));
+    await tester.tap(find.byKey(const ValueKey('local-game-back-button')));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const ValueKey('open-local-game-button')));
@@ -110,11 +110,11 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
-    final ads = _FakeAdsController();
+    final ads = _FakeAdsViewModel();
 
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [adsControllerProvider.overrideWith(() => ads)],
+        overrides: [adsViewModelProvider.overrideWith(() => ads)],
         child: localizedTestApp(home: const LocalGamePage()),
       ),
     );
@@ -131,7 +131,7 @@ void main() {
   });
 }
 
-class _FakeAdsController extends AdsController {
+class _FakeAdsViewModel extends AdsViewModel {
   int localGameAdCalls = 0;
   bool? lastPremiumValue;
 
@@ -156,7 +156,7 @@ class _LocalGameHost extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (keepStateAlive) {
-      ref.watch(localGameControllerProvider);
+      ref.watch(localGameViewModelProvider);
     }
 
     return Scaffold(

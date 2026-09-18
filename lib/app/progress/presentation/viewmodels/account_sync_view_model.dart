@@ -9,14 +9,14 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../data/remote_player_progress_repository.dart';
-import 'player_progress_controller.dart';
+import 'player_progress_view_model.dart';
 
-final accountSyncControllerProvider =
-    NotifierProvider<AccountSyncController, AccountSyncState>(
-      AccountSyncController.new,
+final accountSyncViewModelProvider =
+    NotifierProvider<AccountSyncViewModel, AccountSyncState>(
+      AccountSyncViewModel.new,
     );
 
-class AccountSyncController extends Notifier<AccountSyncState> {
+class AccountSyncViewModel extends Notifier<AccountSyncState> {
   StreamSubscription<User?>? _authSubscription;
   FirebaseAuth? _auth;
 
@@ -49,7 +49,7 @@ class AccountSyncController extends Notifier<AccountSyncState> {
   Future<void> syncNow() async {
     await _runBusyAction(() async {
       await _ensureUser();
-      await ref.read(playerProgressControllerProvider.notifier).refreshRemote();
+      await ref.read(playerProgressViewModelProvider.notifier).refreshRemote();
     });
   }
 
@@ -74,7 +74,7 @@ class AccountSyncController extends Notifier<AccountSyncState> {
 
       final credential = GoogleAuthProvider.credential(idToken: idToken);
       await _linkOrSignIn(auth, credential);
-      await ref.read(playerProgressControllerProvider.notifier).refreshRemote();
+      await ref.read(playerProgressViewModelProvider.notifier).refreshRemote();
     });
   }
 
@@ -104,7 +104,7 @@ class AccountSyncController extends Notifier<AccountSyncState> {
         'apple.com',
       ).credential(idToken: idToken, rawNonce: rawNonce);
       await _linkOrSignIn(auth, credential);
-      await ref.read(playerProgressControllerProvider.notifier).refreshRemote();
+      await ref.read(playerProgressViewModelProvider.notifier).refreshRemote();
     });
   }
 

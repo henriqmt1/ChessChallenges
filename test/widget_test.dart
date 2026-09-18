@@ -102,7 +102,7 @@ void main() {
     expect(find.text('2 Jogadores local'), findsOneWidget);
     expect(find.text('Vez: Brancas'), findsOneWidget);
     expect(find.byKey(const ValueKey('chess-square-e2')), findsOneWidget);
-    await tester.tap(find.byType(BackButton));
+    await tester.tap(find.byKey(const ValueKey('local-game-back-button')));
     await tester.pumpAndSettle();
 
     await tester.ensureVisible(
@@ -186,7 +186,7 @@ void main() {
       ProviderScope(
         overrides: [
           campaignMapViewModelProvider.overrideWith((ref) {
-            return _campaignStateFor(ref.watch(selectedWorldProvider));
+            return _campaignStateFor(ref.watch(selectedWorldViewModelProvider));
           }),
         ],
         child: const ChessChalengesApp(

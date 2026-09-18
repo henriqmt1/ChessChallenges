@@ -7,12 +7,12 @@ import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/chess_rules_service.dart';
 import 'local_game_state.dart';
 
-final localGameControllerProvider =
-    NotifierProvider.autoDispose<LocalGameController, LocalGameState>(
-      LocalGameController.new,
+final localGameViewModelProvider =
+    NotifierProvider.autoDispose<LocalGameViewModel, LocalGameState>(
+      LocalGameViewModel.new,
     );
 
-class LocalGameController extends Notifier<LocalGameState> {
+class LocalGameViewModel extends Notifier<LocalGameState> {
   late ChessRulesService _rules;
   Timer? _lastMovePreviewTimer;
 

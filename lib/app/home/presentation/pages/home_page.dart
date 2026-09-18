@@ -7,15 +7,16 @@ import '../../../../core/config/app_edition.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
-import '../../../../core/theme/theme_mode_notifier.dart';
+import '../../../../core/theme/theme_mode_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
 import '../../../bot_game/presentation/pages/bot_game_page.dart';
 import '../../../campaign/presentation/pages/campaign_page.dart';
-import '../../../campaign/presentation/viewmodels/campaign_progress_notifier.dart';
+import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
 import '../../../faq/presentation/pages/faq_page.dart';
 import '../../../local_game/presentation/pages/local_game_page.dart';
 import '../../../objective_challenges/presentation/pages/objective_challenges_page.dart';
 import '../../../progress/presentation/pages/progress_page.dart';
+import '../../../../shared/widgets/app_design_system.dart';
 
 const _guidedLessonsAccent = AppColors.primary;
 const _objectiveChallengesAccent = Color(0xFFF59E0B);
@@ -28,7 +29,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final firstGuidedLevelCompleted = ref
-        .watch(campaignProgressProvider)
+        .watch(campaignProgressViewModelProvider)
         .maybeWhen(
           data: (progress) => progress.isCompleted(0),
           orElse: () => false,
@@ -38,140 +39,117 @@ class HomePage extends ConsumerWidget {
         : context.l10n.homePlayAction;
 
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final maxWidth = constraints.maxWidth
-                .clamp(0, AppSizes.contentMaxWidth)
-                .toDouble();
-
-            return Center(
-              child: SizedBox(
-                width: maxWidth,
-                child: CustomScrollView(
-                  key: const ValueKey('home-scroll'),
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: [
-                    const SliverPadding(
-                      padding: EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        AppSpacing.sm,
-                        AppSpacing.lg,
-                        AppSpacing.sm,
-                      ),
-                      sliver: SliverToBoxAdapter(child: _HomeToolbar()),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        0,
-                        AppSpacing.lg,
-                        AppSpacing.xl,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              context.l10n.homeChooseModeTitle,
-                              style: Theme.of(context).textTheme.titleLarge
-                                  ?.copyWith(fontWeight: FontWeight.w900),
-                            ),
-                            const SizedBox(height: AppSpacing.xxs),
-                            Text(
-                              context.l10n.homeChooseModeSubtitle,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyMedium?.copyWith(height: 1.24),
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            _ModeCard(
-                              key: const ValueKey('mode-guided-lessons-card'),
-                              title: context.l10n.homeGuidedLessonsTitle,
-                              description:
-                                  context.l10n.homeGuidedLessonsDescription,
-                              actionLabel: guidedLessonsActionLabel,
-                              icon: Icons.school_rounded,
-                              accentColor: _guidedLessonsAccent,
-                              enabled: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (_) => const CampaignPage(
-                                      showBackButton: true,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            _ModeCard(
-                              key: const ValueKey('mode-objectives-card'),
-                              title: context.l10n.homeObjectiveModeTitle,
-                              description:
-                                  context.l10n.homeObjectiveModeDescription,
-                              actionLabel: context.l10n.homePlayAction,
-                              icon: Icons.star_rounded,
-                              accentColor: _objectiveChallengesAccent,
-                              enabled: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (_) =>
-                                        const ObjectiveChallengesPage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            _ModeCard(
-                              key: const ValueKey('mode-vs-bot-card'),
-                              title: context.l10n.homeVsBotModeTitle,
-                              description:
-                                  context.l10n.homeVsBotModeDescription,
-                              actionLabel: context.l10n.homePlayAction,
-                              icon: Icons.smart_toy_rounded,
-                              accentColor: _botGameAccent,
-                              enabled: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (_) => const BotGamePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            _ModeCard(
-                              key: const ValueKey('mode-local-players-card'),
-                              title: context.l10n.homeLocalPlayersModeTitle,
-                              description:
-                                  context.l10n.homeLocalPlayersModeDescription,
-                              actionLabel: context.l10n.homePlayAction,
-                              icon: Icons.people_alt_rounded,
-                              accentColor: _localPlayersAccent,
-                              enabled: true,
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<void>(
-                                    builder: (_) => const LocalGamePage(),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+      body: AppPageFrame(
+        scrollKey: const ValueKey('home-scroll'),
+        slivers: [
+          const SliverPadding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.sm,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            sliver: SliverToBoxAdapter(child: _HomeToolbar()),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.xl,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _HomeModeList(
+                guidedLessonsActionLabel: guidedLessonsActionLabel,
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _HomeModeList extends StatelessWidget {
+  const _HomeModeList({required this.guidedLessonsActionLabel});
+
+  final String guidedLessonsActionLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          context.l10n.homeChooseModeTitle,
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+        ),
+        const SizedBox(height: AppSpacing.xxs),
+        Text(
+          context.l10n.homeChooseModeSubtitle,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.24),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        _ModeCard(
+          key: const ValueKey('mode-guided-lessons-card'),
+          title: context.l10n.homeGuidedLessonsTitle,
+          description: context.l10n.homeGuidedLessonsDescription,
+          actionLabel: guidedLessonsActionLabel,
+          icon: Icons.school_rounded,
+          accentColor: _guidedLessonsAccent,
+          enabled: true,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const CampaignPage(showBackButton: true),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        _ModeCard(
+          key: const ValueKey('mode-objectives-card'),
+          title: context.l10n.homeObjectiveModeTitle,
+          description: context.l10n.homeObjectiveModeDescription,
+          actionLabel: context.l10n.homePlayAction,
+          icon: Icons.star_rounded,
+          accentColor: _objectiveChallengesAccent,
+          enabled: true,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => const ObjectiveChallengesPage(),
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        _ModeCard(
+          key: const ValueKey('mode-vs-bot-card'),
+          title: context.l10n.homeVsBotModeTitle,
+          description: context.l10n.homeVsBotModeDescription,
+          actionLabel: context.l10n.homePlayAction,
+          icon: Icons.smart_toy_rounded,
+          accentColor: _botGameAccent,
+          enabled: true,
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute<void>(builder: (_) => const BotGamePage())),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        _ModeCard(
+          key: const ValueKey('mode-local-players-card'),
+          title: context.l10n.homeLocalPlayersModeTitle,
+          description: context.l10n.homeLocalPlayersModeDescription,
+          actionLabel: context.l10n.homePlayAction,
+          icon: Icons.people_alt_rounded,
+          accentColor: _localPlayersAccent,
+          enabled: true,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute<void>(builder: (_) => const LocalGamePage()),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -182,10 +160,11 @@ class _HomeToolbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isDark = ref.watch(themeModeProvider).value == ThemeMode.dark;
+    final isDark =
+        ref.watch(themeModeViewModelProvider).value == ThemeMode.dark;
     final edition = ref.watch(appEditionProvider);
     final progress = ref
-        .watch(campaignProgressProvider)
+        .watch(campaignProgressViewModelProvider)
         .maybeWhen(data: (value) => value, orElse: () => null);
     final offensiveCount = progress?.offensiveCount ?? 0;
     final activityDoneToday = progress?.hasActivityOn(DateTime.now()) ?? false;
@@ -193,90 +172,85 @@ class _HomeToolbar extends ConsumerWidget {
         ? AppColors.fireActive
         : colorScheme.onSurfaceVariant.withValues(alpha: 0.42);
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.standard * 2),
-        border: Border.all(color: colorScheme.outlineVariant),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: isDark ? 0.28 : 0.08),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
+    return AppSurface(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      boxShadow: [
+        BoxShadow(
+          color: colorScheme.shadow.withValues(alpha: isDark ? 0.28 : 0.08),
+          blurRadius: 24,
+          offset: const Offset(0, 10),
+        ),
+      ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  context.l10n.appTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              _ToolbarAction(
+                key: const ValueKey('theme-mode-toggle'),
+                tooltip: isDark
+                    ? context.l10n.lightModeTooltip
+                    : context.l10n.darkModeTooltip,
+                icon: isDark
+                    ? Icons.light_mode_rounded
+                    : Icons.dark_mode_rounded,
+                onPressed: () {
+                  unawaited(
+                    ref.read(themeModeViewModelProvider.notifier).toggle(),
+                  );
+                },
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              _ToolbarAction(
+                key: const ValueKey('faq-button'),
+                tooltip: context.l10n.faqTooltip,
+                icon: Icons.contact_support_outlined,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(builder: (_) => const FaqPage()),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    context.l10n.appTitle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
+          const SizedBox(height: AppSpacing.xs),
+          Row(
+            children: [
+              Expanded(
+                child: _EditionBadge(
+                  edition: edition,
+                  colorScheme: colorScheme,
+                  onTap: () => showPremiumSheet(context),
                 ),
-                const SizedBox(width: AppSpacing.sm),
-                _ToolbarAction(
-                  key: const ValueKey('theme-mode-toggle'),
-                  tooltip: isDark
-                      ? context.l10n.lightModeTooltip
-                      : context.l10n.darkModeTooltip,
-                  icon: isDark
-                      ? Icons.light_mode_rounded
-                      : Icons.dark_mode_rounded,
-                  onPressed: () {
-                    unawaited(ref.read(themeModeProvider.notifier).toggle());
-                  },
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                _ToolbarAction(
-                  key: const ValueKey('faq-button'),
-                  tooltip: context.l10n.faqTooltip,
-                  icon: Icons.contact_support_outlined,
-                  onPressed: () {
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              Expanded(
+                child: _OffensiveBadge(
+                  count: offensiveCount,
+                  color: fireColor,
+                  onTap: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute<void>(builder: (_) => const FaqPage()),
+                      MaterialPageRoute<void>(
+                        builder: (_) => const ProgressPage(),
+                      ),
                     );
                   },
                 ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.xs),
-            Row(
-              children: [
-                Expanded(
-                  child: _EditionBadge(
-                    edition: edition,
-                    colorScheme: colorScheme,
-                    onTap: () => showPremiumSheet(context),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                Expanded(
-                  child: _OffensiveBadge(
-                    count: offensiveCount,
-                    color: fireColor,
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const ProgressPage(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -295,8 +269,6 @@ class _OffensiveBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Tooltip(
       message: context.l10n.progressTooltip,
       child: Semantics(
@@ -308,42 +280,34 @@ class _OffensiveBadge extends StatelessWidget {
             key: const ValueKey('offensive-badge'),
             borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
             onTap: onTap,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest.withValues(
-                  alpha: 0.62,
-                ),
-                borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
-                border: Border.all(color: colorScheme.outlineVariant),
+            child: AppPill(
+              borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.sm,
+                vertical: AppSpacing.xxs,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.sm,
-                  vertical: AppSpacing.xxs,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.local_fire_department_rounded,
-                      key: const ValueKey('offensive-fire'),
-                      color: color,
-                      size: AppIconSizes.standard,
-                    ),
-                    const SizedBox(width: AppSpacing.xxs),
-                    Flexible(
-                      child: Text(
-                        '$count',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: color,
-                          fontWeight: FontWeight.w900,
-                        ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.local_fire_department_rounded,
+                    key: const ValueKey('offensive-fire'),
+                    color: color,
+                    size: AppIconSizes.standard,
+                  ),
+                  const SizedBox(width: AppSpacing.xxs),
+                  Flexible(
+                    child: Text(
+                      '$count',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: color,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -542,43 +506,35 @@ class _EditionBadge extends StatelessWidget {
           key: const ValueKey('app-edition-badge'),
           borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
           onTap: onTap,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainerHighest.withValues(
-                alpha: 0.62,
-              ),
-              borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
-              border: Border.all(color: colorScheme.outlineVariant),
+          child: AppPill(
+            borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.sm,
+              vertical: AppSpacing.xxs,
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.sm,
-                vertical: AppSpacing.xxs,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    premium
-                        ? Icons.diamond_rounded
-                        : Icons.workspace_premium_rounded,
-                    color: color,
-                    size: AppIconSizes.small,
-                  ),
-                  const SizedBox(width: AppSpacing.xxs),
-                  Flexible(
-                    child: Text(
-                      premium ? 'PRO' : 'FREE',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.w900,
-                      ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  premium
+                      ? Icons.diamond_rounded
+                      : Icons.workspace_premium_rounded,
+                  color: color,
+                  size: AppIconSizes.small,
+                ),
+                const SizedBox(width: AppSpacing.xxs),
+                Flexible(
+                  child: Text(
+                    premium ? 'PRO' : 'FREE',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: color,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -603,35 +559,26 @@ class _ModeActionLabel extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final color = enabled ? accentColor : colorScheme.onSurfaceVariant;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: enabled ? 0.12 : 0.08),
-        borderRadius: BorderRadius.circular(AppRadii.pill),
-        border: Border.all(color: color.withValues(alpha: 0.20)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.xs,
-          vertical: AppSpacing.xxs,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            const SizedBox(width: AppSpacing.xxs),
-            Icon(
-              enabled ? Icons.arrow_forward_rounded : Icons.lock_clock_rounded,
+    return AppPill(
+      color: color.withValues(alpha: enabled ? 0.12 : 0.08),
+      borderColor: color.withValues(alpha: 0.20),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: color,
-              size: AppIconSizes.small,
+              fontWeight: FontWeight.w900,
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: AppSpacing.xxs),
+          Icon(
+            enabled ? Icons.arrow_forward_rounded : Icons.lock_clock_rounded,
+            color: color,
+            size: AppIconSizes.small,
+          ),
+        ],
       ),
     );
   }
@@ -653,23 +600,15 @@ class _ToolbarAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return IconButton(
+    return AppToolbarIconButton(
       tooltip: tooltip,
+      icon: icon,
       onPressed: onPressed,
-      color: colorScheme.onSurface,
-      style: IconButton.styleFrom(
-        minimumSize: const Size.square(40),
-        maximumSize: const Size.square(40),
-        padding: EdgeInsets.zero,
-        backgroundColor: colorScheme.surfaceContainerHighest.withValues(
-          alpha: 0.55,
-        ),
-        side: BorderSide(color: colorScheme.outlineVariant),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppRadii.standard),
-        ),
+      size: 40,
+      iconSize: AppIconSizes.status,
+      backgroundColor: colorScheme.surfaceContainerHighest.withValues(
+        alpha: 0.55,
       ),
-      icon: Icon(icon, size: AppIconSizes.status),
     );
   }
 }

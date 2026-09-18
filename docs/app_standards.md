@@ -15,6 +15,14 @@ O app usa Poppins em todas as plataformas. Os arquivos ficam em
 Novos componentes devem consumir esses tokens em vez de declarar cores e
 tamanhos recorrentes diretamente.
 
+Componentes reutilizáveis de layout ficam em `lib/shared/widgets/`. Use
+`AppPageFrame` para páginas roláveis, `AppPageHeader` para cabeçalhos
+secundários, `AppSurface` para cartões/superfícies, `AppPill` para estados
+compactos e `AppToolbarIconButton` para ações de toolbar. Uma tela pode ter
+estilo próprio quando houver motivo de produto,
+mas a base de espaçamento, borda, raio e hit target deve continuar vindo do
+design system.
+
 ## Internacionalizacao
 
 Os catalogos ficam em `lib/l10n/`:

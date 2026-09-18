@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final themeModeProvider = AsyncNotifierProvider<ThemeModeNotifier, ThemeMode>(
-  ThemeModeNotifier.new,
-);
+final themeModeViewModelProvider =
+    AsyncNotifierProvider<ThemeModeViewModel, ThemeMode>(
+      ThemeModeViewModel.new,
+    );
 
-class ThemeModeNotifier extends AsyncNotifier<ThemeMode> {
+class ThemeModeViewModel extends AsyncNotifier<ThemeMode> {
   static const _preferenceKey = 'appearance.themeMode';
 
   @override

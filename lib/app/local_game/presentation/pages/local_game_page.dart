@@ -10,12 +10,13 @@ import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/promotion_choice_sheet.dart';
 import '../../../../shared/feedback/app_feedback.dart';
-import '../../../../shared/monetization/ads_controller.dart';
+import '../../../../shared/monetization/ads_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
-import '../../../campaign/presentation/viewmodels/campaign_progress_notifier.dart';
-import '../../../progress/presentation/viewmodels/player_progress_controller.dart';
+import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
+import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
 import '../../../puzzles/presentation/widgets/chess_board.dart';
-import '../viewmodels/local_game_controller.dart';
+import '../../../../shared/widgets/app_design_system.dart';
+import '../viewmodels/local_game_view_model.dart';
 import '../viewmodels/local_game_state.dart';
 
 const _localLastMoveAccent = AppColors.primary;
@@ -40,13 +41,13 @@ class _LocalGamePageState extends ConsumerState<LocalGamePage> {
         return;
       }
 
-      ref.invalidate(localGameControllerProvider);
+      ref.invalidate(localGameViewModelProvider);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<LocalGameState>(localGameControllerProvider, (previous, next) {
+    ref.listen<LocalGameState>(localGameViewModelProvider, (previous, next) {
       if (previous != null &&
           next.selectedSquare != null &&
           previous.selectedSquare != next.selectedSquare) {
@@ -70,7 +71,7 @@ class _LocalGamePageState extends ConsumerState<LocalGamePage> {
           _finishAdHandled = true;
           unawaited(
             ref
-                .read(playerProgressControllerProvider.notifier)
+                .read(playerProgressViewModelProvider.notifier)
                 .recordLocalGameFinished(
                   winner: next.winner,
                   draw: next.status == LocalGameStatus.draw,
@@ -88,108 +89,89 @@ class _LocalGamePageState extends ConsumerState<LocalGamePage> {
 
       if (!_activityReported && next.qualifiesForDailyActivity) {
         _activityReported = true;
-        unawaited(ref.read(campaignProgressProvider.notifier).recordActivity());
+        unawaited(
+          ref.read(campaignProgressViewModelProvider.notifier).recordActivity(),
+        );
       }
     });
 
-    final state = ref.watch(localGameControllerProvider);
-    final controller = ref.read(localGameControllerProvider.notifier);
+    final state = ref.watch(localGameViewModelProvider);
+    final viewModel = ref.read(localGameViewModelProvider.notifier);
 
     return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final maxWidth = constraints.maxWidth
-                .clamp(0, AppSizes.contentMaxWidth)
-                .toDouble();
-
-            return Center(
-              child: SizedBox(
-                width: maxWidth,
-                child: CustomScrollView(
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                        AppSpacing.lg,
-                        AppSpacing.sm,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _LocalGameTopBar(
-                          canShowLastMove: state.lastMove != null,
-                          onReset: () {
-                            unawaited(_confirmResetGame(controller.resetGame));
-                          },
-                          onFlipBoard: controller.toggleBoard,
-                          onShowLastMove: controller.showLastMovePreview,
-                        ),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppSpacing.lg,
-                        0,
-                        AppSpacing.lg,
-                        AppSpacing.md,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: _LocalGameStatusCard(state: state),
-                      ),
-                    ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.lg,
-                      ),
-                      sliver: SliverToBoxAdapter(
-                        child: ChessBoard(
-                          pieces: state.pieces,
-                          selectedSquare: state.selectedSquare,
-                          legalTargets: state.legalTargets,
-                          orientation: state.boardFlipped
-                              ? ChessBoardOrientation.black
-                              : ChessBoardOrientation.white,
-                          highlightedMove: state.showLastMove
-                              ? state.lastMove
-                              : null,
-                          onSquareTap: (square) {
-                            unawaited(_onSquareTapped(controller, square));
-                          },
-                        ),
-                      ),
-                    ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: AppSpacing.xl),
-                    ),
-                  ],
-                ),
+      body: AppPageFrame(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _LocalGameTopBar(
+                canShowLastMove: state.lastMove != null,
+                onReset: () {
+                  unawaited(_confirmResetGame(viewModel.resetGame));
+                },
+                onFlipBoard: viewModel.toggleBoard,
+                onShowLastMove: viewModel.showLastMovePreview,
               ),
-            );
-          },
-        ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _LocalGameStatusCard(state: state),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            sliver: SliverToBoxAdapter(
+              child: ChessBoard(
+                pieces: state.pieces,
+                selectedSquare: state.selectedSquare,
+                legalTargets: state.legalTargets,
+                orientation: state.boardFlipped
+                    ? ChessBoardOrientation.black
+                    : ChessBoardOrientation.white,
+                highlightedMove: state.showLastMove ? state.lastMove : null,
+                onSquareTap: (square) {
+                  unawaited(_onSquareTapped(viewModel, square));
+                },
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+        ],
       ),
     );
   }
 
   Future<void> _onSquareTapped(
-    LocalGameController controller,
+    LocalGameViewModel viewModel,
     String square,
   ) async {
-    if (!controller.isSelectedMovePromotion(square)) {
-      controller.onSquareTapped(square);
+    if (!viewModel.isSelectedMovePromotion(square)) {
+      viewModel.onSquareTapped(square);
       return;
     }
 
     final promotion = await showPromotionChoiceSheet(
       context,
-      color: ref.read(localGameControllerProvider).turn,
+      color: ref.read(localGameViewModelProvider).turn,
     );
     if (!mounted || promotion == null) {
       return;
     }
 
     ref
-        .read(localGameControllerProvider.notifier)
+        .read(localGameViewModelProvider.notifier)
         .moveSelectedTo(square, promotion: promotion);
   }
 
@@ -258,7 +240,7 @@ class _LocalGamePageState extends ConsumerState<LocalGamePage> {
 
   Future<void> _showAdAfterFinishedGame() async {
     final premium = ref.read(appEditionProvider) == AppEdition.premium;
-    final ads = ref.read(adsControllerProvider.notifier);
+    final ads = ref.read(adsViewModelProvider.notifier);
     final adWasShown = await ads.showAfterLocalGameIfEligible(
       isPremium: premium,
     );
@@ -300,133 +282,125 @@ class _LocalGameTopBar extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = colorScheme.brightness == Brightness.dark;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.standard * 2),
-        border: Border.all(color: colorScheme.outlineVariant),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
+    return AppSurface(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              AppToolbarIconButton(
+                key: const ValueKey('local-game-back-button'),
+                tooltip: context.l10n.backTooltip,
+                icon: Icons.arrow_back_ios_new_rounded,
+                onPressed: () => Navigator.of(context).maybePop(),
+                iconSize: AppIconSizes.status,
+                backgroundColor: colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.55,
+                ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Expanded(
+                child: Text(
+                  context.l10n.localGameTitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Tooltip(
-                  message: context.l10n.backTooltip,
-                  child: BackButton(color: colorScheme.onSurface),
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    context.l10n.localGameTitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.visible,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
+          const SizedBox(height: AppSpacing.sm),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final flipButton = FilledButton.tonalIcon(
+                key: const ValueKey('local-game-flip-board-button'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: _localFlipBoardAccent,
+                  foregroundColor: AppColors.white,
+                  minimumSize: const Size.fromHeight(
+                    AppSizes.minimumButtonHeight,
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final flipButton = FilledButton.tonalIcon(
-                  key: const ValueKey('local-game-flip-board-button'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _localFlipBoardAccent,
-                    foregroundColor: AppColors.white,
-                    minimumSize: const Size.fromHeight(
-                      AppSizes.minimumButtonHeight,
-                    ),
+                onPressed: onFlipBoard,
+                icon: const Icon(Icons.screen_rotation_alt_rounded),
+                label: Text(
+                  context.l10n.localGameFlipBoardAction,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+              final resetButton = OutlinedButton.icon(
+                key: const ValueKey('local-game-reset-button'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppColors.danger,
+                  side: const BorderSide(color: AppColors.danger),
+                  minimumSize: const Size.fromHeight(
+                    AppSizes.minimumButtonHeight,
                   ),
-                  onPressed: onFlipBoard,
-                  icon: const Icon(Icons.screen_rotation_alt_rounded),
-                  label: Text(
-                    context.l10n.localGameFlipBoardAction,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                ),
+                onPressed: onReset,
+                icon: const Icon(Icons.restart_alt_rounded),
+                label: Text(
+                  context.l10n.localGameRestartButton,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+              final lastMoveButton = FilledButton.tonalIcon(
+                key: const ValueKey('local-game-show-last-move-button'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: _localLastMoveAccent,
+                  foregroundColor: AppColors.white,
+                  disabledBackgroundColor: colorScheme.surfaceContainerHighest
+                      .withValues(alpha: isDark ? 0.62 : 0.72),
+                  disabledForegroundColor: colorScheme.onSurfaceVariant
+                      .withValues(alpha: 0.46),
+                  minimumSize: const Size.fromHeight(
+                    AppSizes.minimumButtonHeight,
                   ),
-                );
-                final resetButton = OutlinedButton.icon(
-                  key: const ValueKey('local-game-reset-button'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.danger,
-                    side: const BorderSide(color: AppColors.danger),
-                    minimumSize: const Size.fromHeight(
-                      AppSizes.minimumButtonHeight,
-                    ),
-                  ),
-                  onPressed: onReset,
-                  icon: const Icon(Icons.restart_alt_rounded),
-                  label: Text(
-                    context.l10n.localGameRestartButton,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
-                final lastMoveButton = FilledButton.tonalIcon(
-                  key: const ValueKey('local-game-show-last-move-button'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: _localLastMoveAccent,
-                    foregroundColor: AppColors.white,
-                    disabledBackgroundColor: colorScheme.surfaceContainerHighest
-                        .withValues(alpha: isDark ? 0.62 : 0.72),
-                    disabledForegroundColor: colorScheme.onSurfaceVariant
-                        .withValues(alpha: 0.46),
-                    minimumSize: const Size.fromHeight(
-                      AppSizes.minimumButtonHeight,
-                    ),
-                  ),
-                  onPressed: canShowLastMove ? onShowLastMove : null,
-                  icon: const Icon(Icons.replay_rounded),
-                  label: Text(
-                    context.l10n.showLastMoveAction,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                );
+                ),
+                onPressed: canShowLastMove ? onShowLastMove : null,
+                icon: const Icon(Icons.replay_rounded),
+                label: Text(
+                  context.l10n.showLastMoveAction,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
 
-                if (constraints.maxWidth < 380) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      lastMoveButton,
-                      const SizedBox(height: AppSpacing.sm),
-                      flipButton,
-                      const SizedBox(height: AppSpacing.sm),
-                      resetButton,
-                    ],
-                  );
-                }
-
+              if (constraints.maxWidth < 380) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     lastMoveButton,
                     const SizedBox(height: AppSpacing.sm),
-                    Row(
-                      children: [
-                        Expanded(child: flipButton),
-                        const SizedBox(width: AppSpacing.sm),
-                        Expanded(child: resetButton),
-                      ],
-                    ),
+                    flipButton,
+                    const SizedBox(height: AppSpacing.sm),
+                    resetButton,
                   ],
                 );
-              },
-            ),
-          ],
-        ),
+              }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  lastMoveButton,
+                  const SizedBox(height: AppSpacing.sm),
+                  Row(
+                    children: [
+                      Expanded(child: flipButton),
+                      const SizedBox(width: AppSpacing.sm),
+                      Expanded(child: resetButton),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

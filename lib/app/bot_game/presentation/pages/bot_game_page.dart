@@ -10,14 +10,15 @@ import '../../../../core/theme/app_dimensions.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/promotion_choice_sheet.dart';
 import '../../../../shared/feedback/app_feedback.dart';
-import '../../../../shared/monetization/ads_controller.dart';
+import '../../../../shared/monetization/ads_view_model.dart';
 import '../../../../shared/monetization/premium_sheet.dart';
-import '../../../campaign/presentation/viewmodels/campaign_progress_notifier.dart';
-import '../../../progress/presentation/viewmodels/player_progress_controller.dart';
+import '../../../campaign/presentation/viewmodels/campaign_progress_view_model.dart';
+import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
 import '../../../puzzles/presentation/widgets/chess_board.dart';
 import '../../domain/bot_difficulty.dart';
-import '../viewmodels/bot_game_controller.dart';
+import '../viewmodels/bot_game_view_model.dart';
 import '../viewmodels/bot_game_state.dart';
+import '../../../../shared/widgets/app_design_system.dart';
 
 const _botBeginnerAccent = Color(0xFF22C55E);
 const _botIntermediateAccent = Color(0xFFF59E0B);
@@ -43,13 +44,13 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
         return;
       }
 
-      ref.invalidate(botGameControllerProvider);
+      ref.invalidate(botGameViewModelProvider);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<BotGameState>(botGameControllerProvider, (previous, next) {
+    ref.listen<BotGameState>(botGameViewModelProvider, (previous, next) {
       if (previous != null &&
           next.selectedSquare != null &&
           previous.selectedSquare != next.selectedSquare) {
@@ -80,7 +81,7 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
           if (difficulty != null) {
             unawaited(
               ref
-                  .read(playerProgressControllerProvider.notifier)
+                  .read(playerProgressViewModelProvider.notifier)
                   .recordBotGameFinished(
                     difficulty: difficulty,
                     winner: next.winner,
@@ -101,12 +102,14 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
 
       if (!_activityReported && next.qualifiesForDailyActivity) {
         _activityReported = true;
-        unawaited(ref.read(campaignProgressProvider.notifier).recordActivity());
+        unawaited(
+          ref.read(campaignProgressViewModelProvider.notifier).recordActivity(),
+        );
       }
     });
 
-    final state = ref.watch(botGameControllerProvider);
-    final controller = ref.read(botGameControllerProvider.notifier);
+    final state = ref.watch(botGameViewModelProvider);
+    final viewModel = ref.read(botGameViewModelProvider.notifier);
 
     return PopScope<Object?>(
       canPop: !state.isPlayingGame,
@@ -115,126 +118,101 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
           return;
         }
 
-        controller.returnToDifficultySelection();
+        viewModel.returnToDifficultySelection();
       },
       child: Scaffold(
-        body: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final maxWidth = constraints.maxWidth
-                  .clamp(0, AppSizes.contentMaxWidth)
-                  .toDouble();
-
-              return Center(
-                child: SizedBox(
-                  width: maxWidth,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(
-                          AppSpacing.lg,
-                          AppSpacing.md,
-                          AppSpacing.lg,
-                          AppSpacing.sm,
-                        ),
-                        sliver: SliverToBoxAdapter(
-                          child: _BotGameTopBar(
-                            state: state,
-                            onBack: state.isPlayingGame
-                                ? controller.returnToDifficultySelection
-                                : null,
-                            onReset: state.isPlayingGame
-                                ? () {
-                                    unawaited(
-                                      _confirmResetGame(controller.resetGame),
-                                    );
-                                  }
-                                : null,
-                            onShowLastMove: state.isPlayingGame
-                                ? controller.showLastMovePreview
-                                : null,
-                          ),
-                        ),
-                      ),
-                      if (state.status == BotGameStatus.choosingDifficulty) ...[
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(
-                            AppSpacing.lg,
-                            AppSpacing.sm,
-                            AppSpacing.lg,
-                            AppSpacing.xl,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: _DifficultySelector(
-                              onSelected: controller.startGame,
-                            ),
-                          ),
-                        ),
-                      ] else ...[
-                        SliverPadding(
-                          padding: const EdgeInsets.fromLTRB(
-                            AppSpacing.lg,
-                            0,
-                            AppSpacing.lg,
-                            AppSpacing.md,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: _BotGameStatusCard(state: state),
-                          ),
-                        ),
-                        SliverPadding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg,
-                          ),
-                          sliver: SliverToBoxAdapter(
-                            child: ChessBoard(
-                              pieces: state.pieces,
-                              selectedSquare: state.selectedSquare,
-                              legalTargets: state.legalTargets,
-                              orientation: ChessBoardOrientation.white,
-                              highlightedMove: state.showLastMove
-                                  ? state.lastMove
-                                  : null,
-                              onSquareTap: (square) {
-                                unawaited(_onSquareTapped(controller, square));
-                              },
-                            ),
-                          ),
-                        ),
-                        const SliverToBoxAdapter(
-                          child: SizedBox(height: AppSpacing.xl),
-                        ),
-                      ],
-                    ],
+        body: AppPageFrame(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.lg,
+                AppSpacing.md,
+                AppSpacing.lg,
+                AppSpacing.sm,
+              ),
+              sliver: SliverToBoxAdapter(
+                child: _BotGameTopBar(
+                  state: state,
+                  onBack: state.isPlayingGame
+                      ? viewModel.returnToDifficultySelection
+                      : null,
+                  onReset: state.isPlayingGame
+                      ? () {
+                          unawaited(_confirmResetGame(viewModel.resetGame));
+                        }
+                      : null,
+                  onShowLastMove: state.isPlayingGame
+                      ? viewModel.showLastMovePreview
+                      : null,
+                ),
+              ),
+            ),
+            if (state.status == BotGameStatus.choosingDifficulty) ...[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  AppSpacing.sm,
+                  AppSpacing.lg,
+                  AppSpacing.xl,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: _DifficultySelector(onSelected: viewModel.startGame),
+                ),
+              ),
+            ] else ...[
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpacing.lg,
+                  0,
+                  AppSpacing.lg,
+                  AppSpacing.md,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: _BotGameStatusCard(state: state),
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+                sliver: SliverToBoxAdapter(
+                  child: ChessBoard(
+                    pieces: state.pieces,
+                    selectedSquare: state.selectedSquare,
+                    legalTargets: state.legalTargets,
+                    orientation: ChessBoardOrientation.white,
+                    highlightedMove: state.showLastMove ? state.lastMove : null,
+                    onSquareTap: (square) {
+                      unawaited(_onSquareTapped(viewModel, square));
+                    },
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+            ],
+          ],
         ),
       ),
     );
   }
 
   Future<void> _onSquareTapped(
-    BotGameController controller,
+    BotGameViewModel viewModel,
     String square,
   ) async {
-    if (!controller.isSelectedMovePromotion(square)) {
-      controller.onSquareTapped(square);
+    if (!viewModel.isSelectedMovePromotion(square)) {
+      viewModel.onSquareTapped(square);
       return;
     }
 
     final promotion = await showPromotionChoiceSheet(
       context,
-      color: ref.read(botGameControllerProvider).turn,
+      color: ref.read(botGameViewModelProvider).turn,
     );
     if (!mounted || promotion == null) {
       return;
     }
 
     ref
-        .read(botGameControllerProvider.notifier)
+        .read(botGameViewModelProvider.notifier)
         .moveSelectedTo(square, promotion: promotion);
   }
 
@@ -303,7 +281,7 @@ class _BotGamePageState extends ConsumerState<BotGamePage> {
 
   Future<void> _showAdAfterFinishedGame() async {
     final premium = ref.read(appEditionProvider) == AppEdition.premium;
-    final ads = ref.read(adsControllerProvider.notifier);
+    final ads = ref.read(adsViewModelProvider.notifier);
     final adWasShown = await ads.showAfterBotGameIfEligible(isPremium: premium);
 
     if (!mounted) {
@@ -342,110 +320,99 @@ class _BotGameTopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.standard * 2),
-        border: Border.all(color: colorScheme.outlineVariant),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.sm),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Tooltip(
-                  message: context.l10n.backTooltip,
-                  child: BackButton(
-                    color: colorScheme.onSurface,
-                    onPressed: onBack,
-                  ),
+    return AppSurface(
+      padding: const EdgeInsets.all(AppSpacing.sm),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              AppToolbarIconButton(
+                key: const ValueKey('bot-game-back-button'),
+                tooltip: context.l10n.backTooltip,
+                icon: Icons.arrow_back_ios_new_rounded,
+                onPressed: onBack,
+                iconSize: AppIconSizes.status,
+                backgroundColor: colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.55,
                 ),
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              Expanded(
+                child: Text(
+                  context.l10n.botGameTitle,
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+                ),
+              ),
+              if (state.difficulty != null) ...[
                 const SizedBox(width: AppSpacing.xs),
-                Expanded(
-                  child: Text(
-                    context.l10n.botGameTitle,
-                    maxLines: 2,
-                    overflow: TextOverflow.visible,
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
+                _DifficultyChip(difficulty: state.difficulty!),
+              ],
+            ],
+          ),
+          if (onReset != null) ...[
+            const SizedBox(height: AppSpacing.sm),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final lastMoveButton = FilledButton.tonalIcon(
+                  key: const ValueKey('bot-game-show-last-move-button'),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size.fromHeight(
+                      AppSizes.minimumButtonHeight,
                     ),
                   ),
-                ),
-                if (state.difficulty != null) ...[
-                  const SizedBox(width: AppSpacing.xs),
-                  _DifficultyChip(difficulty: state.difficulty!),
-                ],
-              ],
-            ),
-            if (onReset != null) ...[
-              const SizedBox(height: AppSpacing.sm),
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  final lastMoveButton = FilledButton.tonalIcon(
-                    key: const ValueKey('bot-game-show-last-move-button'),
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size.fromHeight(
-                        AppSizes.minimumButtonHeight,
-                      ),
+                  onPressed: state.lastMove == null ? null : onShowLastMove,
+                  icon: const Icon(Icons.replay_rounded),
+                  label: Text(
+                    context.l10n.showLastMoveAction,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+                final resetButton = OutlinedButton.icon(
+                  key: const ValueKey('bot-game-reset-button'),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: AppColors.danger,
+                    side: const BorderSide(color: AppColors.danger),
+                    minimumSize: const Size.fromHeight(
+                      AppSizes.minimumButtonHeight,
                     ),
-                    onPressed: state.lastMove == null ? null : onShowLastMove,
-                    icon: const Icon(Icons.replay_rounded),
-                    label: Text(
-                      context.l10n.showLastMoveAction,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
-                  final resetButton = OutlinedButton.icon(
-                    key: const ValueKey('bot-game-reset-button'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.danger,
-                      side: const BorderSide(color: AppColors.danger),
-                      minimumSize: const Size.fromHeight(
-                        AppSizes.minimumButtonHeight,
-                      ),
-                    ),
-                    onPressed: onReset,
-                    icon: const Icon(Icons.restart_alt_rounded),
-                    label: Text(
-                      context.l10n.localGameRestartButton,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  );
+                  ),
+                  onPressed: onReset,
+                  icon: const Icon(Icons.restart_alt_rounded),
+                  label: Text(
+                    context.l10n.localGameRestartButton,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
 
-                  if (constraints.maxWidth < 380) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        lastMoveButton,
-                        const SizedBox(height: AppSpacing.sm),
-                        resetButton,
-                      ],
-                    );
-                  }
-
-                  return Row(
+                if (constraints.maxWidth < 380) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Expanded(child: lastMoveButton),
-                      const SizedBox(width: AppSpacing.sm),
-                      Expanded(child: resetButton),
+                      lastMoveButton,
+                      const SizedBox(height: AppSpacing.sm),
+                      resetButton,
                     ],
                   );
-                },
-              ),
-            ],
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: lastMoveButton),
+                    const SizedBox(width: AppSpacing.sm),
+                    Expanded(child: resetButton),
+                  ],
+                );
+              },
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

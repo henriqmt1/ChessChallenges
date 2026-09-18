@@ -32,11 +32,11 @@ class AdsState {
   }
 }
 
-final adsControllerProvider = NotifierProvider<AdsController, AdsState>(
-  AdsController.new,
+final adsViewModelProvider = NotifierProvider<AdsViewModel, AdsState>(
+  AdsViewModel.new,
 );
 
-class AdsController extends Notifier<AdsState> {
+class AdsViewModel extends Notifier<AdsState> {
   static const _completionCountKey = 'ad_new_completion_count_v1';
   static const _lastShownAtKey = 'ad_last_shown_at_v1';
   static const _shownInterstitialCountKey = 'ad_shown_count_v1';
@@ -48,7 +48,7 @@ class AdsController extends Notifier<AdsState> {
 
   @override
   AdsState build() {
-    ref.listen<AppRuntimeConfig>(appRuntimeConfigProvider, (_, next) {
+    ref.listen<AppRuntimeConfig>(appRuntimeConfigViewModelProvider, (_, next) {
       if (!next.adsEnabled) {
         _disposeInterstitial();
         state = state.copyWith(
@@ -289,5 +289,5 @@ class AdsController extends Notifier<AdsState> {
 
   bool get _adsEnabled =>
       MonetizationConfig.adsEnabled &&
-      ref.read(appRuntimeConfigProvider).adsEnabled;
+      ref.read(appRuntimeConfigViewModelProvider).adsEnabled;
 }

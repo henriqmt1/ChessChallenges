@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme/app_theme.dart';
-import '../core/theme/theme_mode_notifier.dart';
+import '../core/theme/theme_mode_view_model.dart';
 import '../l10n/app_localizations.dart';
 import 'startup/presentation/app_startup_gate.dart';
 
@@ -18,7 +18,8 @@ class ChessChalengesApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode = ref.watch(themeModeProvider).value ?? ThemeMode.light;
+    final themeMode =
+        ref.watch(themeModeViewModelProvider).value ?? ThemeMode.light;
 
     return MaterialApp(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,

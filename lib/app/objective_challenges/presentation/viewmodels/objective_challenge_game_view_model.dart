@@ -1,36 +1,32 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../shared/chess/board_move.dart';
 import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/chess_rules_service.dart';
 import '../../../bot_game/domain/bot_difficulty.dart';
-import '../../../bot_game/domain/chess_bot_service.dart';
+import '../../../bot_game/domain/bot_move_calculator.dart';
+import '../../../bot_game/data/isolate_bot_move_calculator.dart';
 import '../../data/objective_challenge_data_source.dart';
 import '../../domain/objective_challenge_level.dart';
 import 'objective_challenge_game_state.dart';
 
-final objectiveChallengeGameControllerProvider = NotifierProvider.autoDispose
+final objectiveChallengeGameViewModelProvider = NotifierProvider.autoDispose
     .family<
-      ObjectiveChallengeGameController,
+      ObjectiveChallengeGameViewModel,
       ObjectiveChallengeGameState,
       ObjectiveChallengeLevel
-    >(ObjectiveChallengeGameController.new);
+    >(ObjectiveChallengeGameViewModel.new);
 
-String? _chooseAdvancedObjectiveBotMoveUci(String fen) {
-  final rules = ChessRulesService.fromFen(fen);
-  return ChessBotService().chooseMove(rules, BotDifficulty.advanced)?.uci;
-}
-
-class ObjectiveChallengeGameController
+class ObjectiveChallengeGameViewModel
     extends Notifier<ObjectiveChallengeGameState> {
-  ObjectiveChallengeGameController(this.level);
+  ObjectiveChallengeGameViewModel(this.level);
 
   final ObjectiveChallengeLevel level;
 
   late ChessRulesService _rules;
+  late BotMoveCalculator _botMoveCalculator;
   int _plyCount = 0;
   int _gameGeneration = 0;
 
@@ -38,6 +34,7 @@ class ObjectiveChallengeGameController
   ObjectiveChallengeGameState build() {
     _gameGeneration++;
     _rules = ChessRulesService.fromFen(level.fen);
+    _botMoveCalculator = ref.watch(botMoveCalculatorProvider);
     _plyCount = 0;
 
     return _stateFromRules(
@@ -277,6 +274,16 @@ class ObjectiveChallengeGameController
       return;
     }
 
+    // The user may restart or leave while the bot is being calculated. Never
+    // let a stale worker result mutate the new session.
+    if (playGeneration != _gameGeneration ||
+        expectedPly != _plyCount ||
+        expectedFen != _rules.fen ||
+        state.status != ObjectiveChallengeSessionStatus.playing ||
+        _rules.turnColor != level.botColor) {
+      return;
+    }
+
     if (appliedMove == null) {
       state = state.copyWith(botThinking: false);
       if (_rules.gameOver) {
@@ -311,15 +318,15 @@ class ObjectiveChallengeGameController
     required String expectedFen,
     required int playGeneration,
   }) async {
-    String? botMoveUci;
+    ChessMove? botMove;
 
     try {
-      botMoveUci = await compute(
-        _chooseAdvancedObjectiveBotMoveUci,
-        expectedFen,
+      botMove = await _botMoveCalculator.chooseMove(
+        fen: expectedFen,
+        difficulty: BotDifficulty.advanced,
       );
     } catch (_) {
-      botMoveUci = null;
+      botMove = null;
     }
 
     if (!ref.mounted ||
@@ -331,8 +338,8 @@ class ObjectiveChallengeGameController
       return null;
     }
 
-    if (botMoveUci != null && _rules.isLegalUciMove(botMoveUci)) {
-      return _applyBotUciMove(botMoveUci);
+    if (botMove != null && _rules.isLegalUciMove(botMove.uci)) {
+      return _applyBotUciMove(botMove.uci);
     }
 
     final fallbackMoves = _rules.legalMoves();

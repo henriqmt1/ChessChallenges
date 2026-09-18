@@ -11,6 +11,29 @@ final chessBotServiceProvider = Provider<ChessBotService>((ref) {
   return ChessBotService();
 });
 
+/// Isolate entry point. Keep the payload limited to simple values so it can be
+/// transferred safely between isolates on every supported platform.
+String? chooseBotMoveUci(Map<String, String> payload) {
+  final fen = payload['fen'];
+  final difficultyName = payload['difficulty'];
+  if (fen == null || difficultyName == null) {
+    return null;
+  }
+
+  final difficulty = switch (difficultyName) {
+    'beginner' => BotDifficulty.beginner,
+    'intermediate' => BotDifficulty.intermediate,
+    'advanced' => BotDifficulty.advanced,
+    _ => null,
+  };
+  if (difficulty == null) {
+    return null;
+  }
+
+  final rules = ChessRulesService.fromFen(fen);
+  return ChessBotService().chooseMove(rules, difficulty)?.uci;
+}
+
 class ChessBotService {
   ChessBotService({Random? random}) : _random = random ?? Random();
 

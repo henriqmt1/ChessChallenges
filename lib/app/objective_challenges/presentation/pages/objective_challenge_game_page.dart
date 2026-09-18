@@ -9,11 +9,12 @@ import '../../../../shared/chess/chess_asset_paths.dart';
 import '../../../../shared/chess/promotion_choice_sheet.dart';
 import '../../../../shared/feedback/app_feedback.dart';
 import '../../../../shared/feedback/app_toast.dart';
-import '../../../progress/presentation/viewmodels/player_progress_controller.dart';
+import '../../../progress/presentation/viewmodels/player_progress_view_model.dart';
 import '../../domain/objective_challenge_level.dart';
-import '../viewmodels/objective_challenge_game_controller.dart';
+import '../viewmodels/objective_challenge_game_view_model.dart';
 import '../viewmodels/objective_challenge_game_state.dart';
 import '../../../puzzles/presentation/widgets/chess_board.dart';
+import '../../../../shared/widgets/app_design_system.dart';
 
 class ObjectiveChallengeGamePage extends ConsumerStatefulWidget {
   const ObjectiveChallengeGamePage({super.key, required this.level});
@@ -31,112 +32,107 @@ class _ObjectiveChallengeGamePageState
 
   @override
   Widget build(BuildContext context) {
-    final provider = objectiveChallengeGameControllerProvider(widget.level);
+    final provider = objectiveChallengeGameViewModelProvider(widget.level);
     final state = ref.watch(provider);
     ref.listen<ObjectiveChallengeGameState>(provider, _onStateChanged);
-
     final colorScheme = Theme.of(context).colorScheme;
-    final maxWidth = MediaQuery.sizeOf(
-      context,
-    ).width.clamp(0, AppSizes.contentMaxWidth).toDouble();
 
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: maxWidth,
-            child: CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.lg,
-                    AppSpacing.md,
-                    AppSpacing.lg,
-                    AppSpacing.sm,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _ObjectiveGameTopBar(
-                      level: widget.level,
-                      onBack: () => Navigator.of(context).pop(),
-                      onRestart: () =>
-                          ref.read(provider.notifier).resetSession(),
-                    ),
-                  ),
+      body: AppPageFrame(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.md,
+              AppSpacing.lg,
+              AppSpacing.sm,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: AppPageHeader(
+                title: 'Desafio ${widget.level.level}',
+                subtitle:
+                    widget.level.goal.type ==
+                        ObjectiveChallengeGoalType.checkmate
+                    ? 'Xeque-mate'
+                    : 'Ganho de material',
+                onBack: () => Navigator.of(context).pop(),
+                trailing: AppToolbarIconButton(
+                  tooltip: 'Reiniciar',
+                  onPressed: () => ref.read(provider.notifier).resetSession(),
+                  icon: Icons.restart_alt_rounded,
+                  iconSize: AppIconSizes.status,
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.lg,
-                    AppSpacing.xs,
-                    AppSpacing.lg,
-                    AppSpacing.md,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _ObjectiveStatusCard(
-                      title: _statusTitle(state),
-                      description: _statusDescription(state),
-                      icon: _statusIcon(state),
-                      accentColor: _statusColor(state),
-                      objective: widget.level.objective,
-                      goalLabel: _goalLabel,
-                      moveLabel: _progressLabel(state),
-                      starLabel: _starRuleLabel,
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.lg,
-                    0,
-                    AppSpacing.lg,
-                    AppSpacing.lg,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: colorScheme.surface,
-                        borderRadius: BorderRadius.circular(
-                          AppRadii.standard * 1.5,
-                        ),
-                        border: Border.all(color: colorScheme.outlineVariant),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(AppSpacing.xs),
-                        child: ChessBoard(
-                          pieces: state.pieces,
-                          selectedSquare: state.selectedSquare,
-                          legalTargets: state.legalTargets,
-                          highlightedMove: state.lastMove,
-                          orientation:
-                              widget.level.playerColor == ChessPieceColor.black
-                              ? ChessBoardOrientation.black
-                              : ChessBoardOrientation.white,
-                          onSquareTap: _onSquareTapped,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.lg,
-                    0,
-                    AppSpacing.lg,
-                    AppSpacing.xl,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                    child: _ObjectiveTipCard(
-                      playerColor: widget.level.playerColor,
-                      minimumMoves: widget.level.minimumPlayerMoves,
-                      maximumMoves: widget.level.maximumPlayerMoves,
-                      usesMateAttempts: widget.level.isMateInOne,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              AppSpacing.xs,
+              AppSpacing.lg,
+              AppSpacing.md,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _ObjectiveStatusCard(
+                title: _statusTitle(state),
+                description: _statusDescription(state),
+                icon: _statusIcon(state),
+                accentColor: _statusColor(state),
+                objective: widget.level.objective,
+                goalLabel: _goalLabel,
+                moveLabel: _progressLabel(state),
+                starLabel: _starRuleLabel,
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.lg,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(AppRadii.standard * 1.5),
+                  border: Border.all(color: colorScheme.outlineVariant),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.xs),
+                  child: ChessBoard(
+                    pieces: state.pieces,
+                    selectedSquare: state.selectedSquare,
+                    legalTargets: state.legalTargets,
+                    highlightedMove: state.lastMove,
+                    orientation:
+                        widget.level.playerColor == ChessPieceColor.black
+                        ? ChessBoardOrientation.black
+                        : ChessBoardOrientation.white,
+                    onSquareTap: _onSquareTapped,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg,
+              0,
+              AppSpacing.lg,
+              AppSpacing.xl,
+            ),
+            sliver: SliverToBoxAdapter(
+              child: _ObjectiveTipCard(
+                playerColor: widget.level.playerColor,
+                minimumMoves: widget.level.minimumPlayerMoves,
+                maximumMoves: widget.level.maximumPlayerMoves,
+                usesMateAttempts: widget.level.isMateInOne,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -247,7 +243,7 @@ class _ObjectiveChallengeGamePageState
   }
 
   Future<void> _onSquareTapped(String square) async {
-    final provider = objectiveChallengeGameControllerProvider(widget.level);
+    final provider = objectiveChallengeGameViewModelProvider(widget.level);
     final state = ref.read(provider);
     final controller = ref.read(provider.notifier);
 
@@ -304,7 +300,7 @@ class _ObjectiveChallengeGamePageState
     final stars = state.earnedStars;
     unawaited(AppFeedback.success());
     await ref
-        .read(playerProgressControllerProvider.notifier)
+        .read(playerProgressViewModelProvider.notifier)
         .recordObjectiveStars(level: widget.level.level, stars: stars);
 
     if (!mounted || _terminalSheetVisible) {
@@ -356,7 +352,7 @@ class _ObjectiveChallengeGamePageState
           Navigator.of(context).pop();
           ref
               .read(
-                objectiveChallengeGameControllerProvider(widget.level).notifier,
+                objectiveChallengeGameViewModelProvider(widget.level).notifier,
               )
               .resetSession();
         },
@@ -367,71 +363,6 @@ class _ObjectiveChallengeGamePageState
       ),
     );
     _terminalSheetVisible = false;
-  }
-}
-
-class _ObjectiveGameTopBar extends StatelessWidget {
-  const _ObjectiveGameTopBar({
-    required this.level,
-    required this.onBack,
-    required this.onRestart,
-  });
-
-  final ObjectiveChallengeLevel level;
-  final VoidCallback onBack;
-  final VoidCallback onRestart;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(AppRadii.standard * 2),
-        border: Border.all(color: colorScheme.outlineVariant),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        child: Row(
-          children: [
-            IconButton(
-              onPressed: onBack,
-              icon: const Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-            const SizedBox(width: AppSpacing.xs),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Desafio ${level.level}',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  Text(
-                    level.goal.type == ObjectiveChallengeGoalType.checkmate
-                        ? 'Xeque-mate'
-                        : 'Ganho de material',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            IconButton(
-              tooltip: 'Reiniciar',
-              onPressed: onRestart,
-              color: AppColors.danger,
-              icon: const Icon(Icons.restart_alt_rounded),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
 
